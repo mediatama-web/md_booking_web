@@ -15,14 +15,32 @@ export default function Authenticated({ user, header, children }) {
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
-                                <Link href="/">
+                                <Link href="/dashboard">
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
+                                    Home
+                                </NavLink>
+                                <NavLink href={route('member')} active={route().current('member')}>
+                                    Member
+                                </NavLink>
+                                <NavLink href={route('kelas')} active={route().current('kelas')}>
+                                    Kelas
+                                </NavLink>
+                                <NavLink href={route('booking')} active={route().current('booking')}>
+                                    Booking
+                                </NavLink>
+                                <NavLink href={route('dashboard')} active={route().current('absen')}>
+                                    Absen
+                                </NavLink>
+                                <NavLink href={route('dashboard')} active={route().current('sertifikat')}>
+                                    Sertifikat
+                                </NavLink>
+                                <NavLink href={route('mentor')} active={route().current('mentor')}>
+                                    Mentor
                                 </NavLink>
                             </div>
                         </div>
@@ -93,7 +111,25 @@ export default function Authenticated({ user, header, children }) {
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
+                            Home
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('member')} active={route().current('member')}>
+                            Member
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('kelas')} active={route().current('kelas')}>
+                            Kelas
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('booking')} active={route().current('booking')}>
+                            Booking
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('absen')}>
+                            Absen
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('sertifikat')}>
+                            Sertifikat
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('mentor')} active={route().current('mentor')}>
+                            Mentor
                         </ResponsiveNavLink>
                     </div>
 
