@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('id_user');
             $table->date('tanggal');
-            $table->date('jam');
+            $table->string('jam');
             $table->integer('id_mentor')->nullable();
+            $table->integer('id_kelas');
             $table->enum('status',['pending','diterima','ditolak']);
             $table->timestamps();
         });
