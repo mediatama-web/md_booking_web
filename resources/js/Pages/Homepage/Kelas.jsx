@@ -2,18 +2,30 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { pickBy } from 'lodash'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export default function Kelas({ auth, kelas }) {
     const perpage = useRef(kelas.per_page)
     const [isloadong, setIsloading] = useState(false)
     const [cari, setCari] = useState('')
 
+    useEffect(() => {
+        import('@fortawesome/react-fontawesome')
+        import("@lottiefiles/lottie-player")
+    })
+
     const handleChangeValue = (e) => {
         perpage.current = e.target.value
         getData()
     }
+
+    let IDR = new Intl.NumberFormat('id', {
+        style: 'currency',
+        currency: 'IDR',
+    });
 
     const getData = () => {
         setIsloading(true)
@@ -98,12 +110,34 @@ export default function Kelas({ auth, kelas }) {
                                 {
                                     isloadong ? (
                                         <tr>
-                                            <td colSpan={5} className='text-center md:text-sm text-xs'>Loading...</td>
+                                            <td colSpan={5} className='text-center md:text-sm text-xs'>
+                                                <lottie-player
+                                                    src="https://lottie.host/cbcdd4c1-5bf6-40fa-aeba-2f9344e967bd/D84dkkW3KV.json"
+                                                    background="#fff"
+                                                    speed="1"
+                                                    style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                    loop
+                                                    autoplay
+                                                    direction="1"
+                                                    mode="normal">
+                                                </lottie-player>
+                                            </td>
                                         </tr>
                                     ) :
                                         kelas.data.length < 1 ?
                                             <tr>
-                                                <td colSpan={5} className='text-center p-2 md:text-sm text-xs'>Data kosong..</td>
+                                                <td colSpan={5} className='text-center p-2 md:text-sm text-xs'>
+                                                    <lottie-player
+                                                        src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
+                                                        background="#fff"
+                                                        speed="1"
+                                                        style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                        loop
+                                                        autoplay
+                                                        direction="1"
+                                                        mode="normal">
+                                                    </lottie-player>
+                                                </td>
                                             </tr>
                                             :
                                             (
@@ -112,8 +146,15 @@ export default function Kelas({ auth, kelas }) {
                                                         <td className='border border-grey-100'>{kelas.from + i}</td>
                                                         <td className='border border-grey-100'>{data.materi}</td>
                                                         <td className='border border-grey-100'>{data.jenis}</td>
-                                                        <td className='border border-grey-100'>{data.harga}</td>
-                                                        <td className='border border-grey-100'></td>
+                                                        <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
+                                                        <td className='border border-grey-100 text-center'>
+                                                            <Link className='bg-blue-500 rounded-lg text-xs text-white p-2'>
+                                                                <FontAwesomeIcon icon={faPencil} />
+                                                            </Link>
+                                                            <Link className='bg-red-500 rounded-lg text-xs text-white w-12 p-2'>
+                                                                <FontAwesomeIcon icon={faTrash} />
+                                                            </Link>
+                                                        </td>
                                                     </tr>
                                                 )
                                                 )

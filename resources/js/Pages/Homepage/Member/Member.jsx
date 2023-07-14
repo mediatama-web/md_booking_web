@@ -1,19 +1,25 @@
 import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { pickBy } from 'lodash';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
+import { Switch } from '@headlessui/react'
+import Modal from '@/Components/Modal';
 export default function Member({auth, member}) {
-    console.log(member);
     const perpage = useRef(member.per_page)
     const [isloadong, setIsloading] = useState(false)
+    const [modal, setModal] = useState(false)
     const [cari, setCari] = useState("")
 
     const handleChangeValue = (e) => {
         perpage.current = e.target.value
         getData()
     }
+
+    useEffect(() => {
+        import("@lottiefiles/lottie-player");
+    })
 
     const getData = () => {
         setIsloading(true)
@@ -35,6 +41,16 @@ export default function Member({auth, member}) {
         e.preventDefault()
         getData()
     }
+
+    const handlerStatus = (id) => {
+        router.get(route('member-aktifasi',id))
+        getData()
+    }
+
+    const handlerModal = () => {
+        setModal(!modal)
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -103,12 +119,34 @@ export default function Member({auth, member}) {
                                 {
                                     isloadong ? (
                                         <tr>
-                                            <td colSpan={9} className='text-center md:text-sm text-xs'>Loading...</td>
+                                            <td colSpan={9} className='text-center md:text-sm text-xs'>
+                                                <lottie-player
+                                                    src="https://lottie.host/cbcdd4c1-5bf6-40fa-aeba-2f9344e967bd/D84dkkW3KV.json"
+                                                    background="#fff"
+                                                    speed="1"
+                                                    style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                    loop
+                                                    autoplay
+                                                    direction="1"
+                                                    mode="normal">
+                                                </lottie-player>
+                                            </td>
                                         </tr>
                                     ) :
                                         member.data.length < 1 ?
                                         <tr>
-                                                <td colSpan={9} className='text-center p-2 md:text-sm text-xs'>Data Kosong ..</td>
+                                                <td colSpan={9} className='text-center p-2 md:text-sm text-xs'>
+                                                    <lottie-player
+                                                        src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
+                                                        background="#fff"
+                                                        speed="1"
+                                                        style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                        loop
+                                                        autoplay
+                                                        direction="1"
+                                                        mode="normal">
+                                                    </lottie-player>
+                                                </td>
                                         </tr>
                                       :
                                     (
@@ -122,8 +160,22 @@ export default function Member({auth, member}) {
                                                 <td className='border border-grey-100'>{data.tgl_daftar}</td>
                                                 <td className='border border-grey-100'>{data.referal}</td>
                                                 <td className='border border-grey-100'>{data.foto}</td>
-                                                <td className='border border-grey-100'>{data.status_akun}</td>
                                                 <td className='border border-grey-100'>
+                                                        <Switch
+                                                            checked={data.status_akun == 'aktif' ? true : false}
+                                                            onChange={() => handlerStatus(data.id)}
+                                                            className={`${data.status_akun == 'aktif' ? 'bg-blue-600' : 'bg-gray-200'
+                                                                } relative inline-flex h-6 w-11 items-center rounded-full`}
+                                                        >
+                                                            <span className="sr-only">Enable notifications</span>
+                                                            <span
+                                                                className={`${data.status_akun == 'aktif' ? 'translate-x-6' : 'translate-x-1'
+                                                                    } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                                                            />
+                                                        </Switch>
+                                                </td>
+                                                <td className='border border-grey-100'>
+                                                        <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Kelas</Link>
                                                     <Link href='' className='bg-blue-500 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Edit</Link>
                                                     <Link href='' className='bg-red-500 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Hapus</Link>
                                                 </td>
@@ -157,6 +209,17 @@ export default function Member({auth, member}) {
                     </div>
                 </div>
             </div>
+
+            <Modal show={modal} >
+                <div className="flex items-center justify-between p-2">
+                    <div>
+                        <p className="p-2 text-lg font-bold">Data Kelas</p>
+                    </div>
+                    <div>
+                        <div type='button' onClick={() => handlerModal} className='p2 text-gray-400'>X</div>
+                    </div>
+                </div>
+            </Modal>
 
         </AuthenticatedLayout>
     )
