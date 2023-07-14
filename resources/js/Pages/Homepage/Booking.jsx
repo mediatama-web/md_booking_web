@@ -2,13 +2,17 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { pickBy } from 'lodash'
 
 export default function Booking({ auth, booking }){
     const perpage = useRef(booking.per_page)
     const [isloadong, setIsloading] = useState(false)
     const [cari, setCari] = useState('')
+
+    useEffect(() => {
+        import("@lottiefiles/lottie-player");
+    })
 
     const handleChangeValue = (e) => {
         perpage.current = e.target.value
@@ -100,12 +104,35 @@ export default function Booking({ auth, booking }){
                                 {
                                     isloadong ? (
                                         <tr>
-                                            <td colSpan={7} className='text-center md:text-sm text-xs'>Loading...</td>
+                                            <td colSpan={7} className='text-center md:text-sm text-xs'>
+                                                <lottie-player
+                                                    src="https://lottie.host/cbcdd4c1-5bf6-40fa-aeba-2f9344e967bd/D84dkkW3KV.json"
+                                                    background="#fff"
+                                                    speed="1"
+                                                    style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                    loop
+                                                    autoplay
+                                                    direction="1"
+                                                    mode="normal">
+                                                </lottie-player>
+                                            </td>
                                         </tr>
+
                                     ) :
                                         booking.data.length < 1 ?
                                         <tr>
-                                                <td colSpan={7} className='text-center md:text-sm text-xs p-2'>Data kosong..</td>
+                                                <td colSpan={7} className='text-center md:text-sm text-xs p-2'>
+                                                    <lottie-player
+                                                        src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
+                                                        background="#fff"
+                                                        speed="1"
+                                                        style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                        loop
+                                                        autoplay
+                                                        direction="1"
+                                                        mode="normal">
+                                                    </lottie-player>
+                                                </td>
                                         </tr>
                                       :
                                     (

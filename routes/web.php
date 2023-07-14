@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/member', [MemberController::class, 'index'])->name('member');
     Route::get('/member-add', [MemberController::class, 'add'])->name('member-add');
     Route::post('/member-add-save', [MemberController::class, 'simpan'])->name('member-add-save');
+    Route::get('/member-aktifasi/{id}', [MemberController::class, 'aktifasiakun'])->name('member-aktifasi');
+    Route::get('/member-daftarkelas/{id}', [MemberController::class, 'daftarkelas'])->name('member-daftarkelas');
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
 });

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\MemberRequest;
+use App\Http\Requests\KelasRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Penggunam;
+use App\Models\Kelasm;
 
 class MemberController extends Controller
 {
@@ -35,5 +37,28 @@ class MemberController extends Controller
 
 
         return Redirect::route('member');
+    }
+
+    public function aktifasiakun($id){
+        $cek = Penggunam::where('id',$id)->first();
+        if($cek->status_akun == 'aktif'){
+            $status = 'belum aktif';
+        }else{
+            $status = 'aktif';
+        }
+
+        Penggunam::where('id',$id)->update(['status_akun' => $status]);
+
+        return Redirect::route('member');
+    }
+
+    public function daftarkelas($id){
+        $data['kelas'] = Kelasm::get();
+        $data['member'] = Penggunam::where('id',$id)->first();
+        return Inertia::render('Homepage/Member/Datakelas',$data);
+    }
+
+    public function kelasdaftar(KelasRequest $r){
+
     }
 }
