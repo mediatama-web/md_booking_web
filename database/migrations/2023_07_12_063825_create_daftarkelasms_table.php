@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('id_kelas');
             $table->enum('jenis_pembayaran',['dp','lunas']);
             $table->enum('status',['aktif','tidak aktif']);
+            $table->string('jumlah_bayar');
             $table->timestamps();
         });
     }

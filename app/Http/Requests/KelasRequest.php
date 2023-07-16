@@ -11,7 +11,7 @@ class KelasRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,11 +22,11 @@ class KelasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_kelas' => ['required','string', 'max:255'],
-            'id_user' => ['required','string', 'max:255'],
-            'jenis_pembayaran' => ['required','string', 'max:255'],
-            'jumlah_bayar' => ['required','string', 'max:255'],
-            'status' => ['required','string', 'max:255'],
+            'id_user' => ['required','integer', 'max:255'],
+            'id_kelas' => ['required','integer', 'max:255'],
+            'jenis_pembayaran' => ['string', 'max:255'],
+            'jumlah_bayar' => ['string', 'max:255'],
+            'status' => ['string', 'max:255'],
         ];
     }
 }

@@ -33,12 +33,6 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('booking')} active={route().current('booking')}>
                                     Booking
                                 </NavLink>
-                                <NavLink href={route('dashboard')} active={route().current('absen')}>
-                                    Absen
-                                </NavLink>
-                                <NavLink href={route('dashboard')} active={route().current('sertifikat')}>
-                                    Sertifikat
-                                </NavLink>
                                 <NavLink href={route('mentor')} active={route().current('mentor')}>
                                     Mentor
                                 </NavLink>
