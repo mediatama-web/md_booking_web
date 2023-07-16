@@ -7,10 +7,12 @@ use App\Http\Requests\MemberRequest;
 use App\Http\Requests\KelasRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Penggunam;
 use App\Models\Kelasm;
+use App\Models\Daftarkelasm;
 
 class MemberController extends Controller
 {
@@ -55,10 +57,31 @@ class MemberController extends Controller
     public function daftarkelas($id){
         $data['kelas'] = Kelasm::get();
         $data['member'] = Penggunam::where('id',$id)->first();
+        $data['kelasdaftar'] = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')
+                                            ->join('booking','id_daftarkelas','daftarkelas.id')
+                                            ->where('daftarkelas.id_user',$id)
+                                            ->select('kelas.materi','daftarkelas.id')
+                                            ->get();
+
         return Inertia::render('Homepage/Member/Datakelas',$data);
     }
 
     public function kelasdaftar(KelasRequest $r){
+        if($r->validated()){
+            Daftarkelasm::create([
+                'id_user' => $r->id_user,
+                'id_kelas' => $r->id_kelas,
+                // 'jenis_pembayaran' => $r->jenis_pembayaran,
+                // 'jumlah_bayar' => $r->jumlah_bayar
+            ]);
+        }
 
+        return Redirect::back();
+    }
+
+    public function hapuskelasdaftar($id){
+        Daftarkelasm::where('id',$id)->delete();
+
+        return Redirect::back();
     }
 }

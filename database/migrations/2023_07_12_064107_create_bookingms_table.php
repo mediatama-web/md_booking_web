@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('jam');
             $table->integer('id_mentor')->nullable();
-            $table->integer('id_kelas');
+            $table->integer('id_daftarkelas');
             $table->enum('status',['pending','diterima','ditolak']);
             $table->timestamps();
         });
