@@ -34,8 +34,6 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
         {
             id_kelas : parseInt(kelasx),
             id_user : parseInt(member.id),
-            // jenis_pembayaran : metode,
-            // jumlah_bayar : bayar
         })
     }
 
@@ -82,7 +80,7 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                             <th className='text-left md:text-sm text-xs'>History Booking</th>
                                             <th className='text-left md:text-sm text-xs'>History Absen</th>
                                             <th className='text-left md:text-sm text-xs'>Sertifikat</th>
-                                            <th className='text-left md:text-sm text-xs'>#</th>
+                                            <th className='text-left md:text-sm text-xs w-14'>#</th>
                                         </tr>
                                     </thead>
 
@@ -105,15 +103,15 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                 </tr>
                                             ) : (
                                                 kelasdaftar.map((data, index) => (
-                                                    <tr key={index}>
+                                                    <tr key={index} className='text-sm'>
                                                         <td className='border border-grey-100 pl-2'>{index+1}</td>
-                                                        <td className='border border-grey-100'>{data.materi}</td>
-                                                        <td className='border border-grey-100 text-center'>0</td>
-                                                        <td className='border border-grey-100 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faEye}/></Link></td>
-                                                        <td className='border border-grey-100 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faEye} /></Link></td>
-                                                        <td className='border border-grey-100 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faUpload} /></Link></td>
-                                                        <td className='border border-grey-100'>
-                                                            <div onClick={(_) => handlerHapus(data.id)} className='hover:cursor-pointer text-center m-1 p-1 rounded-md text-white text-xs bg-red-500'><FontAwesomeIcon icon={faTrash} /></div>
+                                                        <td className='border border-grey-100 p-1'>{data.materi}</td>
+                                                        <td className='border border-grey-100 p-1 text-center'>0</td>
+                                                        <td className='border border-grey-100 p-1 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faEye}/></Link></td>
+                                                        <td className='border border-grey-100 p-1 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faEye} /></Link></td>
+                                                        <td className='border border-grey-100 p-1 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faUpload} /></Link></td>
+                                                        <td className='border border-grey-100 text-center w-14'>
+                                                            <div onClick={(_) => handlerHapus(data.id)} className='hover:cursor-pointer text-center w-7 m-1 p-1 rounded-md text-white text-xs bg-red-500'><FontAwesomeIcon icon={faTrash} /></div>
                                                         </td>
                                                     </tr>
                                                 ))
@@ -153,25 +151,6 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                             <TextInput type="text" readOnly value={IDR.format(harga)} className="w-full" />
 
                                         </div>
-                                        {/* <div className="mt-2 mb-2">
-                                            <InputLabel htmlFor="Pembayaran" value="Pembayaran" />
-                                            <select
-                                            name="pembayaran"
-                                            id="pembayawan"
-                                            className='w-full rounded-lg border-gray-300'
-                                                onChange={(e) => setMetode(e.target.value)}
-                                            >
-                                                <option value="" disabled>-PILIH-</option>
-                                                <option value="cash">Cash</option>
-                                                <option value="dp">Dp</option>
-                                            </select>
-
-                                        </div>
-                                        <div className="mt-2 mb-2">
-                                            <InputLabel htmlFor="Dibayar" value="Dibayar" />
-                                            <TextInput type="number" onChange={(e) => setBayar(e.target.value)} className="w-full" />
-
-                                        </div> */}
                                         <div className="flex items-center justify-end mt-2">
                                             <PrimaryButton type="submit">Simpan</PrimaryButton>
                                         </div>

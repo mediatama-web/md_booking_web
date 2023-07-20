@@ -25,15 +25,16 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
     var [kelasmember, setKelasmember] = useState([])
 
     const handlerChangeuser = (id) => {
-        var data = daftarkelas.find(obj => {
+        var data = daftarkelas.filter(obj => {
             return obj.id_user === parseInt(id)
         })
+        // JSON.parse(data)
+        console.log(data);
         setIduser(id)
-        setKelasmember(data ? [data] : [])
+        setKelasmember(data ? data : [])
     }
 
     useEffect(() => {
-        console.log(kelasmember);
 
     },[kelasmember])
 
@@ -59,7 +60,7 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
             user={auth.user}
         >
         <Head title="Jadwal Booking" />
-        
+
         <div className="py-12">
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div className="bg-white md:overflow-hidden overflow-auto shadow-sm sm:rounded-lg p-4">
@@ -72,7 +73,7 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
                         <form>
                             <div className='w-full m-2'>
                                 <InputLabel>Nama Peserta</InputLabel>
-                                <select 
+                                <select
                                     id='id_user'
                                     className='w-full rounded-md p-2 border'
                                     onChange={(e) => handlerChangeuser(e.target.value)}
@@ -91,12 +92,12 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
 
                             <div className='w-full m-2'>
                                 <InputLabel>Tanggal</InputLabel>
-                                <input 
-                                    type="date" 
-                                    name="tanggal" 
-                                    id="tanggal" 
-                                    onChange={(e) => setTanggal(e.target.value)} 
-                                    value={tanggal} 
+                                <input
+                                    type="date"
+                                    name="tanggal"
+                                    id="tanggal"
+                                    onChange={(e) => setTanggal(e.target.value)}
+                                    value={tanggal}
                                     className="w-full rounded-md"
                                 />
 
@@ -105,7 +106,7 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
 
                             <div className='w-full m-2'>
                                 <InputLabel>Jam</InputLabel>
-                                <select 
+                                <select
                                     id='jam'
                                     onChange={(e) => setJam(e.target.value)}
                                     value={jam}
@@ -114,10 +115,11 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
                                     <option value="0">-Pilih-</option>
                                     {
                                         jambooking.map((data, i) => (
+
                                             <option key={i}>{data}</option>
                                         ))
                                     }
-                                    
+
                                 </select>
 
                                 <InputError message={errors.jam} className="mt-2" />
@@ -125,7 +127,7 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
 
                             <div className='w-full m-2'>
                                 <InputLabel>Kelas</InputLabel>
-                                <select 
+                                <select
                                     id='kelas'
                                     className='w-full rounded-md p-2 border'
                                     onChange={(e) => setKelas(e.target.value)}
@@ -134,7 +136,7 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
                                     <option value="0">-Pilih-</option>
                                     {
                                         kelasmember.map((d , i) => (
-                                            <option key={i} value={d.id}>{d.materi}</option>
+                                            <option key={i} value={kelasmember[i].id}>{kelasmember[i].materi}</option>
                                         ))
                                     }
                                 </select>
@@ -144,7 +146,7 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
 
                             <div className='w-full m-2'>
                                 <InputLabel>Mentor</InputLabel>
-                                <select 
+                                <select
                                     id='mentor'
                                     className='w-full rounded-md p-2 border'
                                     onChange={(e) => setMentor(e.target.value)}
@@ -168,7 +170,7 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
                 </div>
             </div>
         </div>
-        
+
         </AuthenticatedLayout>
     )
 }

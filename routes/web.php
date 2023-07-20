@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');
     Route::get('/booking-add/{id?}', [BookingController::class, 'add'])->name('booking-add');
     Route::post('/booking-save/{id?}', [BookingController::class, 'save'])->name('booking-save');
+    Route::post('/booking-statuschange', [BookingController::class, 'statuschange'])->name('booking-statuschange');
 
     Route::get('/mentor', [MentorController::class, 'index'])->name('mentor');
 
