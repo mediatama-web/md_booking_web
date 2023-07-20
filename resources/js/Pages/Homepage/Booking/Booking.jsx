@@ -2,19 +2,16 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { pickBy } from 'lodash'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-export default function Kelas({ auth, kelas }) {
-    const perpage = useRef(kelas.per_page)
+export default function Booking({ auth, booking }){
+    const perpage = useRef(booking.per_page)
     const [isloadong, setIsloading] = useState(false)
     const [cari, setCari] = useState('')
 
     useEffect(() => {
-        import('@fortawesome/react-fontawesome')
-        import("@lottiefiles/lottie-player")
+        import("@lottiefiles/lottie-player");
     })
 
     const handleChangeValue = (e) => {
@@ -22,23 +19,18 @@ export default function Kelas({ auth, kelas }) {
         getData()
     }
 
-    let IDR = new Intl.NumberFormat('id', {
-        style: 'currency',
-        currency: 'IDR',
-    });
-
     const getData = () => {
         setIsloading(true)
         router.get(
             route().current(),
             pickBy({
-                perpage: perpage.current,
+                perpage : perpage.current,
                 cari
             })
-            , {
-                preserveScroll: true,
-                preserveState: true,
-                onFinish: () => setIsloading(false)
+            ,{
+                preserveScroll : true,
+                preserveState : true,
+                onFinish : () => setIsloading(false)
             }
         )
     }
@@ -52,17 +44,17 @@ export default function Kelas({ auth, kelas }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <Head title="Data Kelas" />
+            <Head title="Jadwal Booking" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white md:overflow-hidden overflow-auto shadow-sm sm:rounded-lg p-4">
                         <div className="flex justify-between items-center p-2">
                             <div>
-                                <h3 className='md:text-lg text-xs font-bold'>Data Kelas</h3>
+                                <h3 className='md:text-lg text-xs font-bold'>Booking Jadwal</h3>
                             </div>
                             <div>
-                                <Link href="" className='bg-slate-800 text-white p-2 rounded-md md:text-lg text-xs'>Tambah Data</Link>
+                                <Link href={route('booking-add')} className='bg-slate-800 text-white p-2 rounded-md md:text-lg text-xs'>Tambah Data</Link>
                             </div>
                         </div>
                         <div className="flex justify-between items-center p-2">
@@ -84,7 +76,7 @@ export default function Kelas({ auth, kelas }) {
                                 <form onSubmit={handlerSearch}>
                                     <div className="flex items-center gap-2">
                                         <TextInput
-                                            className="md:text-sm text-xs"
+                                            className="md:tx-sm text-xs"
                                             name="cari"
                                             type="search"
                                             placeholder="Cari"
@@ -100,17 +92,19 @@ export default function Kelas({ auth, kelas }) {
                             <thead>
                                 <tr className='[&>th]:p-2 bg-slate-800 text-white'>
                                     <th className='text-left md:text-sm text-xs'>No</th>
-                                    <th className='text-left md:text-sm text-xs'>Materi</th>
-                                    <th className='text-left md:text-sm text-xs'>Jenis</th>
-                                    <th className='text-left md:text-sm text-xs'>Harga</th>
-                                    <th className='text-left md:text-sm text-xs'>#</th>
+                                    <th className='text-left md:text-sm text-xs'>Nama Peserta</th>
+                                    <th className='text-left md:text-sm text-xs'>Tanggal</th>
+                                    <th className='text-left md:text-sm text-xs'>Jam</th>
+                                    <th className='text-left md:text-sm text-xs'>Nama Mentor</th>
+                                    <th className='text-left md:text-sm text-xs'>Kelas</th>
+                                    <th className='text-left md:text-sm text-xs'>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     isloadong ? (
                                         <tr>
-                                            <td colSpan={5} className='text-center md:text-sm text-xs'>
+                                            <td colSpan={7} className='text-center md:text-sm text-xs'>
                                                 <lottie-player
                                                     src="https://lottie.host/cbcdd4c1-5bf6-40fa-aeba-2f9344e967bd/D84dkkW3KV.json"
                                                     background="#fff"
@@ -123,10 +117,11 @@ export default function Kelas({ auth, kelas }) {
                                                 </lottie-player>
                                             </td>
                                         </tr>
+
                                     ) :
-                                        kelas.data.length < 1 ?
-                                            <tr>
-                                                <td colSpan={5} className='text-center p-2 md:text-sm text-xs'>
+                                        booking.data.length < 1 ?
+                                        <tr>
+                                                <td colSpan={7} className='text-center md:text-sm text-xs p-2'>
                                                     <lottie-player
                                                         src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
                                                         background="#fff"
@@ -138,45 +133,40 @@ export default function Kelas({ auth, kelas }) {
                                                         mode="normal">
                                                     </lottie-player>
                                                 </td>
+                                        </tr>
+                                      :
+                                    (
+                                        booking.data.map((data , i) => (
+                                            <tr key={data.id} className='[&>td]:p-2'>
+                                                <td className='border border-grey-100'>{booking.from + i}</td>
+                                                <td className='border border-grey-100'>{data.nama_mentor}</td>
+                                                <td className='border border-grey-100'>{data.tanggal}</td>
+                                                <td className='border border-grey-100'>{data.jam}</td>
+                                                <td className='border border-grey-100'>{data.id_mentor}</td>
+                                                <td className='border border-grey-100'>{data.id_mentor}</td>
+                                                <td className='border border-grey-100'>{data.status}</td>
                                             </tr>
-                                            :
-                                            (
-                                                kelas.data.map((data, i) => (
-                                                    <tr key={data.id} className='[&>td]:p-2'>
-                                                        <td className='border border-grey-100'>{kelas.from + i}</td>
-                                                        <td className='border border-grey-100'>{data.materi}</td>
-                                                        <td className='border border-grey-100'>{data.jenis}</td>
-                                                        <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
-                                                        <td className='border border-grey-100 text-center'>
-                                                            <Link className='bg-blue-500 rounded-lg text-xs text-white p-2'>
-                                                                <FontAwesomeIcon icon={faPencil} />
-                                                            </Link>
-                                                            <Link className='bg-red-500 rounded-lg text-xs text-white w-12 p-2'>
-                                                                <FontAwesomeIcon icon={faTrash} />
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                                )
-                                            )
+                                        )
+                                        )
+                                    )
                                 }
                             </tbody>
 
                         </table>
                         <div className="flex items-center justify-between p-2">
                             <div className='md:text-sm text-xs'>
-                                Melihat {kelas.from ?? 0} sampai {kelas.to ?? 0} dari {kelas.total ?? 0} data
+                                Melihat {booking.from ?? 0} sampai {booking.to ?? 0} dari {booking.total ?? 0} data
                             </div>
                             <div className="flex items-center gap-2">
-                                {kelas.links.map((link, i) => (
+                                {booking.links.map((link, i) => (
                                     <Link
                                         key={i}
                                         href={link.url}
                                         className='bg-slate-800 p-2 text-white md:text-sm text-xs rounded-md'
                                     >
-                                        <div dangerouslySetInnerHTML={{
-                                            __html: link.label,
-                                        }} />
+                                        <div dangerouslySetInnerHTML = {{
+                                            __html:link.label,
+                                        }}/>
 
                                     </Link>
                                 ))}

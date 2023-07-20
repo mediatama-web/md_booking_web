@@ -5,7 +5,8 @@ import { pickBy } from 'lodash';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Switch } from '@headlessui/react'
-import Modal from '@/Components/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faUpload, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
 export default function Member({auth, member}) {
     const perpage = useRef(member.per_page)
     const [isloadong, setIsloading] = useState(false)
@@ -47,8 +48,9 @@ export default function Member({auth, member}) {
         getData()
     }
 
-    const handlerModal = () => {
-        setModal(!modal)
+    const handlerHapusMember = (id) => {
+        router.get(router('member-hapus',id))
+        getData()
     }
 
     return (
@@ -110,7 +112,6 @@ export default function Member({auth, member}) {
                                     <th className='text-left md:text-sm text-xs'>Alamat</th>
                                     <th className='text-left md:text-sm text-xs'>Tanggal Daftar</th>
                                     <th className='text-left md:text-sm text-xs'>Referal</th>
-                                    <th className='text-left md:text-sm text-xs'>Foto</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
                                     <th className='text-left md:text-sm text-xs'>#</th>
                                 </tr>
@@ -159,7 +160,6 @@ export default function Member({auth, member}) {
                                                 <td className='border border-grey-100'>{data.alamat}</td>
                                                 <td className='border border-grey-100'>{data.tgl_daftar}</td>
                                                 <td className='border border-grey-100'>{data.referal}</td>
-                                                <td className='border border-grey-100'>{data.foto}</td>
                                                 <td className='border border-grey-100'>
                                                         <Switch
                                                             checked={data.status_akun == 'aktif' ? true : false}
@@ -174,10 +174,10 @@ export default function Member({auth, member}) {
                                                             />
                                                         </Switch>
                                                 </td>
-                                                <td className='border border-grey-100'>
-                                                        <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Kelas</Link>
-                                                    <Link href='' className='bg-blue-500 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Edit</Link>
-                                                    <Link href='' className='bg-red-500 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Hapus</Link>
+                                                <td className='flex border border-grey-100'>
+                                                    <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Kelas</Link>
+                                                    <div className='hover:cursor-pointer bg-blue-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
+                                                    <div onClick={() => handlerHapusMember(data.id)} className='hover:cursor-pointer bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
                                                 </td>
                                             </tr>
                                         )
@@ -209,17 +209,6 @@ export default function Member({auth, member}) {
                     </div>
                 </div>
             </div>
-
-            <Modal show={modal} >
-                <div className="flex items-center justify-between p-2">
-                    <div>
-                        <p className="p-2 text-lg font-bold">Data Kelas</p>
-                    </div>
-                    <div>
-                        <div type='button' onClick={() => handlerModal} className='p2 text-gray-400'>X</div>
-                    </div>
-                </div>
-            </Modal>
 
         </AuthenticatedLayout>
     )

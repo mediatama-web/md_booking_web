@@ -11,6 +11,7 @@ class Kelasm extends Model
      use HasFactory, Searchable;
 
     protected $table = 'kelas';
+    protected $fillable = ['materi','jenis','harga'];
 
 
     public function toSearchableArray(): array
@@ -18,6 +19,7 @@ class Kelasm extends Model
         return [
             'materi' => $this->materi,
             'jenis' => $this->jenis,
+            
         ];
     }
 }

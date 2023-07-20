@@ -40,7 +40,7 @@ export default function Create({ auth, errors }) {
                         <form onSubmit={handlerSave}>
                             <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
                                 <div>
-                                    <InputLabel htmlFor="Nama LEngkap" value="Nama Lengkap" />
+                                    <InputLabel htmlFor="Nama Lengkap" value="Nama Lengkap" />
 
                                     <input
                                         id="nama_pengguna"
