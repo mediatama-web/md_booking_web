@@ -40,6 +40,14 @@ export default function Booking({ auth, booking }){
         getData()
     }
 
+    const handlerStatus = (status, id) => {
+        console.log(id);
+        router.post('booking-statuschange',{
+            id : id,
+            status : status
+        })
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -117,7 +125,6 @@ export default function Booking({ auth, booking }){
                                                 </lottie-player>
                                             </td>
                                         </tr>
-
                                     ) :
                                         booking.data.length < 1 ?
                                         <tr>
@@ -137,14 +144,26 @@ export default function Booking({ auth, booking }){
                                       :
                                     (
                                         booking.data.map((data , i) => (
-                                            <tr key={data.id} className='[&>td]:p-2'>
+                                            <tr key={data.id} className='[&>td]:p-2 text-sm'>
                                                 <td className='border border-grey-100'>{booking.from + i}</td>
-                                                <td className='border border-grey-100'>{data.nama_mentor}</td>
+                                                <td className='border border-grey-100'>{data.nama_pengguna}</td>
                                                 <td className='border border-grey-100'>{data.tanggal}</td>
                                                 <td className='border border-grey-100'>{data.jam}</td>
-                                                <td className='border border-grey-100'>{data.id_mentor}</td>
-                                                <td className='border border-grey-100'>{data.id_mentor}</td>
-                                                <td className='border border-grey-100'>{data.status}</td>
+                                                <td className='border border-grey-100'>{data.nama_mentor}</td>
+                                                <td className='border border-grey-100'>{data.materi}</td>
+                                                <td className='border border-grey-100 w-24 text-center'>
+                                                    <select
+                                                        id="status"
+                                                        className='rounded-lg text-sm'
+                                                        value={data.status}
+                                                        onChange={(e) => handlerStatus(e.target.value , data.id)}
+                                                    >
+                                                        <option value="pending">Pending</option>
+                                                        <option value="diterima">Diterima</option>
+                                                        <option value="ditolak">Ditolak</option>
+                                                    </select>
+                                                </td>
+
                                             </tr>
                                         )
                                         )

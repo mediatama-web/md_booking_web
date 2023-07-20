@@ -13,7 +13,6 @@ class Penggunam extends Model
     protected $table = 'pengguna';
     protected $fillable = ['nama_pengguna','no_telpon','alamat','email','password','foto','tgl_daftar','status_akun','referal'];
 
-
     public function toSearchableArray(): array
     {
         return [

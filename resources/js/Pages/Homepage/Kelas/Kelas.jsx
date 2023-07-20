@@ -108,7 +108,7 @@ export default function Kelas({ auth, kelas }) {
                                     <th className='text-left md:text-sm text-xs'>Materi</th>
                                     <th className='text-left md:text-sm text-xs'>Jenis</th>
                                     <th className='text-left md:text-sm text-xs'>Harga</th>
-                                    <th className='text-left md:text-sm text-xs text-center'>#</th>
+                                    <th className='text-left md:text-sm text-xs w-24'>#</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,16 +147,16 @@ export default function Kelas({ auth, kelas }) {
                                             :
                                             (
                                                 kelas.data.map((data, i) => (
-                                                    <tr key={data.id} className='[&>td]:p-2'>
+                                                    <tr key={data.id} className='[&>td]:p-2 text-sm'>
                                                         <td className='border border-grey-100'>{kelas.from + i}</td>
                                                         <td className='border border-grey-100'>{data.materi}</td>
                                                         <td className='border border-grey-100'>{data.jenis}</td>
                                                         <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
-                                                        <td className='flex border border-grey-100 text-center'>
-                                                            <Link href={route('kelas-add',data.id)} className='hover:cursor-pointer w-10 text-center bg-blue-500 rounded-lg text-xs text-white p-2'>
+                                                        <td className='flex border border-grey-100 text-center w-24'>
+                                                            <Link href={route('kelas-add',data.id)} className='hover:cursor-pointer w-10 text-center hover:bg-blue-400 bg-blue-500 rounded-lg text-xs text-white p-2'>
                                                                 <FontAwesomeIcon icon={faPencil} />
                                                             </Link>
-                                                            <div onClick={() => handlerHapus(data.id)} className='hover:cursor-pointer text-white w-10 bg-red-500 rounded-lg text-xs text-white w-12 p-2'>
+                                                            <div onClick={() => handlerHapus(data.id)} className='hover:cursor-pointer text-white w-10 hover:bg-red-400 bg-red-500 rounded-lg text-xs p-2'>
                                                                 <FontAwesomeIcon icon={faTrash} />
                                                             </div>
                                                         </td>

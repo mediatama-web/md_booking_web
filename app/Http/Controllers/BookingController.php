@@ -16,7 +16,12 @@ class BookingController extends Controller
 {
     public function index(Request $r)
     {
-        $data['booking'] = Bookingm::join('mentor','mentor.id','booking.id_mentor')->select('booking.id','booking.jam','booking.tanggal','booking.status','mentor.nama_mentor')->search($r->cari)->paginate($r->perpage ?? 10);
+        $data['booking'] = Bookingm::join('mentor','booking.id_mentor','mentor.id')
+                    ->leftjoin('pengguna','pengguna.id','booking.id_user')
+                    ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
+                    ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                    ->paginate($r->perpage ?? 10);
+                    // dd($data['booking']);
         return Inertia::render('Homepage/Booking/Booking',$data);
     }
     public function add(Request $r)
@@ -33,5 +38,11 @@ class BookingController extends Controller
         }
 
         return Redirect::route('booking');
+    }
+
+    public function statuschange(Request $r){
+        Bookingm::where('id',$r->id)->update(['status' => $r->status]);
+
+        return Redirect::back();
     }
 }

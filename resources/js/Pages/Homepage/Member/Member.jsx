@@ -45,12 +45,10 @@ export default function Member({auth, member}) {
 
     const handlerStatus = (id) => {
         router.get(route('member-aktifasi',id))
-        getData()
     }
 
     const handlerHapusMember = (id) => {
         router.get(router('member-hapus',id))
-        getData()
     }
 
     return (
@@ -113,7 +111,7 @@ export default function Member({auth, member}) {
                                     <th className='text-left md:text-sm text-xs'>Tanggal Daftar</th>
                                     <th className='text-left md:text-sm text-xs'>Referal</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
-                                    <th className='text-left md:text-sm text-xs'>#</th>
+                                    <th className='text-left md:text-sm text-xs w-24'>#</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -160,7 +158,7 @@ export default function Member({auth, member}) {
                                                 <td className='border border-grey-100'>{data.alamat}</td>
                                                 <td className='border border-grey-100'>{data.tgl_daftar}</td>
                                                 <td className='border border-grey-100'>{data.referal}</td>
-                                                <td className='border border-grey-100'>
+                                                <td className='border border-grey-100 w-24'>
                                                         <Switch
                                                             checked={data.status_akun == 'aktif' ? true : false}
                                                             onChange={() => handlerStatus(data.id)}
@@ -175,9 +173,9 @@ export default function Member({auth, member}) {
                                                         </Switch>
                                                 </td>
                                                 <td className='flex border border-grey-100'>
-                                                    <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Kelas</Link>
-                                                    <div className='hover:cursor-pointer bg-blue-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
-                                                    <div onClick={() => handlerHapusMember(data.id)} className='hover:cursor-pointer bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
+                                                    <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 hover:bg-blue-600 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Kelas</Link>
+                                                    <div className='hover:cursor-pointer hover:bg-blue-400 bg-blue-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
+                                                    <div onClick={() => handlerHapusMember(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
                                                 </td>
                                             </tr>
                                         )

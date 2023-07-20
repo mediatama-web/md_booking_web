@@ -22,7 +22,7 @@ class MemberController extends Controller
     }
 
     public function add(){
-        
+
         return inertia::render('Homepage/Member/Create');
     }
 
@@ -82,8 +82,6 @@ class MemberController extends Controller
             Daftarkelasm::create([
                 'id_user' => $r->id_user,
                 'id_kelas' => $r->id_kelas,
-                // 'jenis_pembayaran' => $r->jenis_pembayaran,
-                // 'jumlah_bayar' => $r->jumlah_bayar
             ]);
         }
 
