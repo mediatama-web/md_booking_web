@@ -21,7 +21,8 @@ class MemberController extends Controller
         return Inertia::render('Homepage/Member/Member',$data);
     }
 
-    public function add(Request $r){
+    public function add(){
+        
         return inertia::render('Homepage/Member/Create');
     }
 
@@ -41,6 +42,13 @@ class MemberController extends Controller
         return Redirect::route('member');
     }
 
+    public function hapusDataMember($id){
+        $hapus = Penggunam::where('id',$id)->delete();
+        if($hapus){
+            Daftarkelasm::where('id_user')->delete();
+        }
+    }
+
     public function aktifasiakun($id){
         $cek = Penggunam::where('id',$id)->first();
         if($cek->status_akun == 'aktif'){
@@ -58,7 +66,6 @@ class MemberController extends Controller
         $data['kelas'] = Kelasm::get();
         $data['member'] = Penggunam::where('id',$id)->first();
         $data['kelasdaftar'] = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')
-                                            ->join('booking','id_daftarkelas','daftarkelas.id')
                                             ->where('daftarkelas.id_user',$id)
                                             ->select('kelas.materi','daftarkelas.id')
                                             ->get();
@@ -68,6 +75,10 @@ class MemberController extends Controller
 
     public function kelasdaftar(KelasRequest $r){
         if($r->validated()){
+            $cek = Daftarkelasm::where('id_user',$r->id_user)->where('id_kelas',$r->id_kelas)->first();
+            if($cek){
+                return Redirect::back();
+            }
             Daftarkelasm::create([
                 'id_user' => $r->id_user,
                 'id_kelas' => $r->id_kelas,

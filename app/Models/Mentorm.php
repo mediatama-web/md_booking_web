@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Mentorm extends Model
 {
     use HasFactory;
+    protected $table = 'mentor';
 }

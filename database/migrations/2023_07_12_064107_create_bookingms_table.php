@@ -20,6 +20,10 @@ return new class extends Migration
             $table->integer('id_daftarkelas');
             $table->enum('status',['pending','diterima','ditolak']);
             $table->timestamps();
+
+            $table->foreign('id_user')->references('id')->on('pengguna')->onDelete('cascade');
+            $table->foreign('id_mentor')->references('id')->on('mentor')->onDelete('cascade');
+            $table->foreign('id_daftarkelas')->references('id')->on('daftarkelas')->onDelete('cascade');
         });
     }
 

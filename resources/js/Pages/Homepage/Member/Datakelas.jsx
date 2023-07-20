@@ -8,12 +8,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faUpload, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
 
 export default function Datakelas({ auth, member, kelas, kelasdaftar }){
+
+    console.log(kelasdaftar);
+
     const materi = useRef(0)
     const [kelass, setKelass] = useState(0)
     const [kelasx, setKelas] = useState(0)
     const [harga, setHarga] = useState(0)
-    // const [metode, setMetode] = useState(0)
-    // const [bayar, setBayar] = useState(0)
+    const [metode, setMetode] = useState(0)
+    const [bayar, setBayar] = useState(0)
 
     let IDR = new Intl.NumberFormat('id', {
         style: 'currency',
