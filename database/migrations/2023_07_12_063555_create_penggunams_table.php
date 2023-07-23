@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("tgl_daftar");
             $table->string("status_akun");
             $table->string("referal");
+            $table->rememberToken();
             $table->timestamps();
         });
     }

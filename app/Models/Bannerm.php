@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Bannerm extends Model
 {
     use HasFactory;
+    protected $table = 'banner';
+    protected $fillable = ['gambar'];
 }
