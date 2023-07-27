@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\Booking;
+use App\Http\Requests\Bookingrequest;
 use App\Models\Penggunam;
 use App\Models\Mentorm;
 use App\Models\Bannerm;
@@ -53,7 +55,7 @@ class ApiController extends Controller
     // API HOME PAGE
 
     public function mentor(){
-        $data = Mentorm::get();
+        $data = Mentorm::where('status','aktif')->get();
         $list = [];
         foreach($data as $i => $a){
             $list[] = array(
@@ -120,7 +122,7 @@ class ApiController extends Controller
         return response()->json($list);
     }
 
-    public function simpanbooking(Request $r){
+    public function simpanbooking(Bookingrequest $r){
         $data = Bookingm::create([
             'id_user' => $r->id,
             'jam' => $r->jam,
