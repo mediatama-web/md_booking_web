@@ -19,9 +19,6 @@ return new class extends Migration
             $table->enum('status',['aktif','tidak aktif']);
             $table->string('jumlah_bayar');
             $table->timestamps();
-            
-            $table->foreign('id_user')->references('id')->on('pengguna')->onDelete('cascade');
-            $table->foreign('id_kelas')->references('id')->on('kelas')->onDelete('cascade');
         });
     }
 
