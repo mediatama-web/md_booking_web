@@ -29,7 +29,7 @@ class ApiController extends Controller
             $success['token'] = $auth->createToken('auth_token')->plainTextToken;
             $success['id'] = $auth->id;
             $success['nama'] = $auth->nama_pengguna;
-            $success['foto'] = "http://192.168.100.214:8000/".$auth->foto;
+            $success['foto'] = $uath->foto == '' ? "https://jadwalles.idolapppk.com/image/user.png" : $auth->foto;
 
 
             return response()->json([
@@ -65,7 +65,7 @@ class ApiController extends Controller
                 'id_mentor' => (string)$a->id,
                 'nama_mentor' => $a->nama_mentor,
                 'bidang' => $a->bidang,
-                'foto_mentor' => $a->foto,
+                'foto_mentor' => $a->foto == '' ? "https://jadwalles.idolapppk.com/image/user.png" : $a->foto,
                 'email' => $a->email,
                 'alamat' => $a->alamat,
                 'telepon' => $a->telpon
@@ -170,7 +170,7 @@ class ApiController extends Controller
             'nama_pengguna' => $data->nama_pengguna,
             'no_telpon' => $data->no_telpon,
             'email' => $data->email,
-            'foto' => "http://192.168.100.214:8000/".$data->foto,
+            'foto' => $data->foto,
             'referal' => $data->referal ?? 'tidak terdaftar',
             'alamat' => $data->alamat,
             'tgl_daftar' => $data->tgl_daftar,

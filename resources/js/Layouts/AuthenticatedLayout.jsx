@@ -36,7 +36,7 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('mentor')} active={route().current('mentor')}>
                                     Mentor
                                 </NavLink>
-                                <NavLink href={route('mentor')} active={route().current('report')}>
+                                <NavLink href={route('report')} active={route().current('report')}>
                                     Report
                                 </NavLink>
                             </div>
@@ -122,7 +122,7 @@ export default function Authenticated({ user, header, children }) {
                         <ResponsiveNavLink href={route('mentor')} active={route().current('mentor')}>
                             Mentor
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('mentor')} active={route().current('mentor')}>
+                        <ResponsiveNavLink href={route('report')} active={route().current('report')}>
                             Report
                         </ResponsiveNavLink>
                     </div>
