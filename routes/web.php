@@ -10,7 +10,8 @@ use App\Http\Controllers\{
     BookingController,
     MentorController,
     MemberController,
-    KelasController
+    KelasController,
+    ReportController
 };
 
 
@@ -50,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/member-daftarkelas/{id}', [MemberController::class, 'daftarkelas'])->name('member-daftarkelas');
     Route::post('/member-kelasdaftar/{id}', [MemberController::class, 'kelasdaftar'])->name('member-kelasdaftar');
     Route::get('/member-kelasHapus/{id}', [MemberController::class, 'hapuskelasdaftar'])->name('member-kelasHapus');
+
+    Route::get('/report', [ReportController::class, 'index'])->name('report');
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
     Route::get('/kelas-add/{id?}', [KelasController::class, 'tambah'])->name('kelas-add');
