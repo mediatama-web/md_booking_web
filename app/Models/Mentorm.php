@@ -10,5 +10,6 @@ class Mentorm extends Model
 {
     use HasFactory;
     protected $table = 'mentor';
+    protected $fillable = ['nama_mentor','bidang','email','password','alamat','telpon','foto','status'];
 
 }

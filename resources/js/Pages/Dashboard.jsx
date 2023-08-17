@@ -20,7 +20,7 @@ export default function Dashboard({ auth }) {
                                 src="https://lottie.host/89c5e47b-6846-4203-b06e-2dd344a3e65f/0fW0LkNzd6.json"
                                 background="#fff"
                                 speed="1"
-                                style={{ width: '600px', height: '600px', margin: 'auto' }}
+                                style={{ width: 'auto', height: 'auto', margin: 'auto' }}
                                 loop
                                 autoplay
                                 direction="1"

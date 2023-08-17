@@ -17,6 +17,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/getpertemuan/{id}',[ApiController::class, 'getpertemuan']);
     Route::get('/simpanbooking/{id}/{jam}/{tanggal}/{kelas}/{mentor}/{token}',[ApiController::class, 'simpanbooking']);
     Route::get('/getuser/{id}',[ApiController::class, 'getUser']);
+    Route::get('/hapusbooking/{id}/{token}',[ApiController::class, 'hapusbooking']);
 
     Route::get('/sendnotif',[NotifikasiController::class, 'sendnotif']);
     Route::get('/updateToken/{id}/{token}',[NotifikasiController::class, 'updateToken']);

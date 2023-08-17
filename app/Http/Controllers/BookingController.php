@@ -12,6 +12,8 @@ use App\Models\Mentorm;
 use App\Models\Daftarkelasm;
 use App\Http\Requests\Bookingrequest;
 
+use App\Http\Controllers\NotifikasiController;
+
 class BookingController extends Controller
 {
     public function index(Request $r)
@@ -35,6 +37,7 @@ class BookingController extends Controller
     public function save(Bookingrequest $r){
         if($r->validated()){
             Bookingm::create($r->validated());
+            NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
         }
 
         return Redirect::route('booking');

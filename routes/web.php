@@ -11,18 +11,9 @@ use App\Http\Controllers\{
     MentorController,
     MemberController,
     KelasController,
-    ReportController
+    ReportController,
+    NotifikasiController
 };
-
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 
 Route::get('/',[Logincontroller::class, 'index'])->name('login');
 
@@ -42,6 +33,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/booking-statuschange', [BookingController::class, 'statuschange'])->name('booking-statuschange');
 
     Route::get('/mentor', [MentorController::class, 'index'])->name('mentor');
+    Route::get('/mentor-add', [MentorController::class, 'create'])->name('mentor-add');
+    Route::post('/mentor-save', [MentorController::class, 'save'])->name('mentor-save');
+    Route::get('/mentor-edit/{id}', [MentorController::class, 'edit'])->name('mentor-edit');
+    Route::get('/mentor-status/{id}/{status}', [MentorController::class, 'status'])->name('mentor-status');
 
     Route::get('/member', [MemberController::class, 'index'])->name('member');
     Route::get('/member-add', [MemberController::class, 'add'])->name('member-add');
@@ -59,5 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/kelas-add-save/{id?}', [KelasController::class, 'save'])->name('kelas-add-save');
     Route::get('/kelas-hapusKelas/{id?}', [KelasController::class, 'hapusKelas'])->name('kelas-hapusKelas');
 });
+
+    Route::post('/save-token', [NotifikasiController::class, 'saveToken'])->name('save-token');
+    Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');
 
 require __DIR__.'/auth.php';
