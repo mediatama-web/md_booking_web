@@ -27,7 +27,11 @@ class MemberController extends Controller
     }
 
     public function simpan(MemberRequest $r){
+
         if($r->validated()){
+            $file = $r->file('foto');
+            $fileName = time().'-'.$file->getClientOriginalName();
+            $file->move('members', $fileName);
             Penggunam::create([
                 'nama_pengguna' => $r->nama_pengguna,
                 'no_telpon' => $r->no_telpon,
@@ -35,9 +39,9 @@ class MemberController extends Controller
                 'email' => $r->email,
                 'password' => Hash::make($r->password),
                 'tgl_daftar' => date('Y-m-d'),
+                'foto' => url('members/'.$fileName),
             ]);
         }
-
 
         return Redirect::route('member');
     }

@@ -17,6 +17,8 @@ use App\Models\Daftarkelasm;
 use App\Models\Bookingm;
 use App\Models\Kelasm;
 
+use App\Http\Controllers\NotifikasiController;
+
 class ApiController extends Controller
 {
     // API LOGIN / REGISTER / LOGOUT
@@ -137,6 +139,7 @@ class ApiController extends Controller
 
         if($data){
             $this->notifikasiSend($token, 'Info','Booking Jadwal Berhasil');
+            NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
             return response()->json([
                 'pesan' => true,
             ]);
@@ -177,6 +180,12 @@ class ApiController extends Controller
         );
 
         return response()->json($list);
+    }
+
+    public function hapusbooking($id){
+        $data = Bookingm::where('id',$id)->delete();
+        
+        return response()->json(['pesan' => $data]);
     }
 
     public function updateToken(Request $request){

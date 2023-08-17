@@ -7,24 +7,25 @@ import InputError from '@/Components/InputError';
 export default function Create({ auth, errors }) {
 
     const { data, setData, post, progress } = useForm({
-        nama_pengguna: "",
-        no_telpon: "",
-        alamat: "",
+        nama_mentor: "",
+        bidang: "",
         email: "",
         password: "",
+        telpon: "",
+        alamat: "",
         foto: "",
     })
 
     const handlerSave = (e) => {
         e.preventDefault()
-        
-        post('member-add-save')
+        post(route('mentor-save'))
 
-        setData('nama_pengguna','')
-        setData('no_telpon','')
-        setData('alamat','')
+        setData('nama_mentor','')
+        setData('bidang','')
         setData('email','')
         setData('password','')
+        setData('telpon','')
+        setData('alamat','')
         setData('foto','')
     }
 
@@ -32,14 +33,14 @@ export default function Create({ auth, errors }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <Head title="Tambah Member" />
+            <Head title="Tambah Mentor" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white md:overflow-hidden overflow-auto shadow-sm sm:rounded-lg p-4">
                         <div className="flex items-center p-2">
                             <div>
-                                <h3 className='md:text-lg text-sm font-bold'>Tambah Member</h3>
+                                <h3 className='md:text-lg text-sm font-bold'>Tambah Mentor</h3>
                             </div>
 
                         </div>
@@ -49,49 +50,33 @@ export default function Create({ auth, errors }) {
                                     <InputLabel htmlFor="Nama Lengkap" value="Nama Lengkap" />
 
                                     <input
-                                        id="nama_pengguna"
+                                        id="nama_mentor"
                                         type="text"
-                                        name="nama_pengguna"
-                                        value={data.nama_pengguna}
+                                        name="nama_mentor"
+                                        value={data.nama_mentor}
                                         className="mt-1 block w-full"
                                         placeholder="Nama Lengkap"
-                                        onChange={(e) => setData('nama_pengguna',e.target.value)}
+                                        onChange={(e) => setData('nama_mentor',e.target.value)}
 
                                     />
 
-                                    <InputError message={errors.nama_pengguna} className="mt-2" />
+                                    <InputError message={errors.nama_mentor} className="mt-2" />
                                 </div>
                                 <div>
-                                    <InputLabel htmlFor="No Telpon" value="No Telpon" />
+                                    <InputLabel htmlFor="Bidang" value="Bidang" />
 
                                     <input
-                                        id="no_telpon"
-                                        type="tel"
-                                        name="no_telpon"
-                                        value={data.no_telpon}
-                                        className="mt-1 block w-full"
-                                        placeholder="+62 xxx xxxx xxxx"
-                                        onChange={(e) => setData('no_telpon',e.target.value)}
-
-                                    />
-
-                                    <InputError message={errors.no_telpon} className="mt-2" />
-                                </div>
-                                <div>
-                                    <InputLabel htmlFor="Alamat" value="Alamat" />
-
-                                    <input
-                                        id="alamat"
+                                        id="bidang"
                                         type="text"
-                                        name="alamat"
-                                        value={data.alamat}
+                                        name="bidang"
+                                        value={data.bidang}
                                         className="mt-1 block w-full"
-                                        placeholder="Alamat"
-                                        onChange={(e) => setData('alamat',e.target.value)}
+                                        placeholder="Bidang"
+                                        onChange={(e) => setData('bidang',e.target.value)}
 
                                     />
 
-                                    <InputError message={errors.alamat} className="mt-2" />
+                                    <InputError message={errors.bidang} className="mt-2" />
                                 </div>
                                 <div>
                                     <InputLabel htmlFor="Email" value="Email" />
@@ -104,6 +89,7 @@ export default function Create({ auth, errors }) {
                                         className="mt-1 block w-full"
                                         placeholder="Email"
                                         onChange={(e) => setData('email',e.target.value)}
+
                                     />
 
                                     <InputError message={errors.email} className="mt-2" />
@@ -123,7 +109,35 @@ export default function Create({ auth, errors }) {
 
                                     <InputError message={errors.password} className="mt-2" />
                                 </div>
+                                <div>
+                                    <InputLabel htmlFor="Telpon" value="Telpon" />
 
+                                    <input
+                                        id="telpon"
+                                        type="tel"
+                                        name="telpon"
+                                        value={data.telpon}
+                                        className="mt-1 block w-full"
+                                        placeholder="+62"
+                                        onChange={(e) => setData('telpon',e.target.value)}
+                                    />
+
+                                    <InputError message={errors.telpon} className="mt-2" />
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="Alamat" value="Alamat" />
+
+                                    <textarea
+                                        id="alamat"
+                                        name="alamat"
+                                        value={data.alamat}
+                                        className="mt-1 block w-full"
+                                        placeholder="Alamat"
+                                        onChange={(e) => setData('alamat',e.target.value)}
+                                    ></textarea>
+
+                                    <InputError message={errors.alamat} className="mt-2" />
+                                </div>
                                 <div>
                                     <InputLabel htmlFor="Foto" value="Foto" />
 
@@ -135,9 +149,8 @@ export default function Create({ auth, errors }) {
                                         onChange={(e) => setData('foto', e.target.files[0])}
                                     />
 
-                                    <InputError message={errors.password} className="mt-2" />
+                                    <InputError message={errors.foto} className="mt-2" />
                                 </div>
-
 
                             </div>
                             <div className="flex items-center justify-end mt-4">

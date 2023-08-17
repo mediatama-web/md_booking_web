@@ -30,4 +30,11 @@ class Penggunam extends Authenticatable
             'no_telpon' => $this->no_telpon,
         ];
     }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => url('uploads/'.$value),
+        );
+    }
 }

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Jul 2023 pada 16.47
--- Versi server: 10.4.17-MariaDB
--- Versi PHP: 7.4.13
+-- Waktu pembuatan: 17 Agu 2023 pada 07.39
+-- Versi server: 10.4.28-MariaDB
+-- Versi PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `banner` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `gambar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gambar` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -44,13 +44,21 @@ CREATE TABLE `booking` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `id_user` int(11) NOT NULL,
   `tanggal` date NOT NULL,
-  `jam` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jam` varchar(255) NOT NULL,
   `id_mentor` int(11) DEFAULT NULL,
   `id_daftarkelas` int(11) NOT NULL,
-  `status` enum('pending','diterima','ditolak') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('pending','diterima','ditolak') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `booking`
+--
+
+INSERT INTO `booking` (`id`, `id_user`, `tanggal`, `jam`, `id_mentor`, `id_daftarkelas`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, '2023-08-16', '14:00', 62, 8, 'pending', '2023-08-16 10:49:41', '2023-08-16 10:49:41'),
+(2, 1, '2023-08-18', '14:00', 62, 8, 'pending', '2023-08-16 10:50:44', '2023-08-16 10:50:44');
 
 -- --------------------------------------------------------
 
@@ -62,9 +70,7 @@ CREATE TABLE `daftarkelas` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_kelas` int(11) NOT NULL,
-  `jenis_pembayaran` enum('dp','lunas') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `jumlah_bayar` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('aktif','tidak aktif') COLLATE utf8mb4_unicode_ci DEFAULT 'aktif',
+  `status` enum('aktif','tidak aktif') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -73,8 +79,8 @@ CREATE TABLE `daftarkelas` (
 -- Dumping data untuk tabel `daftarkelas`
 --
 
-INSERT INTO `daftarkelas` (`id`, `id_user`, `id_kelas`, `jenis_pembayaran`, `jumlah_bayar`, `status`, `created_at`, `updated_at`) VALUES
-(4, 2, 4, NULL, NULL, 'aktif', '2023-07-15 20:42:24', '2023-07-15 20:42:24');
+INSERT INTO `daftarkelas` (`id`, `id_user`, `id_kelas`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 8, 'aktif', '2023-08-16 10:49:25', '2023-08-16 10:49:25');
 
 -- --------------------------------------------------------
 
@@ -84,11 +90,11 @@ INSERT INTO `daftarkelas` (`id`, `id_user`, `id_kelas`, `jenis_pembayaran`, `jum
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -100,9 +106,9 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `kelas` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `materi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jenis` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `harga` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `materi` varchar(255) NOT NULL,
+  `jenis` varchar(255) NOT NULL,
+  `harga` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -145,17 +151,109 @@ INSERT INTO `kelas` (`id`, `materi`, `jenis`, `harga`, `created_at`, `updated_at
 
 CREATE TABLE `mentor` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nama_mentor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bidang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telpon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` enum('aktif','tidak aktif') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama_mentor` varchar(255) NOT NULL,
+  `bidang` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `alamat` text NOT NULL,
+  `telpon` varchar(255) NOT NULL,
+  `foto` varchar(255) NOT NULL,
+  `status` enum('aktif','tidak aktif') NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `mentor`
+--
+
+INSERT INTO `mentor` (`id`, `nama_mentor`, `bidang`, `email`, `password`, `alamat`, `telpon`, `foto`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Elfina Voutama', 'Web Programmer', 'elfina.voutama@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Padang', '081364380076', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/614302kakk.jpg', 'tidak aktif', NULL, NULL),
+(4, 'Sopi Sapriadi', 'PHP, VB', 'hack.devout01@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Raya Lubuk Begalung No 35, RT 01 RW 010, Gang Mesjid Nurul Huda', '082175466926', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/528790bgsop.jpg', 'tidak aktif', NULL, NULL),
+(5, 'Nofrian Eka Putra', 'PHP', 'nofrianekaaputraa@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Jihad Kubu Dalam Gang 6 Suhada', '082391061056', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/828832rian.jpeg', 'tidak aktif', NULL, NULL),
+(6, 'Ahmad Fajri', 'Web Programmer', 'ahmadfajri.fajri6@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Koto Gadang RT 002 Rw 004, Bungus Teluk Kabung', '081261885254', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/836719dafajri.jpg', 'tidak aktif', NULL, NULL),
+(7, 'Ego Dafma Dasa', 'Web Programmer', 'egodasa@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Perumahan Fadila Mandiri Gang Bawang no 01 RT2 RW 12 Banuaran Nan XX', '089519649316', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/926035ego.jpg', 'tidak aktif', NULL, NULL),
+(10, 'Rizki Kurniawan', 'Android Developer', 'rizkikurniawan1797@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Moh. Yunus No. 13 Kel. Lubuk Lintah, Kec. Kuranji, Kota Padang', '081299029393', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/420986rizki.jpg', 'tidak aktif', NULL, NULL),
+(11, 'Julsapargi Nursam', 'Android Developer', 'egifcb@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Sumatera No. 1 Wisma Indah I', '082382127489', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/693821egi.jpeg', 'tidak aktif', NULL, NULL),
+(12, 'Lutri Veflina', 'Web Programmer', 'utiveflina@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Komp. Villa Sentosa Blok L3/RT003/02 Kel. Tabing Banda Gadang Kec. Nanggalo', '085365559200', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/990868lutri.jpeg', 'tidak aktif', NULL, NULL),
+(16, 'Putri Andriani Pratiwi', 'Web Programmer', 'putriandriani953@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Padang', '081372246422', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/274695putri.jpg', 'aktif', NULL, NULL),
+(20, 'Egova Riva Gustino', 'Web Programmer', 'egovaflavia@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Padang', '082283669007', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/430674egova.jpg', 'tidak aktif', NULL, NULL),
+(21, 'Gema Fajar Ramadhan', 'Web Programmer', 'gemafajar09@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Padang', '082122855458', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/604860gema.jpg', 'aktif', NULL, NULL),
+(23, 'Restio Afrinza', 'Web Programmer', 'restioa@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Padang', '082240207017', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/440669tio.jpg', 'tidak aktif', NULL, NULL),
+(25, 'Syahrul', 'Web Programmer', 'syahrul@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '', '-', '', 'tidak aktif', NULL, NULL),
+(27, 'Putra', 'Web Programmer', 'putraevans001@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '', '08', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/300768051688300_1562319794-1.jpg', 'tidak aktif', NULL, NULL),
+(28, 'Aditya Agusta', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Andalas', '085266353628', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/936667png-transparent-monkey-logo-human-behavior-desktop-monkey-mammal-animals-hand.png', 'tidak aktif', NULL, NULL),
+(29, 'Fauzi', 'Web Programmer', 'fauzy.2@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'blabla', '08', '', 'tidak aktif', NULL, NULL),
+(30, 'Agung Laksmana', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/203345pngegg (2).png', 'tidak aktif', NULL, NULL),
+(31, 'RIRIN FEBRIYANI', 'Web Programmer', 'ririnfebriyani97@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'lubeg', '082387600183', '', 'tidak aktif', NULL, NULL),
+(32, 'Fajri Karim', 'PHP', 'fajri@fajri.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Padang', '0821', '', 'tidak aktif', NULL, NULL),
+(34, 'Bil Haqi', 'Web Programmer', 'bilhaqi123@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '', '08898987676', '', 'tidak aktif', NULL, NULL),
+(35, 'Danu', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', 'http://mediatamaweb.co.id/Mediatama/Android/mentor/894664087265500_1590562334-tiktok-5064078.jpg', 'tidak aktif', NULL, NULL),
+(36, 'Ilham', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '', '-', '', 'tidak aktif', NULL, NULL),
+(37, 'Fikri', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '', '-', '', 'tidak aktif', NULL, NULL),
+(38, 'Daniel', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '', '-', '', 'tidak aktif', NULL, NULL),
+(39, 'Wahyu Kurnia', 'Android Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '', '0', '', 'tidak aktif', NULL, NULL),
+(40, 'Muhammad Topan', 'Teknik Komputer', 'topan@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Koto Tuo Pauh', '082363878350', '', 'tidak aktif', NULL, NULL),
+(41, 'Eko', 'Design', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(42, 'Rades Saputri', 'Web Programing ', 'radessaputri@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Dr. Moh. Hatta no 13 koto luar, kec. Pauh, kota padang', '081279098072	', '', 'tidak aktif', NULL, NULL),
+(44, 'Mufi Arwa', 'Web Programing ', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Benteng RT001/RW003 Kel. Cupak Tangah Kec. Pauh, Padang, Sumatera Barat.', '085263350384', '', 'tidak aktif', NULL, NULL),
+(45, 'Hidayatul Fadhilah', 'Android Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Jalan irigasi no 29B Pauh Padang', '082268763883', '', 'tidak aktif', NULL, NULL),
+(46, 'Dinda Meivianti Dwi Putri', 'Web Programing ', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Ampang Karang Ganting No 4 RT01 / RW 05', '082171293107', '', 'tidak aktif', NULL, NULL),
+(47, 'Mutia Hulwah Nur Alif', 'Android Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl.Bandes Limau Manis,RT.01/RW.04,Pauh, Padang', '085363340522', '', 'tidak aktif', NULL, NULL),
+(48, 'Muhammad Al Farizzi', 'Web Programing ', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '082283295530', '', 'tidak aktif', NULL, NULL),
+(49, 'Rendhika Aditya', 'Android Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Limau Manis ', '082169774452', '', 'tidak aktif', NULL, NULL),
+(50, 'Sulthani Aslam', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Komp. Pratama III Blok D/5, Lubuk Buaya', '085272579285', '', 'tidak aktif', NULL, NULL),
+(52, 'M. irfan', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(53, 'Yoga', 'Laravel', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(54, 'Fariz', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'tidak aktif', NULL, NULL),
+(55, 'Nurhaniah', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'tidak aktif', NULL, NULL),
+(57, 'Silvia Ayu Santika', 'Android Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'tidak aktif', NULL, NULL),
+(58, 'Amal', 'web programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(59, 'Fadil', 'Android Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(60, 'Pirdaus', 'web programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(61, 'Arif', 'web programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(62, 'Beni Fajri', 'Android Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'aktif', NULL, NULL),
+(63, 'Fauzein Mulya Warman', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(66, 'Rizki Mahendra', 'web programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(67, 'Besty Nofaya', 'Ms.Office', 'nofayabesty@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jln pitameh garden', '083181716327', '', 'tidak aktif', NULL, NULL),
+(68, 'Rhea', 'Ms.Office', 'rheahavilah1230@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Kp tanjung, Lubug Begalung', '082382487738', '', 'tidak aktif', NULL, NULL),
+(69, 'Nurda Nengsih', 'Ms.Office', 'nurdanengsih03@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'By pass', '083181771033', '', 'tidak aktif', NULL, NULL),
+(70, 'Firman', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'tidak aktif', NULL, NULL),
+(71, 'Aidil', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(72, 'Satria', 'Web Programmer', '0', '827ccb0eea8a706c4c34a16891f84e7b', '0', '0', '', 'tidak aktif', NULL, NULL),
+(73, 'Ferdi', 'Design', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(74, 'Aziz', 'Ms.Office', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'aktif', NULL, NULL),
+(75, 'Dewi', 'Web Prorammer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'kebab dara pasar baru,kec pauh padang', '082124495025', '', 'tidak aktif', NULL, NULL),
+(76, 'Akbar', 'Web Prorammer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Padang', '082285679322', '', 'tidak aktif', NULL, NULL),
+(77, 'Dian ', 'Web Prorammer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Pasaman', '082386011904', '', 'tidak aktif', NULL, NULL),
+(78, 'Trisa ', 'Web Prorammer', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'kec.pauh,padang', '082391304480', '', 'tidak aktif', NULL, NULL),
+(79, 'Yerri', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '', '-', '', 'aktif', NULL, NULL),
+(80, 'Hanif Aulia Sabri', 'PHP,GO,Flotter', 'hanifauliasabriii@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Pauh,Padang', '082290342356', '', 'tidak aktif', NULL, NULL),
+(81, 'Ahmad imam', 'Microsoft office', 'ahmadimamtnt@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jalan Cendrawasih,Air Tawar Barat,Padang Utara,Kota Padang Sumatra Barat', '085365443438', '', 'tidak aktif', NULL, NULL),
+(82, 'Aulia Yasmin Zulhendrik', 'Microsoft office', 'auliayasminzulhendrik@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Gg.Chaniago 11 no.7,Nanggalo', '085834709432', '', 'tidak aktif', NULL, NULL),
+(83, 'Riyan Saputra', 'PHP', 'riyan@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Villaku Indah III, Kec. Kuranji, Kota Padang', '082382961935', '', 'aktif', NULL, NULL),
+(84, 'Suci Khairatuz zahra', 'Microsoft office', 'sucikhairatuzz@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Pilakut Kp.Jambak', '085831507542', '', 'tidak aktif', NULL, NULL),
+(85, 'Anisa Fadilah', 'Microsoft office', 'fadilahanisa59@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Marapalam', '085263243715', '', 'tidak aktif', NULL, NULL),
+(86, 'Debi Indah Syakira', 'Microsoft office', 'debiindah712@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Marapalam', '082284391926', '', 'tidak aktif', NULL, NULL),
+(87, 'Dinda Tryandhary', 'Microsoft office', 'dindatryandhary10@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl.Air camar no19', '083801954606', '', 'tidak aktif', NULL, NULL),
+(88, 'M. TONI', 'WEB PROGRAMER', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'aktif', NULL, NULL),
+(89, 'Tri Mawarwati', 'Web Programing', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '-', '', 'tidak aktif', NULL, NULL),
+(91, 'Heru Sasgia Ahmadi', 'WEB PROGRAMER', '0', '827ccb0eea8a706c4c34a16891f84e7b', 'padang', '0', '', 'tidak aktif', NULL, NULL),
+(92, 'Yulia Ranti', 'microsoft Office', 'rantiyulia1997@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'solok', '082383628736', '', 'tidak aktif', NULL, NULL),
+(93, 'Bagastio Putra Joandri', 'WEB PROGRAMER', 'bagastioputrapsm2006@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'limau manis', '081261655335', '', 'aktif', NULL, NULL),
+(94, 'Rahma', 'Administrasi Pekantoran', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'aktif', NULL, NULL),
+(96, 'Yogie ', 'Web Programmer', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'aktif', NULL, NULL),
+(97, 'Fajar', 'Web Programing', '-', '827ccb0eea8a706c4c34a16891f84e7b', '', '0', '', 'aktif', NULL, NULL),
+(100, 'Aditiya Ahmad Nugraha', 'Android', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'aktif', NULL, NULL),
+(101, 'Thamara ', 'Microsoft Office', 'thamaradinaas@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Simp By Pass RT 003 RW 010, Kel. Lubuk Begalung Nan XX, Kec. Lubuk Begalung, Kota Padang, Sumatera Barat', '089503019892', '', 'aktif', NULL, NULL),
+(102, 'Ferri Achmad Effindri, M.Kom ', 'Digital Marketing', '-', '827ccb0eea8a706c4c34a16891f84e7b', 'Tanjuang Saba', '082170214495', '', 'aktif', NULL, NULL),
+(103, 'Daffa', 'Design Grafis', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'aktif', NULL, NULL),
+(104, 'Rian Firmansyah', 'PHP', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'aktif', NULL, NULL),
+(105, 'Muhammad Luthfi Rasyid', 'Design Grafis', 'luthfirasyid8602gmaill.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Kampung Baru Berok', '0895320286309', '', 'aktif', NULL, NULL),
+(106, 'Zaki', 'Microsoft Office', '-', '827ccb0eea8a706c4c34a16891f84e7b', '', '083113070025', '', 'aktif', NULL, NULL),
+(107, 'Ghazy Muhari Norvrial', 'Microsoft Office', 'ghazynovrial@gmail.com ', '827ccb0eea8a706c4c34a16891f84e7b', 'Jl. Agam III, No. 253 Perumnas, Siteba', '081363788103', '', 'aktif', NULL, NULL),
+(108, 'Abil', 'Design Grafis', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'tidak aktif', NULL, NULL),
+(109, 'syarif', 'Administrasi Pekantoran', '-', '827ccb0eea8a706c4c34a16891f84e7b', '-', '0', '', 'tidak aktif', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -165,7 +263,7 @@ CREATE TABLE `mentor` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -183,7 +281,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2023_07_12_063825_create_daftarkelasms_table', 1),
 (8, '2023_07_12_064107_create_bookingms_table', 1),
 (9, '2023_07_12_064256_create_mentorms_table', 1),
-(10, '2023_07_12_064451_create_bannerms_table', 1);
+(10, '2023_07_12_064451_create_bannerms_table', 1),
+(11, '2023_07_27_175018_add_fcm_token_column_to_users_table', 1);
 
 -- --------------------------------------------------------
 
@@ -192,8 +291,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -205,15 +304,17 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `pengguna` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `nama_pengguna` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_telpon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tgl_daftar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status_akun` enum('aktif','belum aktif') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `referal` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nama_pengguna` varchar(255) NOT NULL,
+  `no_telpon` varchar(255) NOT NULL,
+  `alamat` text NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `foto` varchar(255) NOT NULL,
+  `tgl_daftar` varchar(255) NOT NULL,
+  `status_akun` enum('aktif','tidak aktif') NOT NULL,
+  `referal` varchar(255) DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `fcm_token` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -222,9 +323,8 @@ CREATE TABLE `pengguna` (
 -- Dumping data untuk tabel `pengguna`
 --
 
-INSERT INTO `pengguna` (`id`, `nama_pengguna`, `no_telpon`, `alamat`, `email`, `password`, `foto`, `tgl_daftar`, `status_akun`, `referal`, `created_at`, `updated_at`) VALUES
-(1, 'fanderio joenetson', '082122855458', 'jalan raya lubuk minturun rt 05', 'fanderio@gmail.com', '$2y$10$ZLeTexu.7SvQvJ/tLOSml.F1odjyw9WFWC5coz8eXmabWMNx4ntPK', NULL, '2023-07-13', 'belum aktif', NULL, '2023-07-13 03:40:53', '2023-07-13 21:17:38'),
-(2, 'cantika naira', '085162658554', 'jalan raya lubuk minturun', 'cantika@gmail.com', '$2y$10$7ZU0YCSwoX4zYx5QSonVBuCPnD.86Ffstny.3zszwq12xkHpRmBZa', NULL, '2023-07-13', 'aktif', NULL, '2023-07-13 03:47:19', '2023-07-14 00:15:52');
+INSERT INTO `pengguna` (`id`, `nama_pengguna`, `no_telpon`, `alamat`, `email`, `password`, `foto`, `tgl_daftar`, `status_akun`, `referal`, `remember_token`, `fcm_token`, `created_at`, `updated_at`) VALUES
+(1, 'gema fajar', '082122855458', 'jalan raya lubuk minturun rt 05', 'gemafajarramadhan09@gmail.com', '$2y$10$x4Un1LcaYCcyzCPIz9qKbe/IzuZ2RJFZiKoqLIjjdK.ucXzXsErPO', 'http://localhost:8000/members/1692207895-user.png', '2023-08-16', 'aktif', NULL, NULL, NULL, '2023-08-16 10:44:55', '2023-08-16 10:44:55');
 
 -- --------------------------------------------------------
 
@@ -234,11 +334,11 @@ INSERT INTO `pengguna` (`id`, `nama_pengguna`, `no_telpon`, `alamat`, `email`, `
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -253,11 +353,12 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `device_token` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -266,8 +367,8 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'gema fajar', 'gemafajarramadhan09@gmail.com', NULL, '$2y$10$k/ucSqGZ4Z7YrkgebQrn.OWdQL4YuViG7UYQZZpT3Epme7o/1zy6u', 'CvbcRYN8Q5dJiLeTO2NJuBo2ejGTfK1uoZ6R4OkCLhd9hBiWv3qDmFDQKtyu', '2023-07-12 01:27:48', '2023-07-12 01:27:48');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `device_token`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin@gmail.com', NULL, '$2y$10$fZV.s/m6TB7npwnkVaT0KubYmFYMEUXhVQuZUzcx77iJXCChqQSzC', NULL, 'dNvmqdL7YJcMGcGxml6JoC:APA91bG1EDYmvIZgeAsr1VVYD0a3WgopR53EA9uvdUOctGQHNDx7f936F9kAM0DqI4vD1W5ztI6vEULFZVO6KYOQWuSo0RN7gzcWPgtPecHmF5u4U1ATz-3SzFyAjrpXOyBqUOY2OB7w', '2023-08-11 01:34:56', '2023-08-11 01:34:56');
 
 --
 -- Indexes for dumped tables
@@ -357,13 +458,13 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT untuk tabel `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `daftarkelas`
 --
 ALTER TABLE `daftarkelas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -381,19 +482,19 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT untuk tabel `mentor`
 --
 ALTER TABLE `mentor`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`

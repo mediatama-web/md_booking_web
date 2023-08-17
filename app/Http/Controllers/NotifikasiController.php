@@ -5,48 +5,47 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Notifications\SendPushNotification;
 use GuzzleHttp\Client;
-use App\Models\Penggunam;
+use App\Models\User;
 
 class NotifikasiController extends Controller
 {
-    public function updateToken($id,$token)
+    public function saveToken(Request $request)
     {
-        try{
-            Penggunam::where('id',$id)->update(['fcm_token'=> $token]);
-            return response()->json([
-                'success'=>true
-            ]);
-        }catch(\Exception $e){
-            report($e);
-            return response()->json([
-                'success'=>false
-            ],500);
-        }
+        auth()->user()->update(['device_token'=>$request->token]);
+        return response()->json(['token saved successfully.']);
     }
 
-    public function sendnotif()
+    public static function sendNotification($title,$pesan)
     {
-        $fcmToken = 'ek5Vdb2WTMWfDdaE5Tmibw:APA91bHnm3_-PB1WQ4aCqZCTPo8SRKzrG26L8_4fr9GyMQ8mvvnbQVg2i-LbljG7U5sEEZWIKmL7CZy6V8WBLbp5x8NQ7fas85S4S-_aFiQ11zf9YAn4nyLcEk_vU08_HW4v1xevT0yA';
-        $notificationTitle = 'INFORMATION';
-        $notificationBody = 'Silahkan update aplikasi anda keversi terbaru';
+        $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+            
+        $SERVER_API_KEY = env('FCM_SERVER_KEY');
+      
+        $data = [
+            "registration_ids" => $firebaseToken,
+            "notification" => [
+                "title" => $title,
+                "body" => $pesan,  
+            ]
+        ];
+        $dataString = json_encode($data);
+      
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+      
+        $ch = curl_init();
+        
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+                 
+        $response = curl_exec($ch);
 
-        $serverKey = 'AAAArhqn0G4:APA91bE8HwHrYEwDDAdCXD5dqEF3ALcodi3lcTEheYmJ1tb3C5iST26qHyF-ju8i7q4xQaO-7ZTVgTPaAV1_22ye7vezmj0CHwYxT_PvY8zKMySivpYW9HplfRE8o3I-JfoNxPFPVkUB'; 
-
-        $client = new Client();
-        $response = $client->post('https://fcm.googleapis.com/fcm/send', [
-            'headers' => [
-                'Authorization' => 'key='.$serverKey,
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'to' => $fcmToken,
-                'notification' => [
-                    'title' => $notificationTitle,
-                    'body' => $notificationBody,
-                ],
-            ],
-        ]);
-
-        return response()->json(['message' => 'Berhasil']);
+        return response()->json($response);
     }
 }
