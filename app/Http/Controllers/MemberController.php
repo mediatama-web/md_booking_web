@@ -22,24 +22,19 @@ class MemberController extends Controller
     }
 
     public function add(){
-
         return inertia::render('Homepage/Member/Create');
     }
 
     public function simpan(MemberRequest $r){
-
         if($r->validated()){
-            $file = $r->file('foto');
-            $fileName = time().'-'.$file->getClientOriginalName();
-            $file->move('members', $fileName);
             Penggunam::create([
                 'nama_pengguna' => $r->nama_pengguna,
                 'no_telpon' => $r->no_telpon,
                 'alamat' => $r->alamat,
                 'email' => $r->email,
-                'password' => Hash::make($r->password),
+                'password' => Hash::make('mediatama123'),
                 'tgl_daftar' => date('Y-m-d'),
-                'foto' => url('members/'.$fileName),
+                'foto' => url('image/user.png'),
             ]);
         }
 
@@ -49,14 +44,14 @@ class MemberController extends Controller
     public function hapusDataMember($id){
         $hapus = Penggunam::where('id',$id)->delete();
         if($hapus){
-            Daftarkelasm::where('id_user')->delete();
+            Daftarkelasm::where('id_user',$id)->delete();
         }
     }
 
     public function aktifasiakun($id){
         $cek = Penggunam::where('id',$id)->first();
         if($cek->status_akun == 'aktif'){
-            $status = 'belum aktif';
+            $status = 'tidak aktif';
         }else{
             $status = 'aktif';
         }
@@ -69,10 +64,21 @@ class MemberController extends Controller
     public function daftarkelas($id){
         $data['kelas'] = Kelasm::get();
         $data['member'] = Penggunam::where('id',$id)->first();
-        $data['kelasdaftar'] = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')
+        $kelasdaftar = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')
                                             ->where('daftarkelas.id_user',$id)
-                                            ->select('kelas.materi','daftarkelas.id')
+                                            ->select('kelas.materi','daftarkelas.id','kelas.id as id_kelas')
                                             ->get();
+        $list = [];
+        foreach($kelasdaftar as $i => $a){
+            $pertemuan = DB::table('booking')->where('booking.id_daftarkelas',$a->id_kelas)->where('booking.id_user',$id)->select(DB::raw('COUNT(*) as total'))->first();
+            $total = $pertemuan ? $pertemuan->total : 0;
+            $list[] = array(
+                'kelas' => $a->materi,
+                'total' => $total,
+                'id' => $a->id
+            );
+        }
+        $data['kelasdaftar'] = $list;
 
         return Inertia::render('Homepage/Member/Datakelas',$data);
     }

@@ -6,17 +6,16 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faUpload, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
+import Modal from '@/Components/Modal';
 
 export default function Datakelas({ auth, member, kelas, kelasdaftar }){
 
-    console.log(kelasdaftar);
-
     const materi = useRef(0)
-    const [kelass, setKelass] = useState(0)
+    const [kelass, setKelass] = useState(100)
     const [kelasx, setKelas] = useState(0)
     const [harga, setHarga] = useState(0)
-    const [metode, setMetode] = useState(0)
-    const [bayar, setBayar] = useState(0)
+
+    const [show, setShow] = useState(false)
 
     let IDR = new Intl.NumberFormat('id', {
         style: 'currency',
@@ -43,12 +42,26 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
 
     const handleChangeValue = (e) => {
         e.preventDefault()
-        materi.current = e.target.value
-        setKelass(e.target.value)
+        if(e.target.value == 100){
+            setKelass(e.target.value)
 
-        var nilai = kelas[materi.current]
-        setKelas(nilai.id)
-        setHarga(nilai.harga)
+            setKelas(0)
+            setHarga(0)
+        }else{
+            materi.current = e.target.value
+            setKelass(e.target.value)
+            
+            var nilai = kelas[materi.current]
+            setKelas(nilai.id)
+            setHarga(nilai.harga)
+        }
+    }
+
+    const handlerModal = (id) => {
+        setShow(true)
+    }
+    const handlerModalClose = () => {
+        setShow(!show)
     }
 
     return(
@@ -104,14 +117,34 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                             ) : (
                                                 kelasdaftar.map((data, index) => (
                                                     <tr key={index} className='text-sm'>
-                                                        <td className='border border-grey-100 pl-2'>{index+1}</td>
-                                                        <td className='border border-grey-100 p-1'>{data.materi}</td>
-                                                        <td className='border border-grey-100 p-1 text-center'>0</td>
-                                                        <td className='border border-grey-100 p-1 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faEye}/></Link></td>
-                                                        <td className='border border-grey-100 p-1 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faEye} /></Link></td>
-                                                        <td className='border border-grey-100 p-1 text-center'><Link className='bg-blue-400 text-xs p-1 text-white rounded-md w-12'><FontAwesomeIcon icon={faUpload} /></Link></td>
+                                                        <td className='border border-grey-100 pl-2'>
+                                                            {index+1}
+                                                        </td>
+                                                        <td className='border border-grey-100 p-1'>
+                                                            {data.kelas}
+                                                        </td>
+                                                        <td className='border border-grey-100 p-1 text-center'>
+                                                            {data.total}
+                                                        </td>
+                                                        <td className='border border-grey-100 p-1 text-center'>
+                                                            <i onClick={(e) => handlerModal(data.id)} className='cursor-pointer hover:bg-blue-200 bg-blue-400 text-xs p-1 text-white rounded-md w-12'>
+                                                                <FontAwesomeIcon icon={faEye}/>
+                                                            </i>
+                                                        </td>
+                                                        <td className='border border-grey-100 p-1 text-center'>
+                                                            <i className='cursor-pointer hover:bg-blue-200 bg-blue-400 text-xs p-1 text-white rounded-md w-12'>
+                                                                <FontAwesomeIcon icon={faEye} />
+                                                            </i>
+                                                        </td>
+                                                        <td className='border border-grey-100 p-1 text-center'>
+                                                            <i className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
+                                                                <FontAwesomeIcon icon={faUpload} />
+                                                            </i>
+                                                        </td>
                                                         <td className='border border-grey-100 text-center w-14'>
-                                                            <div onClick={(_) => handlerHapus(data.id)} className='hover:cursor-pointer text-center w-7 m-1 p-1 rounded-md text-white text-xs bg-red-500'><FontAwesomeIcon icon={faTrash} /></div>
+                                                            <div onClick={(_) => handlerHapus(data.id)} className='hover:cursor-pointer text-center w-7 m-1 p-1 rounded-md text-white text-xs bg-red-500'>
+                                                                <FontAwesomeIcon icon={faTrash} />
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 ))
@@ -137,7 +170,7 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                             className='w-full rounded-md border-gray-300'
                                             onChange={handleChangeValue}
                                             >
-                                                <option disabled value="">-PILIH-</option>
+                                                <option value="100">-PILIH-</option>
                                                 {
                                                 kelas.map((data, index) => (
                                                     <option value={index} key={index}>{data.materi} - {data.jenis} - {IDR.format(data.harga)}</option>
@@ -162,6 +195,35 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                     </div>
                 </div>
             </div>
+
+
+            <Modal show={show}>
+                    <div className="w-full bg-grey-200 p-3">
+                        <div className="flex justify-between mb-3">
+                            <p className='text-lg'>Data Booking </p>
+                            <div>
+                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose()}>x</button>
+                            </div>
+                        </div>
+                        <div>
+                            <table className="w-full p-4">
+                                <thead>
+                                    <tr className='[&>th]:p-2 bg-slate-800 text-white'>
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam</th>
+                                        <th>Jam</th>
+                                        <th>Kelas</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </Modal>
             </AuthenticatedLayout>
     )
 }

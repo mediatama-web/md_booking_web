@@ -26,12 +26,11 @@ class ApiController extends Controller
     public function login(Request $request)
     {
         if (Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            $auth = Auth::guard('api')->user();
 
-            $success['token'] = $auth->createToken('auth_token')->plainTextToken;
-            $success['id'] = $auth->id;
-            $success['nama'] = $auth->nama_pengguna;
-            $success['foto'] = $uath->foto == '' ? "https://jadwalles.idolapppk.com/image/user.png" : $auth->foto;
+            $success['token']   = Auth::guard('api')->user()->createToken('auth_token')->plainTextToken;
+            $success['id']      = Auth::guard('api')->user()->id;
+            $success['nama']    = Auth::guard('api')->user()->nama_pengguna;
+            $success['foto']    = Auth::guard('api')->user()->foto == '' ? "https://jadwalles.idolapppk.com/image/user.png" : Auth::guard('api')->user()->foto;
 
 
             return response()->json([
@@ -202,9 +201,9 @@ class ApiController extends Controller
         }
     }
 
-    function notifikasiSend($fcmToken, $notificationTitle, $notificationBody){
-
-        $serverKey = 'AAAArhqn0G4:APA91bE8HwHrYEwDDAdCXD5dqEF3ALcodi3lcTEheYmJ1tb3C5iST26qHyF-ju8i7q4xQaO-7ZTVgTPaAV1_22ye7vezmj0CHwYxT_PvY8zKMySivpYW9HplfRE8o3I-JfoNxPFPVkUB'; 
+    public static function notifikasiSend($fcmToken, $notificationTitle, $notificationBody){
+        $SERVER_API_KEY = env('FCM_SERVER_KEY');
+        $serverKey = $SERVER_API_KEY; 
         
         $client = new Client();
         $response = $client->post('https://fcm.googleapis.com/fcm/send', [

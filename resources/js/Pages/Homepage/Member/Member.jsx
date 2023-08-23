@@ -48,7 +48,8 @@ export default function Member({auth, member}) {
     }
 
     const handlerHapusMember = (id) => {
-        router.get(router('member-hapus',id))
+        console.log(id);
+        router.get(route('member-hapus',id))
     }
 
     return (
@@ -109,7 +110,6 @@ export default function Member({auth, member}) {
                                     <th className='text-left md:text-sm text-xs'>Email</th>
                                     <th className='text-left md:text-sm text-xs'>Alamat</th>
                                     <th className='text-left md:text-sm text-xs'>Tanggal Daftar</th>
-                                    <th className='text-left md:text-sm text-xs'>Referal</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
                                     <th className='text-left md:text-sm text-xs w-24'>#</th>
                                 </tr>
@@ -157,15 +157,13 @@ export default function Member({auth, member}) {
                                                 <td className='border border-grey-100'>{data.email}</td>
                                                 <td className='border border-grey-100'>{data.alamat}</td>
                                                 <td className='border border-grey-100'>{data.tgl_daftar}</td>
-                                                <td className='border border-grey-100'>{data.referal}</td>
-                                                <td className='border border-grey-100 w-24'>
+                                                <td className='border border-grey-100 w-24 text-center'>
                                                         <Switch
                                                             checked={data.status_akun == 'aktif' ? true : false}
                                                             onChange={() => handlerStatus(data.id)}
                                                             className={`${data.status_akun == 'aktif' ? 'bg-blue-600' : 'bg-gray-200'
                                                                 } relative inline-flex h-6 w-11 items-center rounded-full`}
                                                         >
-                                                            <span className="sr-only">Enable notifications</span>
                                                             <span
                                                                 className={`${data.status_akun == 'aktif' ? 'translate-x-6' : 'translate-x-1'
                                                                     } inline-block h-4 w-4 transform rounded-full bg-white transition`}

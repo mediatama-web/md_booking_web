@@ -13,6 +13,7 @@ use App\Models\Daftarkelasm;
 use App\Http\Requests\Bookingrequest;
 
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\Android\ApiController;
 
 class BookingController extends Controller
 {
@@ -40,12 +41,16 @@ class BookingController extends Controller
             NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
         }
 
-        return Redirect::route('booking');
+        return Redirect::back();
     }
 
     public function statuschange(Request $r){
         Bookingm::where('id',$r->id)->update(['status' => $r->status]);
 
+        $data = Bookingm::where('id',$r->id)->first();
+        // data user 
+        $pengguna = Penggunam::where('id',$data->id_user)->first();
+        ApiController::notifikasiSend($pengguna->fcm_token, 'INFO','Status Booking Anda '.$r->status);
         return Redirect::back();
     }
 }

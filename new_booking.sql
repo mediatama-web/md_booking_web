@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Agu 2023 pada 07.39
+-- Waktu pembuatan: 23 Agu 2023 pada 08.22
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -57,8 +57,7 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`id`, `id_user`, `tanggal`, `jam`, `id_mentor`, `id_daftarkelas`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '2023-08-16', '14:00', 62, 8, 'pending', '2023-08-16 10:49:41', '2023-08-16 10:49:41'),
-(2, 1, '2023-08-18', '14:00', 62, 8, 'pending', '2023-08-16 10:50:44', '2023-08-16 10:50:44');
+(1, 1, '2023-08-24', '14:00', 21, 3, 'pending', '2023-08-21 20:53:12', '2023-08-21 20:53:12');
 
 -- --------------------------------------------------------
 
@@ -80,7 +79,9 @@ CREATE TABLE `daftarkelas` (
 --
 
 INSERT INTO `daftarkelas` (`id`, `id_user`, `id_kelas`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 8, 'aktif', '2023-08-16 10:49:25', '2023-08-16 10:49:25');
+(1, 1, 3, 'aktif', '2023-08-21 20:52:42', '2023-08-21 20:52:42'),
+(2, 1, 9, 'aktif', '2023-08-21 20:52:45', '2023-08-21 20:52:45'),
+(3, 1, 6, 'aktif', '2023-08-21 20:52:51', '2023-08-21 20:52:51');
 
 -- --------------------------------------------------------
 
@@ -141,7 +142,7 @@ INSERT INTO `kelas` (`id`, `materi`, `jenis`, `harga`, `created_at`, `updated_at
 (22, 'UI/UX Design', 'Private', '600000', NULL, NULL),
 (23, 'Paket 3 Bulan ( Ms. Office + Design Grafis + Magang )', 'Private', '1500000', NULL, NULL),
 (24, 'Kotlin', 'Private', '1300000', NULL, NULL),
-(25, 'Digital Marketing', 'Private', '2000000', NULL, NULL);
+(25, 'Digital Marketing', 'Private', '2000000', NULL, '2023-08-21 20:07:02');
 
 -- --------------------------------------------------------
 
@@ -324,7 +325,7 @@ CREATE TABLE `pengguna` (
 --
 
 INSERT INTO `pengguna` (`id`, `nama_pengguna`, `no_telpon`, `alamat`, `email`, `password`, `foto`, `tgl_daftar`, `status_akun`, `referal`, `remember_token`, `fcm_token`, `created_at`, `updated_at`) VALUES
-(1, 'gema fajar', '082122855458', 'jalan raya lubuk minturun rt 05', 'gemafajarramadhan09@gmail.com', '$2y$10$x4Un1LcaYCcyzCPIz9qKbe/IzuZ2RJFZiKoqLIjjdK.ucXzXsErPO', 'http://localhost:8000/members/1692207895-user.png', '2023-08-16', 'aktif', NULL, NULL, NULL, '2023-08-16 10:44:55', '2023-08-16 10:44:55');
+(1, 'aziz', '089532424780', 'padang', 'aziz@gmail.com', '$2y$10$hDcb1vMMLcm6sEfzS7StWujgodChqMlINOFgjYaUfElZC.TjXEIvm', 'http://localhost:8000/image/user.png', '2023-08-22', 'aktif', NULL, NULL, NULL, '2023-08-21 20:52:33', '2023-08-21 22:56:07');
 
 -- --------------------------------------------------------
 
@@ -368,7 +369,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `device_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@gmail.com', NULL, '$2y$10$fZV.s/m6TB7npwnkVaT0KubYmFYMEUXhVQuZUzcx77iJXCChqQSzC', NULL, 'dNvmqdL7YJcMGcGxml6JoC:APA91bG1EDYmvIZgeAsr1VVYD0a3WgopR53EA9uvdUOctGQHNDx7f936F9kAM0DqI4vD1W5ztI6vEULFZVO6KYOQWuSo0RN7gzcWPgtPecHmF5u4U1ATz-3SzFyAjrpXOyBqUOY2OB7w', '2023-08-11 01:34:56', '2023-08-11 01:34:56');
+(1, 'admin', 'admin@gmail.com', NULL, '$2y$10$fZV.s/m6TB7npwnkVaT0KubYmFYMEUXhVQuZUzcx77iJXCChqQSzC', 'jO8hsLHYoK2lT2NHjehDiPNPJkvQ7aSdCbxKY1UQa0KBv5wBdUVgfvGJUOei', 'dZyp1xhImfee2WYUNNOCYW:APA91bGmclp34sdBwKCTxRARXpPMSD0qWiHzufgrcifNhMelLUUVbNXH-FxVQMOunWxIeznX-rCrQUtEYcEzUVPZAaOIbdavSVqMuH_33v9-CvD7S-f7IEztGnHXv31koJVk5GLLWlb3', '2023-08-11 01:34:56', '2023-08-21 22:52:04');
 
 --
 -- Indexes for dumped tables
@@ -458,13 +459,13 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT untuk tabel `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `daftarkelas`
 --
 ALTER TABLE `daftarkelas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`

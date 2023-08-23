@@ -21,7 +21,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/kelas-add/{id?}', [KelasController::class, 'tambah'])->name('kelas-add');
     Route::post('/kelas-add-save/{id?}', [KelasController::class, 'save'])->name('kelas-add-save');
     Route::get('/kelas-hapusKelas/{id?}', [KelasController::class, 'hapusKelas'])->name('kelas-hapusKelas');
+
+    Route::get('update-token/{token}',[NotifikasiController::class, 'updateToken'])->name('update-token');
 });
 
     Route::post('/save-token', [NotifikasiController::class, 'saveToken'])->name('save-token');
