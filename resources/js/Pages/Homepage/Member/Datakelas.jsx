@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faUpload, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
 import Modal from '@/Components/Modal';
+import axios from 'axios';
 
 export default function Datakelas({ auth, member, kelas, kelasdaftar }){
 
@@ -16,6 +17,10 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     const [harga, setHarga] = useState(0)
 
     const [show, setShow] = useState(false)
+    const [show1, setShow1] = useState(false)
+
+    const [modalbooking, setmodalbooking] = useState([])
+    const [modalabsen, setmodalabsen] = useState([])
 
     let IDR = new Intl.NumberFormat('id', {
         style: 'currency',
@@ -57,11 +62,49 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
         }
     }
 
-    const handlerModal = (id) => {
-        setShow(true)
+    const handlerModal = async (id) =>  {
+        setmodalbooking([]);
+        axios.get(route('member-kelasdaftar-detail',[member.id,id]))
+        .then(function(res){
+            console.log(res.data);
+            if(res.data == null){
+                setmodalbooking([]);
+            }else{
+                setmodalbooking(res.data);
+            }
+            setShow(true)
+        })
     }
+    
+    const [idkelas, setIdkelas] = useState('')
+    const handlerModal1 = async (id) =>  {
+        setIdkelas(id)
+        setmodalabsen([]);
+        axios.get(route('member-absen',[member.id,id]))
+        .then(function(res){
+            if(res.data == null){
+                setmodalabsen([]);
+            }else{
+                setmodalabsen(res.data);
+            }
+            setShow1(true)
+        })
+    }
+
     const handlerModalClose = () => {
         setShow(!show)
+    }
+
+    const handlerModalClose1 = () => {
+        setShow1(!show1)
+    }
+
+    const handlerAbsen = () => {
+        axios.get(route('member-absen-detail',[member.id,idkelas]))
+        .then(function(res){
+            handlerModal1(idkelas)
+        })
+        
     }
 
     return(
@@ -127,12 +170,12 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                             {data.total}
                                                         </td>
                                                         <td className='border border-grey-100 p-1 text-center'>
-                                                            <i onClick={(e) => handlerModal(data.id)} className='cursor-pointer hover:bg-blue-200 bg-blue-400 text-xs p-1 text-white rounded-md w-12'>
+                                                            <i onClick={(e) => handlerModal(data.id_kelas)} className='cursor-pointer hover:bg-blue-200 bg-blue-400 text-xs p-1 text-white rounded-md w-12'>
                                                                 <FontAwesomeIcon icon={faEye}/>
                                                             </i>
                                                         </td>
                                                         <td className='border border-grey-100 p-1 text-center'>
-                                                            <i className='cursor-pointer hover:bg-blue-200 bg-blue-400 text-xs p-1 text-white rounded-md w-12'>
+                                                            <i onClick={(e) => handlerModal1(data.id_kelas)} className='cursor-pointer hover:bg-blue-200 bg-blue-400 text-xs p-1 text-white rounded-md w-12'>
                                                                 <FontAwesomeIcon icon={faEye} />
                                                             </i>
                                                         </td>
@@ -200,7 +243,7 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
             <Modal show={show}>
                     <div className="w-full bg-grey-200 p-3">
                         <div className="flex justify-between mb-3">
-                            <p className='text-lg'>Data Booking </p>
+                            <p className='text-lg'>History Booking </p>
                             <div>
                                 <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose()}>x</button>
                             </div>
@@ -212,18 +255,99 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                         <th>No</th>
                                         <th>Tanggal</th>
                                         <th>Jam</th>
-                                        <th>Jam</th>
                                         <th>Kelas</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    {
+                                        modalbooking.length < 1  ? (
+                                            <tr>
+                                                <td colSpan={5} className='text-center'>
+                                                    <lottie-player
+                                                        src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
+                                                        background="#fff"
+                                                        speed="1"
+                                                        style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                        loop
+                                                        autoplay
+                                                        direction="1"
+                                                        mode="normal">
+                                                    </lottie-player>
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            modalbooking.map((data, i) => (
+                                                <tr key={i} className='text-sm'>
+                                                    <td className='border border-grey-100 p-1'>{i+1}</td>
+                                                    <td className='border border-grey-100 p-1'>{data.tanggal}</td>
+                                                    <td className='border border-grey-100 p-1'>{data.jam}</td>
+                                                    <td className='border border-grey-100 p-1'>{data.materi}</td>
+                                                    <td className='border border-grey-100 p-1'>{data.status}</td>
+                                                </tr>
+                                            ))
+                                        )
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
             </Modal>
+
+            <Modal show={show1}>
+                    <div className="w-full bg-grey-200 p-3">
+                        <div className="flex justify-between mb-3">
+                            <p className='text-lg'>History Absen </p>
+                            <div>
+                                <button className='w-8 h-8 border mr-5 border-green-300 rounded-full bg-green-500 hover:bg-green-300 text-white' onClick={() => handlerAbsen()}>+</button>
+                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose1()}>x</button>
+                            </div>
+                        </div>
+                        <div>
+                            <table className="w-full p-4">
+                                <thead>
+                                    <tr className='[&>th]:p-2 bg-slate-800 text-white'>
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam</th>
+                                        <th>Kelas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        modalabsen.length < 1  ? (
+                                            <tr>
+                                                <td colSpan={5} className='text-center'>
+                                                    <lottie-player
+                                                        src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
+                                                        background="#fff"
+                                                        speed="1"
+                                                        style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                        loop
+                                                        autoplay
+                                                        direction="1"
+                                                        mode="normal">
+                                                    </lottie-player>
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            modalabsen.map((data, i) => (
+                                                <tr key={i} className='text-sm'>
+                                                    <td className='border border-grey-100 p-1'>{i+1}</td>
+                                                    <td className='border border-grey-100 p-1'>{data.tanggal}</td>
+                                                    <td className='border border-grey-100 p-1'>{data.jam}</td>
+                                                    <td className='border border-grey-100 p-1'>{data.materi}</td>
+                                                </tr>
+                                            ))
+                                        )
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </Modal>
+
             </AuthenticatedLayout>
     )
 }

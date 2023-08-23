@@ -22,3 +22,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/sendnotif',[NotifikasiController::class, 'sendnotif']);
     Route::get('/updateToken/{id}/{token}',[NotifikasiController::class, 'updateToken']);
 });
+
+

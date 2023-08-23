@@ -5,7 +5,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useRef, useState, useEffect } from 'react';
 import { pickBy } from 'lodash'
 
-export default function Booking({ auth, booking }){
+export default function Booking({ auth, booking, mentor }){
     const perpage = useRef(booking.per_page)
     const [isloadong, setIsloading] = useState(false)
     const [cari, setCari] = useState('')
@@ -45,6 +45,14 @@ export default function Booking({ auth, booking }){
         router.post('booking-statuschange',{
             id : id,
             status : status
+        })
+    }
+
+    const handlerMentor = (mentor, id) => {
+        console.log(id);
+        router.post('booking-mentorchange',{
+            id : id,
+            mentor : mentor
         })
     }
 
@@ -149,7 +157,21 @@ export default function Booking({ auth, booking }){
                                                 <td className='border border-grey-100'>{data.nama_pengguna}</td>
                                                 <td className='border border-grey-100'>{data.tanggal}</td>
                                                 <td className='border border-grey-100'>{data.jam}</td>
-                                                <td className='border border-grey-100'>{data.nama_mentor}</td>
+                                                <td className='border border-grey-100'>
+                                                <select
+                                                        id="mentor"
+                                                        className='rounded-lg text-sm'
+                                                        value={data.id_mentor}
+                                                        onChange={(e) => handlerMentor(e.target.value , data.id)}
+                                                    >
+                                                        {
+                                                            mentor.map((mtr, i) => (
+                                                                <option key={i} value={mtr.id}>{mtr.nama_mentor}</option>
+                                                            ))
+                                                        }
+                                                        <option value="pending"></option>
+                                                    </select>
+                                                </td>
                                                 <td className='border border-grey-100'>{data.materi}</td>
                                                 <td className='border border-grey-100 w-24 text-center'>
                                                     <select

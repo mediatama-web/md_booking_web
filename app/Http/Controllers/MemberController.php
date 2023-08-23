@@ -12,6 +12,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Penggunam;
 use App\Models\Kelasm;
+use App\Models\Absen;
 use App\Models\Daftarkelasm;
 
 class MemberController extends Controller
@@ -70,17 +71,56 @@ class MemberController extends Controller
                                             ->get();
         $list = [];
         foreach($kelasdaftar as $i => $a){
-            $pertemuan = DB::table('booking')->where('booking.id_daftarkelas',$a->id_kelas)->where('booking.id_user',$id)->select(DB::raw('COUNT(*) as total'))->first();
+            $pertemuan = DB::table('booking')
+                        ->where('booking.id_daftarkelas',$a->id_kelas)
+                        ->where('booking.id_user',$id)
+                        ->where('status','diterima')
+                        ->select(DB::raw('COUNT(*) as total'))
+                        ->first();
+
             $total = $pertemuan ? $pertemuan->total : 0;
             $list[] = array(
                 'kelas' => $a->materi,
                 'total' => $total,
+                'id_kelas' => $a->id_kelas,
                 'id' => $a->id
             );
         }
         $data['kelasdaftar'] = $list;
 
         return Inertia::render('Homepage/Member/Datakelas',$data);
+    }
+
+    public function daftarkelasdetail($id, $id_kelas){
+       
+        $data = DB::table('booking')
+                    ->join('kelas','kelas.id','booking.id_daftarkelas')
+                    ->where('booking.id_daftarkelas',$id_kelas)
+                    ->where('booking.id_user',$id)
+                    ->get();
+
+        return $data;
+    }
+
+    public function absen($id, $id_kelas){
+        $data = Absen::join('kelas','kelas.id','absen.id_kelas')
+                ->where('absen.id_user',$id)    
+                ->where('absen.id_kelas',$id_kelas)
+                ->select('kelas.materi','absen.jam','absen.tanggal')
+                ->get();
+        return $data;
+    }
+
+    public function memberabsen($id, $id_kelas){
+       
+       $data = Absen::create([
+        'jam' => date('H:i:s'),
+        'tanggal' => date('Y-m-d'),
+        'id_user' => $id,
+        'id_kelas' => $id_kelas,
+       ]);
+
+       return $data;
     }
 
     public function kelasdaftar(KelasRequest $r){
