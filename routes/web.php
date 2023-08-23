@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/booking-add/{id?}', [BookingController::class, 'add'])->name('booking-add');
     Route::post('/booking-save/{id?}', [BookingController::class, 'save'])->name('booking-save');
     Route::post('/booking-statuschange', [BookingController::class, 'statuschange'])->name('booking-statuschange');
+    Route::post('/booking-mentorchange', [BookingController::class, 'mentorchange'])->name('booking-mentorchange');
 
     Route::get('/mentor', [MentorController::class, 'index'])->name('mentor');
     Route::get('/mentor-add', [MentorController::class, 'create'])->name('mentor-add');
@@ -46,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-daftarkelas/{id}', [MemberController::class, 'daftarkelas'])->name('member-daftarkelas');
     Route::post('/member-kelasdaftar/{id}', [MemberController::class, 'kelasdaftar'])->name('member-kelasdaftar');
     Route::get('/member-kelasHapus/{id}', [MemberController::class, 'hapuskelasdaftar'])->name('member-kelasHapus');
+    Route::get('/member-kelasdaftar-detail/{id_user}/{id_kelas}', [MemberController::class, 'daftarkelasdetail'])->name('member-kelasdaftar-detail');
+    Route::get('/member-absen/{id_user}/{id_kelas}', [MemberController::class, 'absen'])->name('member-absen');
+    Route::get('/member-absen-detail/{id_user}/{id_kelas}', [MemberController::class, 'memberabsen'])->name('member-absen-detail');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report');
 
