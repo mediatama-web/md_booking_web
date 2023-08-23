@@ -26,10 +26,9 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
 
     const handlerChangeuser = (id) => {
         var data = daftarkelas.filter(obj => {
-            return obj.id_user === parseInt(id)
+            return obj.id_user == parseInt(id)
         })
-        // JSON.parse(data)
-        console.log(data);
+
         setIduser(id)
         setKelasmember(data ? data : [])
     }
@@ -45,7 +44,6 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
     const [id_mentor , setMentor] = useState()
 
     const handlersimpan = (e) => {
-        console.log(tanggal, id_user, jam, id_daftarkelas, id_mentor);
         router.post(route('booking-save'),{
             id_user : id_user,
             tanggal : tanggal,
@@ -53,6 +51,12 @@ export default function Create({auth,pengguna, mentor, daftarkelas, errors}){
             id_daftarkelas : id_daftarkelas,
             id_mentor : id_mentor,
         })
+
+        setIduser(0)
+        setTanggal(tgl)
+        setJam('09:00')
+        setKelas(0)
+        setMentor(0)
     }
 
     return (

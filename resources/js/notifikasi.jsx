@@ -5,8 +5,6 @@ import { requestForToken, onMessageListener } from './firebase'
 
 export default function Notifikasi() {
   const [notification, setNotification] = useState({title: '', body: ''});
-  const [plays, setPlays] = useState(false)
-  
   
   const notify = () =>  toast.info(<ToastDisplay/>, {
     position: "top-right",
@@ -33,8 +31,8 @@ export default function Notifikasi() {
       notify()
     }
   }, [notification])
-
-  requestForToken();
+  
+  // requestForToken();
 
   onMessageListener()
     .then((payload) => {

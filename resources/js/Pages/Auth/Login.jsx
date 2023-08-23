@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
@@ -6,19 +6,31 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { requestForToken } from '@/firebase';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
         remember: false,
+        token : ''
     });
+
 
     useEffect(() => {
         return () => {
             reset('password');
         };
     }, []);
+
+    useEffect(() => {
+        async function getToken(){
+            const tokens = await requestForToken();
+            setData('token',tokens);
+        }
+        getToken()
+    },[])
+    const tokens = requestForToken();
 
     const submit = (e) => {
         e.preventDefault();

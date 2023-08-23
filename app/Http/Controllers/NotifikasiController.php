@@ -11,7 +11,7 @@ class NotifikasiController extends Controller
 {
     public function saveToken(Request $request)
     {
-        auth()->user()->update(['device_token'=>$request->token]);
+        auth()->user()->update(['device_token'  =>  $request->token]);
         return response()->json(['token saved successfully.']);
     }
 
@@ -47,5 +47,10 @@ class NotifikasiController extends Controller
         $response = curl_exec($ch);
 
         return response()->json($response);
+    }
+
+    public function updateToken($id, $token){
+        $data = Penggunam::where('id',$id)->update(['fcm_token' => $token]);
+        return response()->json(['pesan' => 'success']);
     }
 }

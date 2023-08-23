@@ -1,7 +1,6 @@
 import { getMessaging, getToken, onMessage} from 'firebase/messaging';
 import { initializeApp } from "firebase/app";
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyARVfZ38nDiRXDabNl0FvU6_a_LZ1AU5no",
   authDomain: "flutter1-a6047.firebaseapp.com",
@@ -18,18 +17,17 @@ initializeApp(firebaseConfig);
 const messaging = getMessaging();
 
 export const requestForToken = () => {
-  return getToken(messaging, { vapidKey: "BFIX6e5pN8QNGKq7LgKs1gRWYeuRbJ1bXFOM236Gf_T71qETEgyrmIHq1gnZjvncDa-p7qMU-ws9C2yV8hXYK8M" })
+  return getToken(messaging, { vapidKey: "BBh84f-N7Ru1OJpkXbWsT3y3VrxmX_1s9GdXFdLBa2-eAAaTyQIPTFeVuKs6dNQSM7aKzOK8J7tCKcgUizKe30k" })
     .then((currentToken) => {
       if (currentToken) {
-        console.log('current token for client: ', currentToken);
-        // Perform any other neccessary action with the token
+        // console.log('token saat ini: ', currentToken);
+        return currentToken;
       } else {
-        // Show permission request UI
-        console.log('No registration token available. Request permission to generate one.');
+        console.log('Token pendaftaran tidak tersedia. Minta izin untuk membuatnya.');
       }
     })
     .catch((err) => {
-      console.log('An error occurred while retrieving token. ', err);
+      console.log('Terjadi kesalahan saat mengambil token. ', err);
     });
 };
 
@@ -40,4 +38,3 @@ export const onMessageListener = () =>
       resolve(payload);
     });
   });
-
