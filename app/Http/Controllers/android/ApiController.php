@@ -26,24 +26,23 @@ class ApiController extends Controller
     public function login(Request $request)
     {
         if (Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::guard('api')->user();
 
-            $success['token']   = Auth::guard('api')->user()->createToken('auth_token')->plainTextToken;
-            $success['id']      = Auth::guard('api')->user()->id;
-            $success['nama']    = Auth::guard('api')->user()->nama_pengguna;
-            $success['foto']    = Auth::guard('api')->user()->foto == '' ? "https://jadwalles.idolapppk.com/image/user.png" : Auth::guard('api')->user()->foto;
-
+            Penggunam::where('id',$user->id)->update(['fcm_token' => $request->token]);
 
             return response()->json([
                 'success' => true,
                 'pesan' => 'Login sukses',
-                'data' => $success
-            ]);
+                'token' => $user->createToken('auth_token')->plainTextToken,
+                'status' => 200
+            ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'pesan' => 'Cek email dan password lagi',
-                'data' => null
-            ]);
+                'token' => null,
+                'status' => 400
+            ], 400);
         }
     }
 
@@ -112,8 +111,9 @@ class ApiController extends Controller
         return response()->json($list);
     }
 
-    public function getkelasuser($id){
-        $data = Daftarkelasm::where('daftarkelas.id_user',$id)->leftjoin('kelas','kelas.id','daftarkelas.id_kelas')->get();
+    public function getkelasuser(){
+        $user = auth('sanctum')->user();
+        $data = Daftarkelasm::where('daftarkelas.id_user',$user->id)->leftjoin('kelas','kelas.id','daftarkelas.id_kelas')->get();
         $list = [];
         foreach($data as $i => $a){
 
@@ -127,9 +127,10 @@ class ApiController extends Controller
         return response()->json($list);
     }
 
-    public function simpanbooking($id,$jam,$tanggal,$kelas,$mentor,$token){
+    public function simpanbooking(Request $r){
+        $user = auth('sanctum')->user();
         $data = Bookingm::create([
-            'id_user' => $id,
+            'id_user' => $user->id,
             'jam' => $jam,
             'tanggal' => $tanggal,
             'id_daftarkelas' => $kelas,
@@ -150,8 +151,9 @@ class ApiController extends Controller
         }
     }
 
-    public function getpertemuan($id){
-        $data = Daftarkelasm::where('daftarkelas.id_user',$id)->leftjoin('kelas','kelas.id','daftarkelas.id_kelas')->get();
+    public function getpertemuan(){
+        $user = auth('sanctum')->user();
+        $data = Daftarkelasm::where('daftarkelas.id_user',$user->id)->leftjoin('kelas','kelas.id','daftarkelas.id_kelas')->get();
         $list = [];
         foreach($data as $i => $a){
 
@@ -166,9 +168,10 @@ class ApiController extends Controller
         return response()->json($list);
     }
 
-    public function getUser($id){
-        $data = Penggunam::where('id',$id)->first();
-        $list[] = array(
+    public function getUser(){
+        $user = auth('sanctum')->user();
+        $data = Penggunam::where('id',$user->id)->first();
+        $list = array(
             'nama_pengguna' => $data->nama_pengguna,
             'no_telpon' => $data->no_telpon,
             'email' => $data->email,
@@ -176,6 +179,7 @@ class ApiController extends Controller
             'referal' => $data->referal ?? 'tidak terdaftar',
             'alamat' => $data->alamat,
             'tgl_daftar' => $data->tgl_daftar,
+            'status' => 200
         );
 
         return response()->json($list);
