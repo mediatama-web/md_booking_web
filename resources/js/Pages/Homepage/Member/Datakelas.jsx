@@ -15,9 +15,11 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     const [kelass, setKelass] = useState(100)
     const [kelasx, setKelas] = useState(0)
     const [harga, setHarga] = useState(0)
+    const [sertifikat, setSertifikat] = useState()
 
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
+    const [show2, setShow2] = useState(false)
 
     const [modalbooking, setmodalbooking] = useState([])
     const [modalabsen, setmodalabsen] = useState([])
@@ -90,6 +92,11 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
             setShow1(true)
         })
     }
+    
+    const handlerModal2 = async (id) =>  {
+        setIdkelas(id)
+        setShow2(true)
+    }
 
     const handlerModalClose = () => {
         setShow(!show)
@@ -98,6 +105,9 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     const handlerModalClose1 = () => {
         setShow1(!show1)
     }
+    const handlerModalClose2 = () => {
+        setShow2(!show2)
+    }
 
     const handlerAbsen = () => {
         axios.get(route('member-absen-detail',[member.id,idkelas]))
@@ -105,6 +115,15 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
             handlerModal1(idkelas)
         })
         
+    }
+
+    const handlerUploadFIle = () => {
+        router.post(route('upload-sertifikat'),
+        {
+            id_kelas : parseInt(idkelas),
+            sertifikat : sertifikat,
+        })
+        // setShow2(!show2)
     }
 
     return(
@@ -180,9 +199,17 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                             </i>
                                                         </td>
                                                         <td className='border border-grey-100 p-1 text-center'>
-                                                            <i className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
-                                                                <FontAwesomeIcon icon={faUpload} />
-                                                            </i>
+                                                                {
+                                                                    data.sertifikat 
+                                                                    ? 
+                                                                    <div className='w-24'>
+                                                                        <a className='text-blue-400 text-ellipsis' href={data.sertifikat}><div className='text-blue'>View</div></a> 
+                                                                    </div>
+                                                                    :
+                                                                    <i onClick={(e) => handlerModal2(data.id)} className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
+                                                                        <FontAwesomeIcon icon={faUpload} />
+                                                                    </i>
+                                                                }
                                                         </td>
                                                         <td className='border border-grey-100 text-center w-14'>
                                                             <div onClick={(_) => handlerHapus(data.id)} className='hover:cursor-pointer text-center w-7 m-1 p-1 rounded-md text-white text-xs bg-red-500'>
@@ -238,7 +265,6 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                     </div>
                 </div>
             </div>
-
 
             <Modal show={show}>
                     <div className="w-full bg-grey-200 p-3">
@@ -344,6 +370,29 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                     }
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+            </Modal>
+
+            <Modal show={show2}>
+                    <div className="w-full bg-grey-200 p-3">
+                        <div className="flex justify-between mb-3">
+                            <p className='text-lg'>Upload Sertifikat</p>
+                            <div>
+                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose2()}>x</button>
+                            </div>
+                        </div>
+                        <div>
+                            <form encType='multipart/form-data'>
+                                <div className="flex w-full">
+                                    <label htmlFor="">Upload File</label>
+                                    <input type="file" onChange={(e) => setSertifikat(e.target.files[0])} className='w-full rounded-md'/>
+                                </div>
+                                <div className="flex justify-end">
+                                    <button type='button' onClick={() => handlerUploadFIle()} className="w-32 bg-blue-600 p-3 rounded-md text-white">Upload</button>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
             </Modal>

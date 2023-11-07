@@ -12,14 +12,14 @@ use App\Http\Controllers\{
     MemberController,
     KelasController,
     ReportController,
-    NotifikasiController
+    NotifikasiController,
+    DashboardController,
+    LokerController
 };
 
 Route::get('/',[Logincontroller::class, 'index'])->name('login');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,8 +50,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-kelasdaftar-detail/{id_user}/{id_kelas}', [MemberController::class, 'daftarkelasdetail'])->name('member-kelasdaftar-detail');
     Route::get('/member-absen/{id_user}/{id_kelas}', [MemberController::class, 'absen'])->name('member-absen');
     Route::get('/member-absen-detail/{id_user}/{id_kelas}', [MemberController::class, 'memberabsen'])->name('member-absen-detail');
+    Route::post('/upload-sertifikat', [MemberController::class, 'uploaadsertifikat'])->name('upload-sertifikat');
 
     Route::get('/report', [ReportController::class, 'index'])->name('report');
+    
+    Route::get('/loker', [LokerController::class, 'index'])->name('loker');
+    Route::get('/loker-add/{id?}', [LokerController::class, 'add'])->name('loker-add');
+    Route::post('/loker-save', [LokerController::class, 'lokersave'])->name('loker-save');
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
     Route::get('/kelas-add/{id?}', [KelasController::class, 'tambah'])->name('kelas-add');

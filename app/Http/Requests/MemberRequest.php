@@ -26,6 +26,7 @@ class MemberRequest extends FormRequest
             'no_telpon' => ['required','numeric','digits:12'],
             'alamat' => ['required','string','max:225'],
             'email' => ['required','string','max:225'],
+            'info' => ['required','string','max:225'],
             'password' => ['string','max:225'],
             'tgl_daftar' => ['string','max:225'],
             'status_akun' => ['string','max:225'],

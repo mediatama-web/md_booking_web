@@ -11,6 +11,7 @@ export default function Create({ auth, errors }) {
         no_telpon: "",
         alamat: "",
         email: "",
+        info: "",
     })
 
     const handlerSave = (e) => {
@@ -22,6 +23,7 @@ export default function Create({ auth, errors }) {
         setData('no_telpon','')
         setData('alamat','')
         setData('email','')
+        setData('info','')
     }
 
     return (
@@ -35,7 +37,7 @@ export default function Create({ auth, errors }) {
                     <div className="bg-white md:overflow-hidden overflow-auto shadow-sm sm:rounded-lg p-4">
                         <div className="flex items-center p-2 justify-center">
                             <div>
-                                <h3 className='md:text-xl text-sm font-bold'>Formulr Pendaftaran</h3>
+                                <h3 className='md:text-xl text-sm font-bold'>Formulir Pendaftaran</h3>
                             </div>
 
                         </div>
@@ -118,32 +120,32 @@ export default function Create({ auth, errors }) {
                                     <div className="grid grid-rows-3 grid-flow-col gap-3">
                                         <div>
                                             <div className="flex items-center">
-                                                <input type="checkbox" id="info" name="info" value="yes"  className='w-5 h-5 rounded-full '/>
+                                                <input type="radio" id="info" name="info" onChange={(e) => setData('info',e.target.value)} value="Google"  className='w-5 h-5 rounded-full '/>
                                                 <label htmlFor="info" className="ml-5 select-none">Google</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="flex items-center">
-                                                <input type="checkbox" id="info" name="info" value="yes"  className='w-5 h-5 rounded-full '/>
+                                                <input type="radio" id="info" name="info" onChange={(e) => setData('info',e.target.value)} value="Instagram"  className='w-5 h-5 rounded-full '/>
                                                 <label htmlFor="info" className="ml-5 select-none">Instagram</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="flex items-center">
-                                                <input type="checkbox" id="info" name="info" value="yes"  className='w-5 h-5 rounded-full '/>
+                                                <input type="radio" id="info" name="info" onChange={(e) => setData('info',e.target.value)} value="Facebook"  className='w-5 h-5 rounded-full '/>
                                                 <label htmlFor="info" className="ml-5 select-none">Facebook</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="flex items-center">
-                                                <input type="checkbox" id="info" name="info" value="yes"  className='w-5 h-5 rounded-full '/>
+                                                <input type="radio" id="info" name="info" onChange={(e) => setData('info',e.target.value)} value="Website"  className='w-5 h-5 rounded-full '/>
                                                 <label htmlFor="info" className="ml-5 select-none">Website</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="flex items-center">
-                                                <input type="checkbox" id="info" name="info" value="yes"  className='w-5 h-5 rounded-full '/>
-                                                <label htmlFor="info" className="ml-5 select-none">Lainya</label>
+                                                <input type="radio" id="info" name="info" onChange={(e) => setData('info',e.target.value)} value="Lainnya"  className='w-5 h-5 rounded-full '/>
+                                                <label htmlFor="info" className="ml-5 select-none">Lainnya</label>
                                             </div>
                                         </div>
                                     </div>

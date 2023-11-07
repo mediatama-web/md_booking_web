@@ -14,7 +14,7 @@ class Penggunam extends Authenticatable
     use HasFactory, HasApiTokens, Notifiable, Searchable;
 
     protected $table = 'pengguna';
-    protected $fillable = ['nama_pengguna','no_telpon','alamat','email','password','foto','tgl_daftar','status_akun','referal','fcm_token','remember_token'];
+    protected $fillable = ['nama_pengguna','no_telpon','alamat','email','password','foto','tgl_daftar','status_akun','referal','info', 'fcm_token','remember_token'];
 
     protected $hidden = [
         'password',

@@ -12,8 +12,8 @@ export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
+        token: '',
         remember: false,
-        token : ''
     });
 
 
@@ -23,14 +23,15 @@ export default function Login({ status, canResetPassword }) {
         };
     }, []);
 
+    
     useEffect(() => {
         async function getToken(){
             const tokens = await requestForToken();
             setData('token',tokens);
+            console.log(tokens);
         }
         getToken()
     },[])
-    const tokens = requestForToken();
 
     const submit = (e) => {
         e.preventDefault();

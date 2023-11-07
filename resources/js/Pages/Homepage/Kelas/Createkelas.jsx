@@ -32,7 +32,6 @@ export default function Createkalas({auth, errors, kelas}){
         setJenis(kelas.jenis)
         setHarga(kelas.harga)
     },[kelas])
-console.log(errors);
     return (
 
         <AuthenticatedLayout

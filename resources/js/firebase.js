@@ -37,4 +37,4 @@ export const onMessageListener = () =>
       console.log("payload", payload)
       resolve(payload);
     });
-  });
+});

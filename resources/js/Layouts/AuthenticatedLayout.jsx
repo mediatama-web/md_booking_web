@@ -8,7 +8,7 @@ import Notifikasi from '@/notifikasi';
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    
     return (
         <div className="min-h-screen bg-gray-100">
             <Notifikasi/>
@@ -34,6 +34,9 @@ export default function Authenticated({ user, header, children }) {
                                 </NavLink>
                                 <NavLink href={route('booking')} active={route().current('booking')}>
                                     Booking
+                                </NavLink>
+                                <NavLink href={route('loker')} active={route().current('loker')}>
+                                    Loker
                                 </NavLink>
                                 <NavLink href={route('mentor')} active={route().current('mentor')}>
                                     Mentor
@@ -120,6 +123,9 @@ export default function Authenticated({ user, header, children }) {
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('booking')} active={route().current('booking')}>
                             Booking
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('loker')} active={route().current('loker')}>
+                            Loker
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('mentor')} active={route().current('mentor')}>
                             Mentor
