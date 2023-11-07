@@ -1,26 +1,31 @@
-import { Head, Link, router } from '@inertiajs/react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { useRef, useState, useEffect } from 'react';
-import { pickBy } from 'lodash';
-import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
-import { Switch } from '@headlessui/react'
+import TextInput from '@/Components/TextInput';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head, Link } from '@inertiajs/react';
+import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faUpload, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
-export default function Member({auth, member}) {
-    const perpage = useRef(member.per_page)
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
+
+export default function Loker({ auth , loker}) {
+   
+    const perpage = useRef(loker.per_page)
     const [isloadong, setIsloading] = useState(false)
-    const [modal, setModal] = useState(false)
-    const [cari, setCari] = useState("")
+    const [cari, setCari] = useState('')
+
+    useEffect(() => {
+        import('@fortawesome/react-fontawesome')
+        import("@lottiefiles/lottie-player")
+    })
 
     const handleChangeValue = (e) => {
         perpage.current = e.target.value
         getData()
     }
 
-    useEffect(() => {
-        import("@lottiefiles/lottie-player");
-    })
+    let IDR = new Intl.NumberFormat('id', {
+        style: 'currency',
+        currency: 'IDR',
+    });
 
     const getData = () => {
         setIsloading(true)
@@ -43,30 +48,29 @@ export default function Member({auth, member}) {
         getData()
     }
 
-    const handlerStatus = (id) => {
-        router.get(route('member-aktifasi',id))
+    const handlerHapus = (id) => {
+        router.get(route('kelas-hapusKelas',id))
+        getData()
     }
 
-    const handlerHapusMember = (id) => {
-        console.log(id);
-        router.get(route('member-hapus',id))
-    }
+    
 
     return (
+        
         <AuthenticatedLayout
             user={auth.user}
         >
-            <Head title="Data Member" />
+            <Head title="Data Loker" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white md:overflow-hidden overflow-auto shadow-sm sm:rounded-lg p-4">
                         <div className="flex justify-between items-center p-2">
                             <div>
-                                <h3 className='md:text-lg text-xs font-bold'>Data Member</h3>
+                                <h3 className='md:text-lg text-xs font-bold'>Data Loker</h3>
                             </div>
                             <div>
-                                <Link href={route('member-add')} className='bg-slate-800 text-white md:text-lg text-xs p-2 rounded-md'>Tambah Data</Link>
+                                <Link href={route('loker-add')} className='bg-slate-800 text-white p-2 rounded-md md:text-lg text-xs'>Tambah Data</Link>
                             </div>
                         </div>
                         <div className="flex justify-between items-center p-2">
@@ -87,9 +91,8 @@ export default function Member({auth, member}) {
                             <div>
                                 <form onSubmit={handlerSearch}>
                                     <div className="flex items-center gap-2">
-
                                         <TextInput
-                                        className="md:text-sm text-xs"
+                                            className="md:text-sm text-xs"
                                             name="cari"
                                             type="search"
                                             placeholder="Cari"
@@ -101,17 +104,14 @@ export default function Member({auth, member}) {
                                 </form>
                             </div>
                         </div>
-                        <table id="example" className="w-full p-4 border border-gray-100">
+                        <table id="example" className="w-full p-4 border">
                             <thead>
                                 <tr className='[&>th]:p-2 bg-slate-800 text-white'>
                                     <th className='text-left md:text-sm text-xs'>No</th>
-                                    <th className='text-left md:text-sm text-xs'>Nama Peserta</th>
-                                    <th className='text-left md:text-sm text-xs'>No Telpon</th>
-                                    <th className='text-left md:text-sm text-xs'>Email</th>
-                                    <th className='text-left md:text-sm text-xs'>Alamat</th>
-                                    <th className='text-left md:text-sm text-xs'>Tanggal Daftar</th>
+                                    <th className='text-left md:text-sm text-xs'>Judul</th>
                                     <th className='text-left md:text-sm text-xs'>Informasi</th>
-                                    <th className='text-left md:text-sm text-xs'>Status</th>
+                                    <th className='text-left md:text-sm text-xs'>Tanggal Tayang</th>
+                                    <th className='text-left md:text-sm text-xs'>Foto</th>
                                     <th className='text-left md:text-sm text-xs w-24'>#</th>
                                 </tr>
                             </thead>
@@ -119,7 +119,7 @@ export default function Member({auth, member}) {
                                 {
                                     isloadong ? (
                                         <tr>
-                                            <td colSpan={9} className='text-center md:text-sm text-xs'>
+                                            <td colSpan={5} className='text-center md:text-sm text-xs'>
                                                 <lottie-player
                                                     src="https://lottie.host/cbcdd4c1-5bf6-40fa-aeba-2f9344e967bd/D84dkkW3KV.json"
                                                     background="#fff"
@@ -133,9 +133,9 @@ export default function Member({auth, member}) {
                                             </td>
                                         </tr>
                                     ) :
-                                        member.data.length < 1 ?
-                                        <tr>
-                                                <td colSpan={9} className='text-center p-2 md:text-sm text-xs'>
+                                    loker.data.length < 1 ?
+                                            <tr>
+                                                <td colSpan={5} className='text-center p-2 md:text-sm text-xs'>
                                                     <lottie-player
                                                         src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
                                                         background="#fff"
@@ -147,50 +147,40 @@ export default function Member({auth, member}) {
                                                         mode="normal">
                                                     </lottie-player>
                                                 </td>
-                                        </tr>
-                                      :
-                                    (
-                                            member.data.map((data, i) => (
-                                            <tr key={data.id} className='[&>td]:p-2'>
-                                                <td className='border border-grey-100'>{member.from + i}</td>
-                                                <td className='border border-grey-100'>{data.nama_pengguna}</td>
-                                                <td className='border border-grey-100'>{data.no_telpon}</td>
-                                                <td className='border border-grey-100'>{data.email}</td>
-                                                <td className='border border-grey-100'>{data.alamat}</td>
-                                                <td className='border border-grey-100'>{data.tgl_daftar}</td>
-                                                <td className='border border-grey-100'>{data.info}</td>
-                                                <td className='border border-grey-100 w-24 text-center'>
-                                                        <Switch
-                                                            checked={data.status_akun == 'aktif' ? true : false}
-                                                            onChange={() => handlerStatus(data.id)}
-                                                            className={`${data.status_akun == 'aktif' ? 'bg-blue-600' : 'bg-gray-200'
-                                                                } relative inline-flex h-6 w-11 items-center rounded-full`}
-                                                        >
-                                                            <span
-                                                                className={`${data.status_akun == 'aktif' ? 'translate-x-6' : 'translate-x-1'
-                                                                    } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-                                                            />
-                                                        </Switch>
-                                                </td>
-                                                <td className='flex border border-grey-100'>
-                                                    <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 hover:bg-blue-600 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Kelas</Link>
-                                                    <div className='hover:cursor-pointer hover:bg-blue-400 bg-blue-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
-                                                    <div onClick={() => handlerHapusMember(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
-                                                </td>
                                             </tr>
-                                        )
-                                        )
-                                    )
+                                            :
+                                            (
+                                                loker.data.map((data, i) => (
+                                                    <tr key={data.id} className='[&>td]:p-2 text-sm'>
+                                                        <td className='border border-grey-100'>{i+1}</td>
+                                                        <td className='border border-grey-100'>{data.judul}</td>
+                                                        <td className='border border-grey-100'>{data.deskripsi}</td>
+                                                        <td className='text-right border border-grey-100'>{data.tgl_tayang}</td>
+                                                        <td className='text-right border border-grey-100 text-center'>
+                                                            <img src={data.foto} className='w-24' alt="" />
+                                                        </td>
+                                                        <td className='flex justify-center items-center text-center w-24'>
+                                                            <Link href={route('loker-add',data.id)} className='hover:cursor-pointer w-10 text-center hover:bg-blue-400 bg-blue-500 rounded-lg text-xs text-white p-2'>
+                                                                <FontAwesomeIcon icon={faPencil} />
+                                                            </Link>
+                                                            <div onClick={() => handlerHapus(data.id)} className='hover:cursor-pointer text-white w-10 hover:bg-red-400 bg-red-500 rounded-lg text-xs p-2'>
+                                                                <FontAwesomeIcon icon={faTrash} />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                                )
+                                            )
                                 }
                             </tbody>
 
                         </table>
                         <div className="flex items-center justify-between p-2">
-                            <div>
-                                Melihat {member.from ?? 0} sampai {member.to ?? 0} dari {member.total ?? 0} data
+                            <div className='md:text-sm text-xs'>
+                                Melihat {loker.from ?? 0} sampai {loker.to ?? 0} dari {loker.total ?? 0} data
                             </div>
                             <div className="flex items-center gap-2">
-                                {member.links.map((link, i) => (
+                                {loker.links.map((link, i) => (
                                     <Link
                                         key={i}
                                         href={link.url}
@@ -207,7 +197,6 @@ export default function Member({auth, member}) {
                     </div>
                 </div>
             </div>
-
         </AuthenticatedLayout>
-    )
+    );
 }

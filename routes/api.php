@@ -12,7 +12,7 @@ Route::post('/login',[ApiController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/banner',[ApiController::class, 'banner']);
     Route::get('/mentor',[ApiController::class, 'mentor']);
-    Route::get('/jadwalbooking/{id}',[ApiController::class, 'bookinguser']);
+    Route::get('/jadwalbooking',[ApiController::class, 'bookinguser']);
     Route::get('/getkelasuser',[ApiController::class, 'getkelasuser']);
     Route::get('/getpertemuan',[ApiController::class, 'getpertemuan']);
     Route::post('/simpanbooking',[ApiController::class, 'simpanbooking']);

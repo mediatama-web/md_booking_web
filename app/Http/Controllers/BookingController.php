@@ -23,16 +23,17 @@ class BookingController extends Controller
                     ->leftjoin('pengguna','pengguna.id','booking.id_user')
                     ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
                     ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                    ->orderBy('id','DESC')
                     ->paginate($r->perpage ?? 10);
         
         $data['mentor'] = Mentorm::where('status','aktif')->get();
-                    // dd($data['booking']);
+        
         return Inertia::render('Homepage/Booking/Booking',$data);
     }
     
     public function add(Request $r)
     {
-        $data['pengguna'] = Penggunam::where('status','aktif')->get();
+        $data['pengguna'] = Penggunam::where('status_akun','aktif')->get();
         $data['mentor'] = Mentorm::where('status','aktif')->get();
         $data['daftarkelas'] = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')->get();
         return Inertia::render('Homepage/Booking/Create',$data);
@@ -40,12 +41,12 @@ class BookingController extends Controller
 
     public function save(Bookingrequest $r){
         if($r->validated()){
-            if(date('Y-m-d') == $r->tanggal){
-                NotifikasiController::sendNotification('NOTICE','Tanggal Booking Harus Lebih Dari Hari Sekarang');
-            }else{
+            // if(date('Y-m-d') == $r->tanggal){
+            //     NotifikasiController::sendNotification('NOTICE','Tanggal Booking Harus Lebih Dari Hari Sekarang');
+            // }else{
                 Bookingm::create($r->validated());
-                NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
-            }
+                // NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
+            // }
         }
 
         return Redirect::back();

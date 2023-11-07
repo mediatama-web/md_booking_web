@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\MemberRequest;
 use App\Http\Requests\KelasRequest;
+use App\Http\Requests\Sertifikatrequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,7 @@ class MemberController extends Controller
                 'password' => Hash::make('mediatama123'),
                 'tgl_daftar' => date('Y-m-d'),
                 'foto' => url('image/user.png'),
+                'info' => $r->info,
             ]);
         }
 
@@ -67,7 +69,7 @@ class MemberController extends Controller
         $data['member'] = Penggunam::where('id',$id)->first();
         $kelasdaftar = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')
                                             ->where('daftarkelas.id_user',$id)
-                                            ->select('kelas.materi','daftarkelas.id','kelas.id as id_kelas')
+                                            ->select('kelas.materi','daftarkelas.id','kelas.id as id_kelas','daftarkelas.sertifikat')
                                             ->get();
         $list = [];
         foreach($kelasdaftar as $i => $a){
@@ -83,7 +85,8 @@ class MemberController extends Controller
                 'kelas' => $a->materi,
                 'total' => $total,
                 'id_kelas' => $a->id_kelas,
-                'id' => $a->id
+                'id' => $a->id,
+                'sertifikat' => $a->sertifikat,
             );
         }
         $data['kelasdaftar'] = $list;
@@ -121,6 +124,20 @@ class MemberController extends Controller
        ]);
 
        return $data;
+    }
+
+    public function uploaadsertifikat(Sertifikatrequest $r){
+        if($r->validated()){
+            $foto = $r->file('sertifikat');
+            if($foto){
+                $filename = time(). "." . $foto->getClientOriginalExtension();
+                $foto->move('upload/', $filename);
+                $data['sertifikat'] = url('upload/'.$filename);
+                $hasil = Daftarkelasm::where('id',$r->id_kelas)->update($data);
+            }
+
+        }
+        return Redirect::back();
     }
 
     public function kelasdaftar(KelasRequest $r){

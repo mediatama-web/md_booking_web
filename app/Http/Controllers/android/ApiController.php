@@ -88,8 +88,9 @@ class ApiController extends Controller
         return response()->json($list);
     }
 
-    public function bookinguser($id){
-        $data = Bookingm::where('booking.id_user',$id)->join('mentor','booking.id_mentor','mentor.id')
+    public function bookinguser(){
+        $user = auth('sanctum')->user();
+        $data = Bookingm::where('booking.id_user',$user->id)->join('mentor','booking.id_mentor','mentor.id')
                     ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
                     ->select('booking.*','mentor.nama_mentor','kelas.materi','kelas.jenis')
                     ->get();
@@ -108,7 +109,10 @@ class ApiController extends Controller
             );
         }
 
-        return response()->json($list);
+        return response()->json([
+            'status' => 200,
+            'booking' => $list
+        ]);
     }
 
     public function getkelasuser(){
@@ -122,9 +126,11 @@ class ApiController extends Controller
                 'materi' => $a->materi,
             );
         }
-        
-
-        return response()->json($list);
+               
+        return response()->json([
+            'status' => 200,
+            'kelas' => $list
+        ]);
     }
 
     public function simpanbooking(Request $r){
@@ -141,11 +147,13 @@ class ApiController extends Controller
             $this->notifikasiSend($token, 'Info','Booking Jadwal Berhasil');
             NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
             return response()->json([
+                'status' => 200,
                 'pesan' => true,
             ]);
         }else{
             $this->notifikasiSend($token, 'INFO','Booking Jadwal Ditolak');
             return response()->json([
+                'status' => 400,
                 'pesan' => false
             ]);
         }
