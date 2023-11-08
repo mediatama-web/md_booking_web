@@ -122,6 +122,7 @@ class ApiController extends Controller
         foreach($data as $i => $a){
 
             $list[] = array(
+                'foto' => 'kelas/19362653.jpg',
                 'id_kelas' => (string)$a->id_kelas,
                 'materi' => $a->materi,
             );
