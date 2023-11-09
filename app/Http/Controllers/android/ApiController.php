@@ -65,7 +65,7 @@ class ApiController extends Controller
                 'id_mentor' => (string)$a->id,
                 'nama_mentor' => $a->nama_mentor,
                 'bidang' => $a->bidang,
-                'foto_mentor' => $a->foto == '' ? "https://jadwalles.idolapppk.com/image/user.png" : $a->foto,
+                'foto_mentor' => $a->foto == '' ? "image/user.png" : $a->foto,
                 'email' => $a->email,
                 'alamat' => $a->alamat,
                 'telepon' => $a->telpon
@@ -90,20 +90,21 @@ class ApiController extends Controller
 
     public function bookinguser(){
         $user = auth('sanctum')->user();
-        $data = Bookingm::where('booking.id_user',$user->id)->join('mentor','booking.id_mentor','mentor.id')
+        $data = Bookingm::where('booking.id_user',$user->id)
                     ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
-                    ->select('booking.*','mentor.nama_mentor','kelas.materi','kelas.jenis')
+                    ->select('booking.*','kelas.materi','kelas.jenis')
                     ->get();
 
         $list = [];
         foreach($data as $i => $a){
+            $mentor = Mentorm::where('id',$a->id_metor)->first();
             $list[] = array(
                 'id' => (string)$a->id,
                 'id_user' => (string)$a->id_user,
                 'tanggal' => $a->tanggal,
                 'jam' => $a->jam,
                 'status' => $a->status,
-                'nama_mentor' => $a->nama_mentor,
+                'nama_mentor' => $mentor->nama_mentor ?? "",
                 'materi' => $a->materi,
                 'jenis' => $a->jenis,
             );
@@ -138,24 +139,23 @@ class ApiController extends Controller
         $user = auth('sanctum')->user();
         $data = Bookingm::create([
             'id_user' => $user->id,
-            'jam' => $jam,
-            'tanggal' => $tanggal,
-            'id_daftarkelas' => $kelas,
-            'id_mentor' => $mentor
+            'jam' => $r->jam,
+            'tanggal' => date("Y-m-d", strtotime($r->tanggal)),
+            'id_daftarkelas' => $r->kelas
         ]);
 
         if($data){
-            $this->notifikasiSend($token, 'Info','Booking Jadwal Berhasil');
-            NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
+            // $this->notifikasiSend($token, 'Info','Booking Jadwal Berhasil');
+            // NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
             return response()->json([
                 'status' => 200,
-                'pesan' => true,
+                'pesan' => "berhasil",
             ]);
         }else{
-            $this->notifikasiSend($token, 'INFO','Booking Jadwal Ditolak');
+            // $this->notifikasiSend($token, 'INFO','Booking Jadwal Ditolak');
             return response()->json([
                 'status' => 400,
-                'pesan' => false
+                'pesan' => "gagal"
             ]);
         }
     }
