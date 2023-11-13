@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Agu 2023 pada 08.22
+-- Waktu pembuatan: 13 Nov 2023 pada 09.56
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `new_booking`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `absen`
+--
+
+CREATE TABLE `absen` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `jam` varchar(255) NOT NULL,
+  `tanggal` date NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_kelas` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `absen`
+--
+
+INSERT INTO `absen` (`id`, `jam`, `tanggal`, `id_user`, `id_kelas`, `created_at`, `updated_at`) VALUES
+(1, '09:39:35', '2023-08-24', 1, 6, '2023-08-24 02:39:35', '2023-08-24 02:39:35');
 
 -- --------------------------------------------------------
 
@@ -48,6 +71,7 @@ CREATE TABLE `booking` (
   `id_mentor` int(11) DEFAULT NULL,
   `id_daftarkelas` int(11) NOT NULL,
   `status` enum('pending','diterima','ditolak') NOT NULL,
+  `absen` enum('0','1') DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -56,8 +80,10 @@ CREATE TABLE `booking` (
 -- Dumping data untuk tabel `booking`
 --
 
-INSERT INTO `booking` (`id`, `id_user`, `tanggal`, `jam`, `id_mentor`, `id_daftarkelas`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '2023-08-24', '14:00', 21, 3, 'pending', '2023-08-21 20:53:12', '2023-08-21 20:53:12');
+INSERT INTO `booking` (`id`, `id_user`, `tanggal`, `jam`, `id_mentor`, `id_daftarkelas`, `status`, `absen`, `created_at`, `updated_at`) VALUES
+(1, 1, '2023-08-28', '14:00', 88, 3, 'diterima', '0', '2023-08-21 20:53:12', '2023-08-28 14:52:35'),
+(2, 1, '2023-08-28', '09:00', NULL, 3, 'pending', '0', '2023-08-28 09:05:19', '2023-08-28 10:58:07'),
+(3, 1, '2023-11-14', '10:00', NULL, 3, 'pending', '0', '2023-11-13 03:05:23', '2023-11-13 03:05:23');
 
 -- --------------------------------------------------------
 
@@ -70,6 +96,7 @@ CREATE TABLE `daftarkelas` (
   `id_user` int(11) NOT NULL,
   `id_kelas` int(11) NOT NULL,
   `status` enum('aktif','tidak aktif') NOT NULL,
+  `sertifikat` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -78,10 +105,11 @@ CREATE TABLE `daftarkelas` (
 -- Dumping data untuk tabel `daftarkelas`
 --
 
-INSERT INTO `daftarkelas` (`id`, `id_user`, `id_kelas`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 'aktif', '2023-08-21 20:52:42', '2023-08-21 20:52:42'),
-(2, 1, 9, 'aktif', '2023-08-21 20:52:45', '2023-08-21 20:52:45'),
-(3, 1, 6, 'aktif', '2023-08-21 20:52:51', '2023-08-21 20:52:51');
+INSERT INTO `daftarkelas` (`id`, `id_user`, `id_kelas`, `status`, `sertifikat`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 'aktif', 'test.pdf', '2023-08-21 20:52:42', '2023-08-21 20:52:42'),
+(2, 1, 9, 'aktif', NULL, '2023-08-21 20:52:45', '2023-08-21 20:52:45'),
+(3, 1, 6, 'aktif', NULL, '2023-08-21 20:52:51', '2023-08-21 20:52:51'),
+(4, 2, 2, 'aktif', 'https://mediatamabooking.aplikasikasirku.com/upload/1693459806.pdf', '2023-08-31 05:17:31', '2023-08-31 05:28:15');
 
 -- --------------------------------------------------------
 
@@ -110,6 +138,7 @@ CREATE TABLE `kelas` (
   `materi` varchar(255) NOT NULL,
   `jenis` varchar(255) NOT NULL,
   `harga` varchar(255) NOT NULL,
+  `pertemuan` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -118,31 +147,54 @@ CREATE TABLE `kelas` (
 -- Dumping data untuk tabel `kelas`
 --
 
-INSERT INTO `kelas` (`id`, `materi`, `jenis`, `harga`, `created_at`, `updated_at`) VALUES
-(2, 'Microsoft Office', 'Regular', '300000', NULL, NULL),
-(3, 'Microsoft Office', 'Private', '500000', NULL, NULL),
-(4, 'Membuat Website Instant dengan CMS', 'Reguler', '500000', NULL, NULL),
-(5, 'Membuat Website Instant dengan CMS', 'Private', '700000', NULL, NULL),
-(6, 'Photoshop', 'Reguler', '450000', NULL, NULL),
-(7, 'Photoshop', 'Private', '700000', NULL, NULL),
-(8, 'PHP', 'Reguler', '450000', NULL, NULL),
-(9, 'PHP', 'Private', '650000', NULL, NULL),
-(10, 'VB', 'Reguler', '450000', NULL, NULL),
-(11, 'VB', 'Private', '650000', NULL, NULL),
-(12, 'Java Programming', 'Reguler', '450000', NULL, NULL),
-(13, 'Java Programming', 'Private', '650000', NULL, NULL),
-(14, 'Laravel Framework', 'Reguler', '450000', NULL, NULL),
-(15, 'Laravel Framework', 'Private', '700000', NULL, NULL),
-(16, 'Codeigniter Framework', 'Reguler', '450000', NULL, NULL),
-(17, 'Codeigniter Framework', 'Private', '700000', NULL, NULL),
-(18, 'YII Framework', 'Reguler', '450000', NULL, NULL),
-(19, 'YII Framework', 'Private', '700000', NULL, NULL),
-(20, 'Android Programming', 'Reguler', '450000', NULL, NULL),
-(21, 'Android Programming', 'Private', '700000', NULL, NULL),
-(22, 'UI/UX Design', 'Private', '600000', NULL, NULL),
-(23, 'Paket 3 Bulan ( Ms. Office + Design Grafis + Magang )', 'Private', '1500000', NULL, NULL),
-(24, 'Kotlin', 'Private', '1300000', NULL, NULL),
-(25, 'Digital Marketing', 'Private', '2000000', NULL, '2023-08-21 20:07:02');
+INSERT INTO `kelas` (`id`, `materi`, `jenis`, `harga`, `pertemuan`, `created_at`, `updated_at`) VALUES
+(2, 'Microsoft Office', 'Regular', '300000', 0, NULL, NULL),
+(3, 'Microsoft Office', 'Private', '500000', 0, NULL, NULL),
+(4, 'Membuat Website Instant dengan CMS', 'Reguler', '500000', 0, NULL, NULL),
+(5, 'Membuat Website Instant dengan CMS', 'Private', '700000', 0, NULL, NULL),
+(6, 'Photoshop', 'Reguler', '450000', 0, NULL, NULL),
+(7, 'Photoshop', 'Private', '700000', 0, NULL, NULL),
+(8, 'PHP', 'Reguler', '450000', 0, NULL, NULL),
+(9, 'PHP', 'Private', '650000', 0, NULL, NULL),
+(10, 'VB', 'Reguler', '450000', 0, NULL, NULL),
+(11, 'VB', 'Private', '650000', 0, NULL, NULL),
+(12, 'Java Programming', 'Reguler', '450000', 0, NULL, NULL),
+(13, 'Java Programming', 'Private', '650000', 0, NULL, NULL),
+(14, 'Laravel Framework', 'Reguler', '450000', 0, NULL, NULL),
+(15, 'Laravel Framework', 'Private', '700000', 0, NULL, NULL),
+(16, 'Codeigniter Framework', 'Reguler', '450000', 0, NULL, NULL),
+(17, 'Codeigniter Framework', 'Private', '700000', 0, NULL, NULL),
+(18, 'YII Framework', 'Reguler', '450000', 0, NULL, NULL),
+(19, 'YII Framework', 'Private', '700000', 0, NULL, NULL),
+(20, 'Android Programming', 'Reguler', '450000', 0, NULL, NULL),
+(21, 'Android Programming', 'Private', '700000', 0, NULL, NULL),
+(22, 'UI/UX Design', 'Private', '600000', 0, NULL, NULL),
+(23, 'Paket 3 Bulan ( Ms. Office + Design Grafis + Magang )', 'Private', '1500000', 0, NULL, NULL),
+(24, 'Kotlin', 'Private', '1300000', 0, NULL, NULL),
+(25, 'Digital Marketing', 'Private', '2000000', 0, NULL, '2023-08-21 20:07:02');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `loker`
+--
+
+CREATE TABLE `loker` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `deskripsi` text NOT NULL,
+  `tgl_tayang` date NOT NULL,
+  `foto` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `loker`
+--
+
+INSERT INTO `loker` (`id`, `judul`, `deskripsi`, `tgl_tayang`, `foto`, `created_at`, `updated_at`) VALUES
+(1, 'Selamat kepada Tim Peserta Didik SMA Unggul Sakti', 'asdadasda asdasda asdasda asd', '2023-08-28', 'http://localhost:8000/foto/1693219438.png', '2023-08-28 10:43:58', '2023-08-28 10:43:58');
 
 -- --------------------------------------------------------
 
@@ -283,7 +335,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (8, '2023_07_12_064107_create_bookingms_table', 1),
 (9, '2023_07_12_064256_create_mentorms_table', 1),
 (10, '2023_07_12_064451_create_bannerms_table', 1),
-(11, '2023_07_27_175018_add_fcm_token_column_to_users_table', 1);
+(11, '2023_07_27_175018_add_fcm_token_column_to_users_table', 1),
+(12, '2023_08_23_093307_create_absens_table', 2),
+(13, '2023_08_28_163350_create_lokers_table', 3);
 
 -- --------------------------------------------------------
 
@@ -314,6 +368,7 @@ CREATE TABLE `pengguna` (
   `tgl_daftar` varchar(255) NOT NULL,
   `status_akun` enum('aktif','tidak aktif') NOT NULL,
   `referal` varchar(255) DEFAULT NULL,
+  `info` varchar(225) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `fcm_token` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -324,8 +379,9 @@ CREATE TABLE `pengguna` (
 -- Dumping data untuk tabel `pengguna`
 --
 
-INSERT INTO `pengguna` (`id`, `nama_pengguna`, `no_telpon`, `alamat`, `email`, `password`, `foto`, `tgl_daftar`, `status_akun`, `referal`, `remember_token`, `fcm_token`, `created_at`, `updated_at`) VALUES
-(1, 'aziz', '089532424780', 'padang', 'aziz@gmail.com', '$2y$10$hDcb1vMMLcm6sEfzS7StWujgodChqMlINOFgjYaUfElZC.TjXEIvm', 'http://localhost:8000/image/user.png', '2023-08-22', 'aktif', NULL, NULL, NULL, '2023-08-21 20:52:33', '2023-08-21 22:56:07');
+INSERT INTO `pengguna` (`id`, `nama_pengguna`, `no_telpon`, `alamat`, `email`, `password`, `foto`, `tgl_daftar`, `status_akun`, `referal`, `info`, `remember_token`, `fcm_token`, `created_at`, `updated_at`) VALUES
+(1, 'aziz', '089532424780', 'padang', 'aziz@gmail.com', '$2y$10$BvHNKVwZIARp5A.LVnpCteoL/LB65zyi1QvKzapflYbA1YWGB3ACa', 'http://localhost:8000/image/user.png', '2023-08-22', 'aktif', NULL, 'Instagram', NULL, NULL, '2023-08-21 20:52:33', '2023-11-08 06:38:01'),
+(2, 'gema fajar', '082122855458', 'jalan raya lubuk minturun rt 05', 'gemafajarramadhan09@gmail.com', '$2y$10$BvHNKVwZIARp5A.LVnpCteoL/LB65zyi1QvKzapflYbA1YWGB3ACa', 'http://localhost:8000/image/user.png', '2023-08-28', 'aktif', NULL, 'Instagram', NULL, NULL, '2023-08-28 09:16:14', '2023-08-28 09:16:14');
 
 -- --------------------------------------------------------
 
@@ -345,6 +401,31 @@ CREATE TABLE `personal_access_tokens` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\Penggunam', 2, 'auth_token', '4537b6e9ae3a1a07fb6abb092f45fa9522cf378240db2785304321f90c43d33c', '[\"*\"]', NULL, NULL, '2023-09-08 17:15:40', '2023-09-08 17:15:40'),
+(2, 'App\\Models\\Penggunam', 2, 'auth_token', '392ac7470b9f392953f8f63098ea6b8f6fb1ed33fa510bdee2c78ada95c6f809', '[\"*\"]', NULL, NULL, '2023-09-09 01:27:42', '2023-09-09 01:27:42'),
+(3, 'App\\Models\\Penggunam', 2, 'auth_token', 'e63cbe0a1fb9862f0b9ac695426b9470d7bf4bb950961b52a4e1f93773730da7', '[\"*\"]', NULL, NULL, '2023-09-09 01:27:56', '2023-09-09 01:27:56'),
+(4, 'App\\Models\\Penggunam', 2, 'auth_token', '300249be8406d898309e721436936db59e73e545f08c8e0369cf99c0a0ebb913', '[\"*\"]', NULL, NULL, '2023-09-09 01:30:19', '2023-09-09 01:30:19'),
+(5, 'App\\Models\\Penggunam', 2, 'auth_token', 'a7942407aecfd513b338ec8a58d149b258cb5fd38b8feb83b1fb39bd3967c060', '[\"*\"]', NULL, NULL, '2023-09-09 02:44:30', '2023-09-09 02:44:30'),
+(6, 'App\\Models\\Penggunam', 2, 'auth_token', 'a52223d00cba81450e3737d8a397bca906fadf21f248deb95253317b4c5ce893', '[\"*\"]', NULL, NULL, '2023-09-09 03:08:20', '2023-09-09 03:08:20'),
+(7, 'App\\Models\\Penggunam', 2, 'auth_token', 'f29473fb872eca164b61e7d02f4c36d7236f02b1aad5b10fe2d965f0b88272b6', '[\"*\"]', NULL, NULL, '2023-09-09 03:08:45', '2023-09-09 03:08:45'),
+(8, 'App\\Models\\Penggunam', 2, 'auth_token', '37b7c387a26628716e9db3d2c169163b873b673c043db8f017197241ddc3af34', '[\"*\"]', NULL, NULL, '2023-09-09 03:09:34', '2023-09-09 03:09:34'),
+(9, 'App\\Models\\Penggunam', 2, 'auth_token', '18ddef9db18e03782e2af43ef6cf3951e5a0c348d9031451c019349967a92d39', '[\"*\"]', NULL, NULL, '2023-09-09 03:36:42', '2023-09-09 03:36:42'),
+(10, 'App\\Models\\Penggunam', 2, 'auth_token', '319c7211a16cb6425566c918f52be5d700d071f0857033fec5810449365483ee', '[\"*\"]', NULL, NULL, '2023-09-09 03:41:50', '2023-09-09 03:41:50'),
+(11, 'App\\Models\\Penggunam', 2, 'auth_token', '81aee5070054e136af38f9099368e855ad58b3f9c82fe7d30cbb6dde85d16588', '[\"*\"]', NULL, NULL, '2023-09-09 10:03:47', '2023-09-09 10:03:47'),
+(12, 'App\\Models\\Penggunam', 2, 'auth_token', 'a0f3536e5262d2aa10ae13df986f4003698b3c9eb0544b52d741c1b52cfece3d', '[\"*\"]', NULL, NULL, '2023-09-09 12:34:07', '2023-09-09 12:34:07'),
+(13, 'App\\Models\\Penggunam', 2, 'auth_token', '418caf79fb697620241deaf5b33d7f170eb06472e46a83c3b290af308af795e7', '[\"*\"]', NULL, NULL, '2023-09-09 12:34:33', '2023-09-09 12:34:33'),
+(14, 'App\\Models\\Penggunam', 1, 'auth_token', '72dda18f591591cccf1f2cd49bbba9d4e5079a1bb645152406ca89106d107164', '[\"*\"]', NULL, NULL, '2023-11-07 03:47:33', '2023-11-07 03:47:33'),
+(15, 'App\\Models\\Penggunam', 1, 'auth_token', 'fe046c389997e7712bc05920d6dc56969baaf1b8e36d0e9f738c18ac934fb12c', '[\"*\"]', NULL, NULL, '2023-11-07 03:47:46', '2023-11-07 03:47:46'),
+(16, 'App\\Models\\Penggunam', 1, 'auth_token', '411f648d265ed6563399a3736f74d1690897d95934dd58d42fd4823e2d79e0c8', '[\"*\"]', NULL, NULL, '2023-11-07 03:47:53', '2023-11-07 03:47:53'),
+(17, 'App\\Models\\Penggunam', 1, 'auth_token', 'd0ea68e7f7ca83ad265a2ced303ff346547b07ee703570b8bfab0c79c749b61f', '[\"*\"]', '2023-11-07 08:38:26', NULL, '2023-11-07 04:14:13', '2023-11-07 08:38:26'),
+(18, 'App\\Models\\Penggunam', 1, 'auth_token', 'ebc43ae4f7a5dae5c9e02347d0cf61184e6c7dadb4ad7e37ec4e22f4088baf73', '[\"*\"]', '2023-11-13 08:47:54', NULL, '2023-11-07 05:47:49', '2023-11-13 08:47:54'),
+(19, 'App\\Models\\Penggunam', 1, 'auth_token', '47e873a6a244e8c285f96e9f86dfd77d9cd10171d27ca13d43a9eb1fe49d89df', '[\"*\"]', '2023-11-13 08:48:15', NULL, '2023-11-08 06:38:03', '2023-11-13 08:48:15');
 
 -- --------------------------------------------------------
 
@@ -369,11 +450,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `device_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@gmail.com', NULL, '$2y$10$fZV.s/m6TB7npwnkVaT0KubYmFYMEUXhVQuZUzcx77iJXCChqQSzC', 'jO8hsLHYoK2lT2NHjehDiPNPJkvQ7aSdCbxKY1UQa0KBv5wBdUVgfvGJUOei', 'dZyp1xhImfee2WYUNNOCYW:APA91bGmclp34sdBwKCTxRARXpPMSD0qWiHzufgrcifNhMelLUUVbNXH-FxVQMOunWxIeznX-rCrQUtEYcEzUVPZAaOIbdavSVqMuH_33v9-CvD7S-f7IEztGnHXv31koJVk5GLLWlb3', '2023-08-11 01:34:56', '2023-08-21 22:52:04');
+(1, 'admin', 'admin@gmail.com', NULL, '$2y$10$fZV.s/m6TB7npwnkVaT0KubYmFYMEUXhVQuZUzcx77iJXCChqQSzC', 'kRsE6zJhEn93z8VrqADvyBppmzb2i2gpc85jqJMWadBAVq4tcoD5D2NI7n2D', NULL, '2023-08-11 01:34:56', '2023-11-13 06:21:45');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `absen`
+--
+ALTER TABLE `absen`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `banner`
@@ -404,6 +491,12 @@ ALTER TABLE `failed_jobs`
 -- Indeks untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `loker`
+--
+ALTER TABLE `loker`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -450,6 +543,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `absen`
+--
+ALTER TABLE `absen`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `banner`
 --
 ALTER TABLE `banner`
@@ -459,13 +558,13 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT untuk tabel `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `daftarkelas`
 --
 ALTER TABLE `daftarkelas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -480,6 +579,12 @@ ALTER TABLE `kelas`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
+-- AUTO_INCREMENT untuk tabel `loker`
+--
+ALTER TABLE `loker`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `mentor`
 --
 ALTER TABLE `mentor`
@@ -489,19 +594,19 @@ ALTER TABLE `mentor`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`

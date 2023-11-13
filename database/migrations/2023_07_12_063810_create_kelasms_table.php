@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('materi');
             $table->string('jenis');
             $table->string('harga');
+            $table->integer('pertemuan');
             $table->timestamps();
         });
     }
