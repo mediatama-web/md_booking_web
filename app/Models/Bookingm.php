@@ -13,7 +13,7 @@ class Bookingm extends Model
     use HasFactory, Searchable;
 
     protected $table = 'booking';
-    protected $fillable = ['id_user','tanggal','jam','id_mentor','id_daftarkelas','status'];
+    protected $fillable = ['id_user','tanggal','jam','id_mentor','id_daftarkelas','status','absen'];
 
     public function toSearchableArray(): array
     {

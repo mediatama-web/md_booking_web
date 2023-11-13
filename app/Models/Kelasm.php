@@ -11,7 +11,7 @@ class Kelasm extends Model
      use HasFactory, Searchable;
 
     protected $table = 'kelas';
-    protected $fillable = ['materi','jenis','harga'];
+    protected $fillable = ['materi','jenis','harga','pertemuan'];
 
 
     public function toSearchableArray(): array

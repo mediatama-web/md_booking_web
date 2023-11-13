@@ -90,21 +90,26 @@ class ApiController extends Controller
 
     public function bookinguser(){
         $user = auth('sanctum')->user();
-        $data = Bookingm::where('booking.id_user',$user->id)
+        $data = Bookingm::where('booking.id_user',$user->id)->where('booking.absen','0')
                     ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
                     ->select('booking.*','kelas.materi','kelas.jenis')
                     ->get();
 
         $list = [];
         foreach($data as $i => $a){
-            $mentor = Mentorm::where('id',$a->id_metor)->first();
+            $mentor = Mentorm::where('id',$a->id_mentor)->first();
+            if($mentor){
+                $nama_mentor = $mentor->nama_mentor;
+            }else{
+                $nama_mentor = "";
+            }
             $list[] = array(
                 'id' => (string)$a->id,
                 'id_user' => (string)$a->id_user,
                 'tanggal' => $a->tanggal,
                 'jam' => $a->jam,
                 'status' => $a->status,
-                'nama_mentor' => $mentor->nama_mentor ?? "",
+                'nama_mentor' => $nama_mentor,
                 'materi' => $a->materi,
                 'jenis' => $a->jenis,
             );
@@ -126,6 +131,7 @@ class ApiController extends Controller
                 'foto' => 'kelas/19362653.jpg',
                 'id_kelas' => (string)$a->id_kelas,
                 'materi' => $a->materi,
+                'pertemuan' => $a->pertemuan,
             );
         }
                
