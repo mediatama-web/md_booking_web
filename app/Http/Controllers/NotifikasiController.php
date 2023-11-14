@@ -11,13 +11,13 @@ class NotifikasiController extends Controller
 {
     public function saveToken(Request $request)
     {
-        auth()->user()->update(['device_token'  =>  $request->token]);
+        auth()->user()->update(['fcm_token'  =>  $request->token]);
         return response()->json(['token saved successfully.']);
     }
 
     public static function sendNotification($title,$pesan)
     {
-        $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+        $firebaseToken = User::whereNotNull('fcm_token')->pluck('fcm_token')->all();
             
         $SERVER_API_KEY = env('FCM_SERVER_KEY');
       
@@ -50,6 +50,7 @@ class NotifikasiController extends Controller
     }
 
     public function updateToken($id, $token){
+        $user = auth('sanctum')->user();
         $data = Penggunam::where('id',$id)->update(['fcm_token' => $token]);
         return response()->json(['pesan' => 'success']);
     }
