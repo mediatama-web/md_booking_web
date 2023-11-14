@@ -17,10 +17,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/getpertemuan',[ApiController::class, 'getpertemuan']);
     Route::post('/simpanbooking',[ApiController::class, 'simpanbooking']);
     Route::get('/getuser',[ApiController::class, 'getUser']);
-    Route::get('/hapusbooking/{id}/{token}',[ApiController::class, 'hapusbooking']);
+    Route::get('/hapusbooking/{id}',[ApiController::class, 'hapusbooking']);
+    Route::get('/absen/{id_booking}',[ApiController::class, 'absen']);
 
-    Route::get('/sendnotif',[NotifikasiController::class, 'sendnotif']);
-    Route::get('/updateToken/{id}/{token}',[NotifikasiController::class, 'updateToken']);
+    Route::post('/updateToken',[NotifikasiController::class, 'updateToken']);
 });
 
 

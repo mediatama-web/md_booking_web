@@ -16,6 +16,8 @@ use App\Models\Bannerm;
 use App\Models\Daftarkelasm;
 use App\Models\Bookingm;
 use App\Models\Kelasm;
+use App\Models\Absen;
+use App\Models\User;
 
 use App\Http\Controllers\NotifikasiController;
 
@@ -151,19 +153,39 @@ class ApiController extends Controller
         ]);
 
         if($data){
-            // $this->notifikasiSend($token, 'Info','Booking Jadwal Berhasil');
-            // NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
+            $this->notifikasiSend($user->fcm_token, 'Info','Booking Jadwal Berhasil');
+            NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
             return response()->json([
                 'status' => 200,
                 'pesan' => "berhasil",
             ]);
         }else{
-            // $this->notifikasiSend($token, 'INFO','Booking Jadwal Ditolak');
+            $this->notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak');
             return response()->json([
                 'status' => 400,
                 'pesan' => "gagal"
             ]);
         }
+    }
+
+    public function absen($id){
+        $user = auth('sanctum')->user();
+
+        $booking = Bookingm::where('id',$id)->first();
+        $jadwal = Absen::create([
+            'jam' => date('H:i:s'),
+            'tanggal' => date('Y-m-d'),
+            'id_user' => $user->id,
+            'id_kelas' => $booking->id_daftarkelas
+        ]);
+
+        Bookingm::where('id',$id)->update(['absen' => "1"]);
+
+        return response()->json([
+            'status' => 200,
+            'pesan' => "Berhasil"
+        ]);
+
     }
 
     public function getpertemuan(){
@@ -180,7 +202,10 @@ class ApiController extends Controller
             );
         }
 
-        return response()->json($list);
+        return response()->json([
+            'status' => 400,
+            'pertemuan' => $list
+        ]);
     }
 
     public function getUser(){
@@ -208,7 +233,8 @@ class ApiController extends Controller
 
     public function updateToken(Request $request){
         try{
-            Penggunam::update(['fcm_token'=>$request->token]);
+            $user = auth('sanctum')->user();
+            Penggunam::where('id',$user->id)->update(['fcm_token' => $request->token]);
             return response()->json([
                 'success'=>true
             ]);
