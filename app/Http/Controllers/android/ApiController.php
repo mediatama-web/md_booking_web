@@ -25,8 +25,7 @@ class ApiController extends Controller
 {
     // API LOGIN / REGISTER / LOGOUT
 
-    public function login(Request $request)
-    {
+    public function login(Request $request){
         if (Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::guard('api')->user();
 
@@ -48,8 +47,7 @@ class ApiController extends Controller
         }
     }
 
-    public function logout()
-    {
+    public function logout(){
         Auth::guard('api')->user()->tokens()->delete();
 
         return [
@@ -188,29 +186,55 @@ class ApiController extends Controller
 
     }
 
-    public function getpertemuan(){
+    public function getpertemuan($id, $status){
         $user = auth('sanctum')->user();
-        $data = Daftarkelasm::where('daftarkelas.id_user',$user->id)->leftjoin('kelas','kelas.id','daftarkelas.id_kelas')->get();
+        $data = Bookingm::where('booking.id_user', $user->id)
+                    ->where('booking.id_daftarkelas', $id)
+                    ->where('booking.status', $status)
+                    ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
+                    ->select('booking.*','kelas.materi','kelas.jenis')
+                    ->get();
+
         $list = [];
         foreach($data as $i => $a){
-
+            $mentor = Mentorm::where('id',$a->id_mentor)->first();
+            if($mentor){
+                $nama_mentor = $mentor->nama_mentor;
+            }else{
+                $nama_mentor = "";
+            }
             $list[] = array(
-                'id_kelas' => (string)$a->id_kelas,
+                'id' => (string)$a->id,
+                'id_user' => (string)$a->id_user,
+                'tanggal' => $a->tanggal,
+                'jam' => $a->jam,
+                'status' => $a->status,
+                'nama_mentor' => $nama_mentor,
                 'materi' => $a->materi,
                 'jenis' => $a->jenis,
-                'total' => (string)0
             );
         }
 
         return response()->json([
-            'status' => 400,
-            'pertemuan' => $list
+            'status' => 200,
+            'booking' => $list
         ]);
     }
 
     public function getUser(){
         $user = auth('sanctum')->user();
         $data = Penggunam::where('id',$user->id)->first();
+
+        if(date('H') >= 5 && date('H') <= 11){
+            $penanda = "Pagi";
+        }elseif(date('H') >= 11 && date('H') <= 16){
+            $penanda = "Siang";
+        }elseif(date('H') >= 16 && date('H') <= 18){
+            $penanda = "Sore";
+        }else{
+            $penanda = "Malam";
+        }
+
         $list = array(
             'nama_pengguna' => $data->nama_pengguna,
             'no_telpon' => $data->no_telpon,
@@ -219,6 +243,7 @@ class ApiController extends Controller
             'referal' => $data->referal ?? 'tidak terdaftar',
             'alamat' => $data->alamat,
             'tgl_daftar' => $data->tgl_daftar,
+            'penanda' => $penanda,
             'status' => 200
         );
 
