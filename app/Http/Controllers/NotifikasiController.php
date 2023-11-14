@@ -28,6 +28,7 @@ class NotifikasiController extends Controller
                 "body" => $pesan,  
             ]
         ];
+        
         $dataString = json_encode($data);
       
         $headers = [
