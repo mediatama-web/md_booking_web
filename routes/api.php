@@ -19,6 +19,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/getuser',[ApiController::class, 'getUser']);
     Route::get('/hapusbooking/{id}',[ApiController::class, 'hapusbooking']);
     Route::get('/absen/{id_booking}',[ApiController::class, 'absen']);
+    
+    // loker
+    Route::get('/loker',[ApiController::class, 'loker']);
 
     Route::post('/updateToken',[NotifikasiController::class, 'updateToken']);
 });
