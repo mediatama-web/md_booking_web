@@ -17,6 +17,7 @@ use App\Models\Daftarkelasm;
 use App\Models\Bookingm;
 use App\Models\Kelasm;
 use App\Models\Absen;
+use App\Models\Loker;
 use App\Models\User;
 
 use App\Http\Controllers\NotifikasiController;
@@ -254,6 +255,26 @@ class ApiController extends Controller
         $data = Bookingm::where('id',$id)->delete();
         
         return response()->json(['pesan' => $data]);
+    }
+
+    public function loker(){
+        $data = Loker::get();
+
+        $list = [];
+        foreach($data as $a){
+            $list[] = array(
+                'id' => $a->id,
+                'judul' => $a->judul,
+                'deskripsi' => $a->deskripsi,
+                'tgl_tayang' => $a->tgl_tayang,
+                'foto' => $a->foto,
+            );
+        }
+
+        return response()->json([
+            'status' => 200,
+            'loker' => $list
+        ]);
     }
 
     public function updateToken(Request $request){
