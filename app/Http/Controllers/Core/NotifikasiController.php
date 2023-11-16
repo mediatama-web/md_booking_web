@@ -10,7 +10,7 @@ use App\Mail\SendMail as KirimEmail;
 
 class NotifikasiController extends Controller
 {
-    public static function notifikasiSend($fcmToken, $notificationTitle, $notificationBody, $id = null)
+    public static function notifikasiSend($fcmToken, $notificationTitle, $notificationBody)
     {
         $SERVER_API_KEY = env('FCM_SERVER_KEY');
         $serverKey = $SERVER_API_KEY; 

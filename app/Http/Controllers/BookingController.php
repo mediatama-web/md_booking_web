@@ -13,7 +13,7 @@ use App\Models\Daftarkelasm;
 use App\Http\Requests\Bookingrequest;
 
 use App\Http\Controllers\NotifikasiController;
-use App\Http\Controllers\Android\ApiController;
+use App\Http\Controllers\Core\NotifikasiController as Notiff;
 
 class BookingController extends Controller
 {
@@ -59,7 +59,7 @@ class BookingController extends Controller
         // data user 
         $pengguna = Penggunam::where('id',$data->id_user)->first();
         if($pengguna->fcm_token != null){
-            ApiController::notifikasiSend($pengguna->fcm_token, 'INFO','Status Booking Anda '.$r->status);
+            Notiff::notifikasiSend($pengguna->fcm_token, 'INFO','Status Booking Anda '.$r->status);
         }
         return Redirect::back();
     }

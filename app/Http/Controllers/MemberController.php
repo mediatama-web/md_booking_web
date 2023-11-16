@@ -37,7 +37,7 @@ class MemberController extends Controller
                 'email' => $r->email,
                 'password' => Hash::make('mediatama123'),
                 'tgl_daftar' => date('Y-m-d'),
-                'foto' => url('image/user.png'),
+                'foto' => 'image/user.png',
                 'info' => $r->info,
             ]);
         }

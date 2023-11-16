@@ -20,7 +20,8 @@ use App\Models\Absen;
 use App\Models\Loker;
 use App\Models\User;
 
-use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\NotifikasiController as NotifyWeb;
+use App\Http\Controllers\Core\NotifikasiController as NotifyApk;
 
 class ApiController extends Controller
 {
@@ -82,7 +83,7 @@ class ApiController extends Controller
         $list = [];
         foreach($data as $i => $a){
             $list[] = array(
-                'gambar' => "http://22.8.23.95:8000/".$a->gambar,
+                'gambar' => $a->gambar,
                 'deskripsi' => ""
             );
         }
@@ -156,14 +157,14 @@ class ApiController extends Controller
         ]);
 
         if($data){
-            $this->notifikasiSend($user->fcm_token, 'Info','Booking Jadwal Berhasil');
-            NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
+            NotifyApk::notifikasiSend($user->fcm_token, 'Info','Booking Jadwal Berhasil');
+            NotifyWeb::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
             return response()->json([
                 'status' => 200,
                 'pesan' => "berhasil",
             ]);
         }else{
-            $this->notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak');
+            NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak');
             return response()->json([
                 'status' => 400,
                 'pesan' => "gagal"
@@ -294,28 +295,6 @@ class ApiController extends Controller
                 'success'=>false
             ],500);
         }
-    }
-
-    public static function notifikasiSend($fcmToken, $notificationTitle, $notificationBody){
-        $SERVER_API_KEY = env('FCM_SERVER_KEY');
-        $serverKey = $SERVER_API_KEY; 
-        
-        $client = new Client();
-        $response = $client->post('https://fcm.googleapis.com/fcm/send', [
-            'headers' => [
-                'Authorization' => 'key='.$serverKey,
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'to' => $fcmToken,
-                'notification' => [
-                    'title' => $notificationTitle,
-                    'body' => $notificationBody,
-                ],
-            ],
-        ]);
-
-        return response()->json('berhasil');
     }
 
 }
