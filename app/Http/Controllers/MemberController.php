@@ -15,6 +15,7 @@ use App\Models\Penggunam;
 use App\Models\Kelasm;
 use App\Models\Absen;
 use App\Models\Daftarkelasm;
+use App\Http\Controllers\Core\UploadController as Uploadfile;
 
 class MemberController extends Controller
 {
@@ -130,9 +131,8 @@ class MemberController extends Controller
         if($r->validated()){
             $foto = $r->file('sertifikat');
             if($foto){
-                $filename = time(). "." . $foto->getClientOriginalExtension();
-                $foto->move('upload/', $filename);
-                $data['sertifikat'] = url('upload/'.$filename);
+                $filename = Uploadfile::uploadSingle($foto, 'upload/');
+                $data['sertifikat'] = 'upload/'.$filename;
                 $hasil = Daftarkelasm::where('id',$r->id_kelas)->update($data);
             }
 

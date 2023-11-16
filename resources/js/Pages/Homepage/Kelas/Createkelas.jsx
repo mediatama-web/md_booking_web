@@ -9,20 +9,26 @@ export default function Createkalas({auth, errors, kelas}){
     const [materi , setMateri] = useState()
     const [jenis , setJenis] = useState()
     const [harga , setHarga] = useState()
+    const [pertemuan , setPertemuan] = useState()
+    const [foto , setFoto] = useState()
 
     const handlerSave = (e) => {
         e.preventDefault()
-        if(kelas != null){
+        if(kelas != 0){
             router.post(route('kelas-add-save',kelas.id),{
                 materi : materi,
                 jenis : jenis,
                 harga : harga,
+                pertemuan : pertemuan,
+                foto : foto,
             })
         }else{
             router.post('kelas-add-save',{
                 materi : materi,
                 jenis : jenis,
                 harga : harga,
+                pertemuan : pertemuan,
+                foto : foto,
             })
         }
     }
@@ -31,6 +37,7 @@ export default function Createkalas({auth, errors, kelas}){
         setMateri(kelas.materi)
         setJenis(kelas.jenis)
         setHarga(kelas.harga)
+        setPertemuan(kelas.pertemuan)
     },[kelas])
     return (
 
@@ -85,6 +92,23 @@ export default function Createkalas({auth, errors, kelas}){
 
                                     <InputError message={errors.jenis} className="mt-2" />
                                 </div>
+
+                                <div>
+                                    <InputLabel htmlFor="Pertemuan" value="Pertemuan" />
+
+                                    <input
+                                        id="pertemuan"
+                                        type="number"
+                                        name="pertemuan"
+                                        value={pertemuan}
+                                        className="mt-1 block w-full"
+                                        onChange={(e) => setPertemuan(e.target.value)}
+
+                                    />
+
+                                    <InputError message={errors.harga} className="mt-2" />
+                                </div>
+
                                 <div>
                                     <InputLabel htmlFor="Harga" value="Harga" />
 
@@ -99,6 +123,20 @@ export default function Createkalas({auth, errors, kelas}){
                                     />
 
                                     <InputError message={errors.harga} className="mt-2" />
+                                </div>
+                                
+                                <div>
+                                    <InputLabel htmlFor="Foto" value="Foto" />
+
+                                    <input
+                                        id="foto"
+                                        type="file"
+                                        name="foto"
+                                        className="mt-1 block w-full"
+                                        onChange={(e) => setFoto(e.target.files[0])}
+                                    />
+
+                                    <InputError message={errors.foto} className="mt-2" />
                                 </div>
 
                             </div>

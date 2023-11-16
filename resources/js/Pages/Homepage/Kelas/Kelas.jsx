@@ -107,7 +107,9 @@ export default function Kelas({ auth, kelas }) {
                                     <th className='text-left md:text-sm text-xs'>No</th>
                                     <th className='text-left md:text-sm text-xs'>Materi</th>
                                     <th className='text-left md:text-sm text-xs'>Jenis</th>
+                                    <th className='text-left md:text-sm text-xs'>Pertemuan</th>
                                     <th className='text-left md:text-sm text-xs'>Harga</th>
+                                    <th className='text-left md:text-sm text-xs'>Foto</th>
                                     <th className='text-left md:text-sm text-xs w-24'>#</th>
                                 </tr>
                             </thead>
@@ -151,7 +153,9 @@ export default function Kelas({ auth, kelas }) {
                                                         <td className='border border-grey-100'>{kelas.from + i}</td>
                                                         <td className='border border-grey-100'>{data.materi}</td>
                                                         <td className='border border-grey-100'>{data.jenis}</td>
+                                                        <td className='border border-grey-100'>{data.pertemuan}</td>
                                                         <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
+                                                        <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
                                                         <td className='flex border border-grey-100 text-center w-24'>
                                                             <Link href={route('kelas-add',data.id)} className='hover:cursor-pointer w-10 text-center hover:bg-blue-400 bg-blue-500 rounded-lg text-xs text-white p-2'>
                                                                 <FontAwesomeIcon icon={faPencil} />

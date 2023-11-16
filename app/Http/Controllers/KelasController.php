@@ -9,10 +9,13 @@ use Inertia\Response;
 use App\Models\Kelasm;
 use App\Http\Requests\Paketrequest;
 
+use App\Http\Controllers\Core\UploadController as Uploadfile;
+
 class KelasController extends Controller
 {
     public function index(Request $r){
         $data['kelas'] = Kelasm::search($r->cari)->paginate($r->perpage ?? 10);
+        
         return Inertia::render('Homepage/Kelas/Kelas',$data);
     }
 
@@ -20,22 +23,31 @@ class KelasController extends Controller
         if($id != null){
             $data['kelas'] = Kelasm::where('id',$id)->first();
         }else{
-            $data['kelas'] = null;
+            $data['kelas'] = 0;
         }
         return Inertia::render('Homepage/Kelas/Createkelas',$data);
     }
 
     public function save(Paketrequest $r,$id = null){
-        
+
+        if($r->foto != null){
+            $filename = Uploadfile::uploadSingle($foto, 'kelas/');
+            $data['foto'] = 'kelas/'.$filename;
+        }
+
         if($r->validated()){
+            $data['materi'] = $r->materi;
+            $data['jenis'] = $r->jenis;
+            $data['harga'] = $r->harga;
+            $data['pertemuan'] = $r->pertemuan;
             if($id){
-                Kelasm::where('id',$id)->update($r->validated());
+                Kelasm::where('id',$id)->update($data);
             }else{
-                Kelasm::create($r->validated());
+                Kelasm::create($data);
             }
         }
 
-        return Redirect::route('kelas');
+        return Redirect::route('kelass');
     }
 
     public function hapusKelas($id){
