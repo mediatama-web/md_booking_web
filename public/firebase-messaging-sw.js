@@ -1,23 +1,25 @@
 // Scripts for firebase and firebase messaging
-importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js');
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 // Initialize the Firebase app in the service worker by passing the generated config
 const firebaseConfig = {
-  apiKey: "AIzaSyARVfZ38nDiRXDabNl0FvU6_a_LZ1AU5no",
-  authDomain: "flutter1-a6047.firebaseapp.com",
-  databaseURL: "https://flutter1-a6047-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "flutter1-a6047",
-  storageBucket: "flutter1-a6047.appspot.com",
-  messagingSenderId: "747771514990",
-  appId: "1:747771514990:web:bd2f9053c208df9c56167f",
-  measurementId: "G-FDPTZ2R5KX"
+  apiKey: "AIzaSyBya5C9P7cI53YFFfboQDmyVycyP0g4mBs",
+  authDomain: "mediatamawebbooking.firebaseapp.com",
+  projectId: "mediatamawebbooking",
+  storageBucket: "mediatamawebbooking.appspot.com",
+  messagingSenderId: "517301118578",
+  appId: "1:517301118578:web:7d918305fa9ebbb98544eb",
+  measurementId: "G-XHL9C05FT2"
 };
 
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// firebase.initializeApp(firebaseConfig);
 
 // Retrieve firebase messaging
-const messaging = firebase.messaging();
+const messaging = app.messaging();
 
 messaging.onBackgroundMessage(function(payload) {
   console.log('Received background message ', payload);
