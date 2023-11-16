@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         // update token
         $id_admin = Auth::guard('web')->user()->id;
-        User::where('id',$id_admin)->update(['device_token' => $request->token]);
+        User::where('id',$id_admin)->update(['fcm_token' => $request->token]);
         
         $request->session()->regenerate();
 

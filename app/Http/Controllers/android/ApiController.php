@@ -86,7 +86,10 @@ class ApiController extends Controller
             );
         }
 
-        return response()->json($list);
+        return response()->json([
+            'status' => 200,
+            'banner' => $list
+        ]);
     }
 
     public function bookinguser(){
