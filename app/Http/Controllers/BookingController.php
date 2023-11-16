@@ -41,12 +41,12 @@ class BookingController extends Controller
 
     public function save(Bookingrequest $r){
         if($r->validated()){
-            // if(date('Y-m-d') == $r->tanggal){
-            //     NotifikasiController::sendNotification('NOTICE','Tanggal Booking Harus Lebih Dari Hari Sekarang');
-            // }else{
+            if(date('Y-m-d') == $r->tanggal){
+                NotifikasiController::sendNotification('NOTICE','Tanggal Booking Harus Lebih Dari Hari Sekarang');
+            }else{
                 Bookingm::create($r->validated());
-                // NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
-            // }
+                NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
+            }
         }
 
         return Redirect::back();
