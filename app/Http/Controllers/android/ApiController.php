@@ -82,7 +82,8 @@ class ApiController extends Controller
         $list = [];
         foreach($data as $i => $a){
             $list[] = array(
-                'gambar' => $a->gambar,
+                'gambar' => "http://22.8.23.95:8000/".$a->gambar,
+                'deskripsi' => ""
             );
         }
 
@@ -132,7 +133,7 @@ class ApiController extends Controller
         foreach($data as $i => $a){
 
             $list[] = array(
-                'foto' => 'kelas/19362653.jpg',
+                'foto' => $a->foto,
                 'id_kelas' => (string)$a->id_kelas,
                 'materi' => $a->materi,
                 'pertemuan' => $a->pertemuan,

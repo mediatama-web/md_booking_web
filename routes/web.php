@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/loker-add/{id?}', [LokerController::class, 'add'])->name('loker-add');
     Route::post('/loker-save', [LokerController::class, 'lokersave'])->name('loker-save');
 
-    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
+    Route::get('/kelass', [KelasController::class, 'index'])->name('kelass');
     Route::get('/kelas-add/{id?}', [KelasController::class, 'tambah'])->name('kelas-add');
     Route::post('/kelas-add-save/{id?}', [KelasController::class, 'save'])->name('kelas-add-save');
     Route::get('/kelas-hapusKelas/{id?}', [KelasController::class, 'hapusKelas'])->name('kelas-hapusKelas');
