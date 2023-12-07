@@ -54,7 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/report', [ReportController::class, 'index'])->name('report');
     
-    Route::get('/loker', [LokerController::class, 'index'])->name('loker');
+    Route::get('/lokers', [LokerController::class, 'index'])->name('lokers');
     Route::get('/loker-add/{id?}', [LokerController::class, 'add'])->name('loker-add');
     Route::post('/loker-save', [LokerController::class, 'lokersave'])->name('loker-save');
 

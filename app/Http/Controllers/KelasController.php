@@ -31,8 +31,8 @@ class KelasController extends Controller
     public function save(Paketrequest $r,$id = null){
 
         if($r->foto != null){
-            $filename = Uploadfile::uploadSingle($foto, 'kelas/');
-            $data['foto'] = 'kelas/'.$filename;
+            $filename = Uploadfile::uploadSingle($r->foto, 'kelas/');
+            $data['foto'] = $filename;
         }
 
         if($r->validated()){
