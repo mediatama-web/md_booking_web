@@ -4,6 +4,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useRef, useState, useEffect } from 'react';
 import { pickBy } from 'lodash'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import Swal from 'sweetalert2'
 
 export default function Booking({ auth, booking, mentor }){
     const perpage = useRef(booking.per_page)
@@ -41,7 +44,6 @@ export default function Booking({ auth, booking, mentor }){
     }
 
     const handlerStatus = (status, id) => {
-        console.log(id);
         router.post('booking-statuschange',{
             id : id,
             status : status
@@ -49,11 +51,40 @@ export default function Booking({ auth, booking, mentor }){
     }
 
     const handlerMentor = (mentor, id) => {
-        console.log(id);
         router.post('booking-mentorchange',{
             id : id,
             mentor : mentor
         })
+    }
+
+    const hapusBooking = (id) => {
+        Swal.fire({
+            title: "Yakin Mehapus Data?",
+            text: "Apakah Anda Yakin Ingin Menghapus Data Ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Saya Yakin!",
+            cancelButtonText: "Batal"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.get(route('booking-delete',id))
+                .then((res) => {
+                    Swal.fire({
+                        title: "Hapus Data!",
+                        text: "Data Berhasil Dihapus.",
+                        icon: "success"
+                    });
+
+                    getData()
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+              
+            }
+          });
     }
 
     return (
@@ -114,6 +145,7 @@ export default function Booking({ auth, booking, mentor }){
                                     <th className='text-left md:text-sm text-xs'>Nama Mentor</th>
                                     <th className='text-left md:text-sm text-xs'>Kelas</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
+                                    <th className='text-left md:text-sm text-xs'>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -184,6 +216,9 @@ export default function Booking({ auth, booking, mentor }){
                                                         <option value="diterima">Diterima</option>
                                                         <option value="ditolak">Ditolak</option>
                                                     </select>
+                                                </td>
+                                                <td className='border border-grey-100 w-24 text-center'>
+                                                    <FontAwesomeIcon onClick={(e) => hapusBooking(data.id)} className='text-red-400 hover:text-red-600 cursor-pointer' icon={faTrash}/>
                                                 </td>
 
                                             </tr>

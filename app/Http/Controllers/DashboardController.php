@@ -13,15 +13,42 @@ use App\Models\Mentorm;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index($status = 'NULL', $dari = 0, $sampai = 0)
     {
-        $tgl = date('Y-m-d');
-        $data['booking'] = Bookingm::join('mentor','booking.id_mentor','mentor.id')
-                    ->leftjoin('pengguna','pengguna.id','booking.id_user')
-                    ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
-                    ->where('booking.tanggal',$tgl)
-                    ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
-                    ->get();
+        if($dari != 0 && $sampai != 0 && $status != "NULL"){
+            $data['booking'] = Bookingm::join('mentor','booking.id_mentor','mentor.id')
+                        ->leftjoin('pengguna','pengguna.id','booking.id_user')
+                        ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
+                        ->where('booking.status',$status)
+                        ->whereBetween('booking.tanggal',[$dari, $sampai])
+                        ->orderBy('booking.id','DESC')
+                        ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                        ->get();
+        }elseif($status != "NULL"){
+            $data['booking'] = Bookingm::join('mentor','booking.id_mentor','mentor.id')
+                        ->leftjoin('pengguna','pengguna.id','booking.id_user')
+                        ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
+                        ->where('booking.status',$status)
+                        ->orderBy('booking.id','DESC')
+                        ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                        ->get();
+        }elseif($dari != 0 && $sampai != 0){
+            $data['booking'] = Bookingm::join('mentor','booking.id_mentor','mentor.id')
+                        ->leftjoin('pengguna','pengguna.id','booking.id_user')
+                        ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
+                        ->whereBetween('booking.tanggal',[$dari, $sampai])
+                        ->orderBy('booking.id','DESC')
+                        ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                        ->get();
+        }else{
+            $data['booking'] = Bookingm::join('mentor','booking.id_mentor','mentor.id')
+                        ->leftjoin('pengguna','pengguna.id','booking.id_user')
+                        ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
+                        ->orderBy('booking.id','DESC')
+                        ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                        ->get();
+        }
+
 
         $data['mentor'] = Mentorm::where('status','aktif')->get();
         return Inertia::render('Dashboard',$data);

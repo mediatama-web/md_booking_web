@@ -20,9 +20,9 @@ use App\Http\Controllers\{
 
 Route::get('/',[Logincontroller::class, 'index'])->name('login');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard/{status?}/{dari?}/{sampai?}', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');
     Route::get('/booking-add/{id?}', [BookingController::class, 'add'])->name('booking-add');
     Route::post('/booking-save/{id?}', [BookingController::class, 'save'])->name('booking-save');
+    Route::get('/booking-delete/{id?}', [BookingController::class, 'hapusBooking'])->name('booking-delete');
     Route::post('/booking-statuschange', [BookingController::class, 'statuschange'])->name('booking-statuschange');
     Route::post('/booking-mentorchange', [BookingController::class, 'mentorchange'])->name('booking-mentorchange');
 
@@ -71,5 +72,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');
 
     Route::get('/sertifikat-depan', [SertifikatController::class, 'index'])->name('sertifikat-depan');
+    Route::get('/sertifikat-belakang', [SertifikatController::class, 'belakang'])->name('sertifikat-belakang');
 
 require __DIR__.'/auth.php';

@@ -156,13 +156,11 @@ export default function Kelas({ auth, kelas }) {
                                                         <td className='border border-grey-100'>{data.pertemuan}</td>
                                                         <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
                                                         <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
-                                                        <td className='flex border border-grey-100 text-center w-24'>
-                                                            <Link href={route('kelas-add',data.id)} className='hover:cursor-pointer w-10 text-center hover:bg-blue-400 bg-blue-500 rounded-lg text-xs text-white p-2'>
-                                                                <FontAwesomeIcon icon={faPencil} />
+                                                        <td className='border border-grey-100 text-center w-24'>
+                                                            <Link href={ route('kelas-add',data.id) } >
+                                                                <FontAwesomeIcon className='m-3 hover:text-blue-400 text-blue-500' icon={faPencil} />
                                                             </Link>
-                                                            <div onClick={() => handlerHapus(data.id)} className='hover:cursor-pointer text-white w-10 hover:bg-red-400 bg-red-500 rounded-lg text-xs p-2'>
-                                                                <FontAwesomeIcon icon={faTrash} />
-                                                            </div>
+                                                            <FontAwesomeIcon className='m-3 text-red-400 hover:text-red-600 cursor-pointer' onClick={() => handlerHapus(data.id)} icon={faTrash} />
                                                         </td>
                                                     </tr>
                                                 )

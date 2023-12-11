@@ -41,15 +41,11 @@ class BookingController extends Controller
 
     public function save(Bookingrequest $r){
         if($r->validated()){
-            if(date('Y-m-d') == $r->tanggal){
-                NotifikasiController::sendNotification('NOTICE','Tanggal Booking Harus Lebih Dari Hari Sekarang');
-            }else{
-                Bookingm::create($r->validated());
-                NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
-            }
+            Bookingm::create($r->validated());
+            NotifikasiController::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
         }
 
-        return Redirect::back();
+        return Redirect::route('booking');
     }
 
     public function statuschange(Request $r){
@@ -67,5 +63,10 @@ class BookingController extends Controller
     public function mentorchange(Request $r){
         Bookingm::where('id',$r->id)->update(['id_mentor' => $r->mentor]);
         return Redirect::back();
+    }
+    
+    public function hapusBooking($id){
+        Bookingm::where('id',$id)->delete();
+        return response()->json(['pesan' => "berhasil"]);
     }
 }

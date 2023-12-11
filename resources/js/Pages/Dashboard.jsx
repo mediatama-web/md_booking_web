@@ -1,9 +1,16 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+import Modal from '@/Components/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFilter } from '@fortawesome/free-solid-svg-icons'
 
 export default function Dashboard({ auth, booking, mentor }) {
-    const [token ,setToken] = useState('')
+    const [modal, setModal] = useState(false)
+    const [status, setStatus] = useState("NULL")
+    const [dari, setDari] = useState(0)
+    const [sampai, setSampai] = useState(0)
+
     useEffect(() => {
         import("@lottiefiles/lottie-player");
     })
@@ -23,6 +30,24 @@ export default function Dashboard({ auth, booking, mentor }) {
             mentor : mentor
         })
     }
+
+    const tanggalIndo = (tanggal) => {
+        const date = new Date(tanggal);
+        const formatDate = date.toLocaleDateString('id');
+        return formatDate
+    }
+
+    const handlerModal = () => {
+        setModal(true)
+    }
+
+    const handlerModalClose = () => {
+        setModal(false)
+    }
+
+    const filterData = () => {
+        router.get(route('dashboard',[status,dari,sampai]))
+    }
     
     return (
         <AuthenticatedLayout
@@ -37,7 +62,9 @@ export default function Dashboard({ auth, booking, mentor }) {
                             <div>
                                 <h3 className='md:text-lg text-xs font-bold'>Jadwal Booking Hari ini</h3>
                             </div>
-                            
+                            <div>
+                                <FontAwesomeIcon onClick={(e) => handlerModal()} className='cursor-pointer' icon={faFilter}/>
+                            </div>
                         </div>
                      
                         <table id="example" className="w-full p-4 border">
@@ -76,8 +103,8 @@ export default function Dashboard({ auth, booking, mentor }) {
                                         booking.map((data , i) => (
                                             <tr key={data.id} className='[&>td]:p-2 text-sm'>
                                                 <td className='border border-grey-100'>{i+1}</td>
-                                                <td className='border border-grey-100'>{data.nama_pengguna} <br /> {new Date(data.created_at).toJSON().slice(0, 16)}</td>
-                                                <td className='border border-grey-100'>{data.tanggal}</td>
+                                                <td className='border border-grey-100'>{data.nama_pengguna}</td>
+                                                <td className='border border-grey-100'>{tanggalIndo(data.tanggal)}</td>
                                                 <td className='border border-grey-100'>{data.jam}</td>
                                                 <td className='border border-grey-100'>
                                                 <select
@@ -118,6 +145,42 @@ export default function Dashboard({ auth, booking, mentor }) {
                     </div>
                 </div>
             </div>
+
+            <Modal maxWidth='sm' show={modal}>
+                <div className="bg-grey-200 p-3">
+                    <div className="flex justify-between mb-3">
+                        <div>
+                            <h3 className='text-lg font-bold'>Filter Data</h3>
+                        </div>
+                        <div>
+                            <button className='w-8 h-8 border border-slate-600 rounded-full bg-slate-600 hover:bg-slate-400 text-white' onClick={() => handlerModalClose()}>x</button>
+                        </div>
+                    </div>
+                    <div className="border-b-2 bg-slate-800"></div>
+                    <div className='mt-4'>
+                        <div className="grid w-full">
+                            <label htmlFor="">Status</label>
+                            <select type="text" onChange={(e) => setStatus(e.target.value)} className="w-full outline-1 rounded-md">
+                                <option value="">-PILIH-</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Diterima">Diterima</option>
+                                <option value="Ditolak">Ditolak</option>
+                            </select>
+                        </div>
+                        <div className="grid w-full">
+                            <label htmlFor="">Dari Tanggal</label>
+                            <input type="date" onChange={(e) => setDari(e.target.value)} className="w-full outline-1 rounded-md"/>
+                        </div>
+                        <div className="grid w-full">
+                            <label htmlFor="">Sampai Tanggal</label>
+                            <input type="date" onChange={(e) => setSampai(e.target.value)} className="w-full outline-1 rounded-md"/>
+                        </div>
+                        <div className="flex items-center justify-center mt-4">
+                            <button onClick={(e) => filterData()} type="button"  className='w-full bg-slate-600 hover:bg-slate-400 p-2 rounded-md text-white'>  Filter  </button>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
 
         </AuthenticatedLayout>
     );

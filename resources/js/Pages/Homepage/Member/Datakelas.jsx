@@ -5,7 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faUpload, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faFile, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
 import Modal from '@/Components/Modal';
 import axios from 'axios';
 
@@ -200,15 +200,21 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                         </td>
                                                         <td className='border border-grey-100 p-1 text-center'>
                                                                 {
-                                                                    data.sertifikat 
+                                                                    data.sertifikat == 0
                                                                     ? 
-                                                                    <div className='w-24'>
-                                                                        <a className='text-blue-400 text-ellipsis' href={data.sertifikat}><div className='text-blue'>View</div></a> 
-                                                                    </div>
-                                                                    :
                                                                     <i onClick={(e) => handlerModal2(data.id)} className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
-                                                                        <FontAwesomeIcon icon={faUpload} />
+                                                                        Terbitkan Sertifikat 
+                                                                        <FontAwesomeIcon className='ml-2' icon={faPencil} />
                                                                     </i>
+                                                                    :
+                                                                    <div className="flex">
+                                                                        <a target="_blank" href={route('sertifikat-depan')} className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
+                                                                            Depan <FontAwesomeIcon className='ml-2' icon={faFile} />
+                                                                        </a>
+                                                                        <a target="_blank" href={route('sertifikat-belakang')} className='ml-2 cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
+                                                                            Belakang <FontAwesomeIcon className='ml-2' icon={faFile} />
+                                                                        </a>
+                                                                    </div>
                                                                 }
                                                         </td>
                                                         <td className='border border-grey-100 text-center w-14'>
@@ -377,22 +383,13 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
             <Modal show={show2}>
                     <div className="w-full bg-grey-200 p-3">
                         <div className="flex justify-between mb-3">
-                            <p className='text-lg'>Upload Sertifikat</p>
+                            <p className='text-lg'>Sertifikat</p>
                             <div>
                                 <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose2()}>x</button>
                             </div>
                         </div>
                         <div>
-                            <form encType='multipart/form-data'>
-                                <div className="flex w-full">
-                                    <label htmlFor="">Upload File</label>
-                                    <input type="file" onChange={(e) => setSertifikat(e.target.files[0])} className='w-full rounded-md'/>
-                                </div>
-                                <div className="flex justify-end">
-                                    <button type='button' onClick={() => handlerUploadFIle()} className="w-32 bg-blue-600 p-3 rounded-md text-white">Upload</button>
-                                </div>
-
-                            </form>
+                            
                         </div>
                     </div>
             </Modal>

@@ -10,15 +10,21 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap');
     @page {
         size: A4 landscape;
-        margin: 0px;
+        margin: 0px;   
     }
 
     body {
-        background-image: url('sertifikat/sertifikat-Trainer-Les-CPNS-TEMPLATE.png');
+        background-image: url('sertifikat/sertifikat_depan.png');
         background-repeat: no-repeat;
         background-size: 100%;
         font-family: 'Poppins', sans-serif;
         
+    }
+
+    #belakang {
+        background-image: url('sertifikat/sertifikat_belakang.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
     }
 
     #sertifikat {
@@ -93,41 +99,47 @@
 
 <body>
 
-    <b id="sertifikat">SERTIFIKAT</b>
+    <div id="depan">
+        <b id="sertifikat">SERTIFIKAT</b>
 
-    <span id="nomor">
-        Nomor : 016/DESIGN-FIGMA/S/LPK.MWI/XII/2023
-        <br>
-        Nomor Izin Lembaga : 07092200866450001
-    </span>
+        <span id="nomor">
+            Nomor : 016/DESIGN-FIGMA/S/LPK.MWI/XII/2023
+            <br>
+            Nomor Izin Lembaga : 07092200866450001
+        </span>
 
-    <span id="title1">
-        DIBERIKAN KEPADA :
-    </span>
-    
-    <span id="title2">
-        YOGIE GANTENG SELALU
-    </span>
-    
-    <span id="title3">
-        Atas Kelulusan Dalam Pelatihan
-        <br>
-        <b style="color:red; font-size:20px">DESIGN GRAFIS</b>
-        <br>
-        dan dinyatakan <b style="color:red">Kompeten</b> Standar LPK. Mediatama Web Indonesia
-    </span>
-    
-    <span id="title4">
-        Padang, 11 Desember 2024
-        <br>
-        Pimpinan LPK. MEDIATAMA WEB INDONESIA
-    </span>
+        <span id="title1">
+            DIBERIKAN KEPADA :
+        </span>
+        
+        <span id="title2">
+            YOGIE GANTENG SELALU
+        </span>
+        
+        <span id="title3">
+            Atas Kelulusan Dalam Pelatihan
+            <br>
+            <b style="color:red; font-size:20px">DESIGN GRAFIS</b>
+            <br>
+            dan dinyatakan <b style="color:red">Kompeten</b> Standar LPK. Mediatama Web Indonesia
+        </span>
+        
+        <span id="title4">
+            Padang, <?= App\Http\Controllers\Core\NotifikasiController::tglIndo(date('Y-m-d')) ?>
+            <br>
+            Pimpinan LPK. MEDIATAMA WEB INDONESIA
+        </span>
 
-    <img src="ttd/ttd_gema.png" id="ttd" alt="">
-    
-    <span id="title5">
-        Ferri Achmad Effindri, M.kom
-    </span>
+        <img src="ttd/ttd_gema.png" id="ttd" alt="">
+        
+        <span id="title5">
+            Ferri Achmad Effindri, M.kom
+        </span>
+    </div>
+
+    <div id="belakang">
+
+    </div>
     
 </body>
 </html>
