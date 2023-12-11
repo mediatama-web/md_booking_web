@@ -14,7 +14,8 @@ use App\Http\Controllers\{
     ReportController,
     NotifikasiController,
     DashboardController,
-    LokerController
+    LokerController,
+    SertifikatController
 };
 
 Route::get('/',[Logincontroller::class, 'index'])->name('login');
@@ -68,5 +69,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/save-token', [NotifikasiController::class, 'saveToken'])->name('save-token');
     Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');
+
+    Route::get('/sertifikat-depan', [SertifikatController::class, 'index'])->name('sertifikat-depan');
 
 require __DIR__.'/auth.php';

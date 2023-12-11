@@ -24,34 +24,6 @@ export default function Dashboard({ auth, booking, mentor }) {
         })
     }
     
-    if ("Notification" in window) {
-        // Check if the user has granted permission to show notifications
-        if (Notification.permission === "granted") {
-          // If permission is granted, show a notification
-          showNotification();
-        } else if (Notification.permission !== "denied") {
-          // If permission has not been granted or denied, request permission
-          Notification.requestPermission().then(function (permission) {
-            if (permission === "granted") {
-              // If the user grants permission, show a notification
-              showNotification();
-            }
-          });
-        }
-      }
-    
-      function showNotification() {
-        // Create a notification
-        var notification = new Notification("Hello, Admin", {
-          body: "Silahkan Cek Jadwal Booking Hari Ini Ya!!!",
-        });
-    
-        // Optionally, handle click event on the notification
-        notification.onclick = function () {
-          console.log("Notification clicked");
-        };
-      }
-
     return (
         <AuthenticatedLayout
             user={auth.user}
