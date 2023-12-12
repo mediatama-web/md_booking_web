@@ -16,7 +16,7 @@ class SertifikatController extends Controller
     public function index($id,$kelas){
         $data['sertifikat'] = Daftarkelasm::leftJoin('pengguna as a','a.id','daftarkelas.id_user')
                                 ->leftJoin('kelas as b','b.id','daftarkelas.id_kelas')
-                                ->select('a.nama_pengguna','daftarkelas.tanggal_terbit','daftarkelas.no_sertifikat','b.kode_kelas')
+                                ->select('a.nama_pengguna','daftarkelas.tanggal_terbit','daftarkelas.no_sertifikat','b.kode_kelas','b.keterangan')
                                 ->where('daftarkelas.id_user',$id)
                                 ->where('daftarkelas.id_kelas',$kelas)
                                 ->first();

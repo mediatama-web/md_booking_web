@@ -25,10 +25,9 @@ class MentorRequest extends FormRequest
             'nama_mentor' => ['required','string', 'max:255'],
             'bidang' => ['required','string', 'max:255'],
             'email' => ['required','string'],
-            'password' => ['required'],
+            'password' => ['string'],
             'alamat' => ['required'],
             'telpon' => ['required'],
-            'foto' => ['mimes:jpeg,png,jpg'],
             'status' => ['string'],
         ];
     }

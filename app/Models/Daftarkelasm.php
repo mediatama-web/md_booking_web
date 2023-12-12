@@ -11,6 +11,6 @@ class Daftarkelasm extends Model
 
     protected $table = 'daftarkelas';
     protected $fillable = [
-        'id','id_user','id_kelas','status'
+        'id','id_user','id_kelas','status','sertifikat','tanggal_terbit','no_sertifikat'
     ];
 }

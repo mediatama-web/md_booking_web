@@ -41,6 +41,7 @@ class KelasController extends Controller
             $data['jenis'] = $r->jenis;
             $data['harga'] = $r->harga;
             $data['pertemuan'] = $r->pertemuan;
+            $data['keterangan'] = $r->keterangan;
             if($id){
                 Kelasm::where('id',$id)->update($data);
             }else{
@@ -53,6 +54,6 @@ class KelasController extends Controller
 
     public function hapusKelas($id){
         Kelasm::where('id',$id)->delete();
-        return Redirect::back();
+        return response()->json(['pesan' => 'ok']);
     }
 }

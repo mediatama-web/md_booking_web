@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('jenis');
             $table->string('harga');
             $table->integer('pertemuan');
-            $table->string("keterangan")->nullable();
+            $table->string('keterangan')->nullable();
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

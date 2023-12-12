@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faFile, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
 import Modal from '@/Components/Modal';
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 export default function Datakelas({ auth, member, kelas, kelasdaftar }){
 
@@ -32,6 +33,10 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
         import("@lottiefiles/lottie-player");
     })
 
+    const getData = (e) => {
+        window.location.reload()
+    }
+
     const handlerSimpan = (e) => {
 
         e.preventDefault()
@@ -40,10 +45,6 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
             id_kelas : parseInt(kelasx),
             id_user : parseInt(member.id),
         })
-    }
-
-    const handlerHapus = (id) => {
-        router.get(route('member-kelasHapus',id))
     }
 
     const handleChangeValue = (e) => {
@@ -113,7 +114,35 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
         .then(function(res){
             handlerModal1(idkelas)
         })
-        
+    }
+
+    const hapusKelas = (id) => {
+        Swal.fire({
+            title: "Yakin Mehapus Data?",
+            text: "Apakah Anda Yakin Ingin Menghapus Data Ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Saya Yakin!",
+            cancelButtonText: "Batal"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.get(route('member-kelasHapus',id))
+                .then((res) => {
+                    Swal.fire({
+                        title: "Hapus Data!",
+                        text: "Data Berhasil Dihapus.",
+                        icon: "success"
+                    });
+
+                    getData()
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            }
+          });
     }
 
     return(
@@ -208,7 +237,7 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                                 }
                                                         </td>
                                                         <td className='border border-grey-100 text-center w-14'>
-                                                            <div onClick={(_) => handlerHapus(data.id)} className='hover:cursor-pointer text-center w-7 m-1 p-1 rounded-md text-white text-xs bg-red-500'>
+                                                            <div onClick={(_) => hapusKelas(data.id)} className='hover:cursor-pointer text-center w-7 m-1 p-1 rounded-md text-white text-xs bg-red-500'>
                                                                 <FontAwesomeIcon icon={faTrash} />
                                                             </div>
                                                         </td>

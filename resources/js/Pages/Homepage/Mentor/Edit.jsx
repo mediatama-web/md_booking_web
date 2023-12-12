@@ -4,21 +4,21 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
-export default function Edit({ auth, errors }) {
+export default function Edit({ auth, errors, mentor }) {
 
     const { data, setData, post, progress } = useForm({
-        nama_mentor: "",
-        bidang: "",
-        email: "",
-        password: "",
-        telpon: "",
-        alamat: "",
+        nama_mentor: mentor.nama_mentor,
+        bidang: mentor.bidang,
+        email: mentor.email,
+        telpon: mentor.telpon,
+        alamat: mentor.alamat,
+        foto : ""
     })
 
     const handlerSave = (e) => {
         e.preventDefault()
 
-        post('member-add-save', data, {
+        post(route('mentor-save',mentor.id), data, {
             forceFormData: true,
         })
     }
@@ -139,10 +139,9 @@ export default function Edit({ auth, errors }) {
                                         id="foto"
                                         type="file"
                                         name="foto"
-                                        value={data.foto}
                                         className="mt-1 block w-full"
                                         placeholder="+62"
-                                        onChange={(e) => setData('foto',e.target.value)}
+                                        onChange={(e) => setData('foto', e.target.files[0])}
                                     />
 
                                     <InputError message={errors.foto} className="mt-2" />

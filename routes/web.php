@@ -35,10 +35,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/booking-statuschange', [BookingController::class, 'statuschange'])->name('booking-statuschange');
     Route::post('/booking-mentorchange', [BookingController::class, 'mentorchange'])->name('booking-mentorchange');
 
-    Route::get('/mentor', [MentorController::class, 'index'])->name('mentor');
+    Route::get('/mentors/{nama?}', [MentorController::class, 'index'])->name('mentors');
     Route::get('/mentor-add', [MentorController::class, 'create'])->name('mentor-add');
-    Route::post('/mentor-save', [MentorController::class, 'save'])->name('mentor-save');
+    Route::post('/mentor-save/{id?}', [MentorController::class, 'save'])->name('mentor-save');
     Route::get('/mentor-edit/{id}', [MentorController::class, 'edit'])->name('mentor-edit');
+    Route::get('/mentor-hapus/{id}', [MentorController::class, 'hapus'])->name('mentor-hapus');
     Route::get('/mentor-status/{id}/{status}', [MentorController::class, 'status'])->name('mentor-status');
 
     Route::get('/member', [MemberController::class, 'index'])->name('member');
@@ -54,7 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-absen-detail/{id_user}/{id_kelas}', [MemberController::class, 'memberabsen'])->name('member-absen-detail');
     Route::post('/upload-sertifikat', [MemberController::class, 'uploaadsertifikat'])->name('upload-sertifikat');
 
-    Route::get('/report', [ReportController::class, 'index'])->name('report');
+    Route::get('/report/{month?}', [ReportController::class, 'index'])->name('report');
     
     Route::get('/lokers', [LokerController::class, 'index'])->name('lokers');
     Route::get('/loker-add/{id?}', [LokerController::class, 'add'])->name('loker-add');

@@ -12,6 +12,7 @@ export default function Createkalas({auth, errors, kelas}){
     const [harga , setHarga] = useState()
     const [pertemuan , setPertemuan] = useState()
     const [foto , setFoto] = useState()
+    const [keterangan , setKeterangan] = useState()
 
     const handlerSave = (e) => {
         e.preventDefault()
@@ -23,6 +24,7 @@ export default function Createkalas({auth, errors, kelas}){
                 harga : harga,
                 pertemuan : pertemuan,
                 foto : foto,
+                keterangan : keterangan,
             })
         }else{
             router.post('kelas-add-save',{
@@ -42,6 +44,7 @@ export default function Createkalas({auth, errors, kelas}){
         setJenis(kelas.jenis)
         setHarga(kelas.harga)
         setPertemuan(kelas.pertemuan)
+        setKeterangan(kelas.keterangan)
     },[kelas])
     return (
 
@@ -69,7 +72,7 @@ export default function Createkalas({auth, errors, kelas}){
                                         type="text"
                                         name="materi"
                                         value={materi}
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block w-full rounded-md "
                                         placeholder="Materi"
                                         onChange={(e) => setMateri(e.target.value)}
 
@@ -85,7 +88,7 @@ export default function Createkalas({auth, errors, kelas}){
                                         type="text"
                                         name="kdkelas"
                                         value={kdkelas}
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block w-full rounded-md "
                                         placeholder="Kode Kelas"
                                         onChange={(e) => setKdkelas(e.target.value)}
 
@@ -101,7 +104,7 @@ export default function Createkalas({auth, errors, kelas}){
                                         type="text"
                                         name="jenis"
                                         value={jenis}
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block w-full rounded-md "
                                         onChange={(e) => setJenis(e.target.value)}
 
                                     >   
@@ -121,7 +124,7 @@ export default function Createkalas({auth, errors, kelas}){
                                         type="number"
                                         name="pertemuan"
                                         value={pertemuan}
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block w-full rounded-md "
                                         onChange={(e) => setPertemuan(e.target.value)}
 
                                     />
@@ -137,7 +140,7 @@ export default function Createkalas({auth, errors, kelas}){
                                         type="number"
                                         name="harga"
                                         value={harga}
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block w-full rounded-md "
                                         onChange={(e) => setHarga(e.target.value)}
 
                                     />
@@ -152,11 +155,25 @@ export default function Createkalas({auth, errors, kelas}){
                                         id="foto"
                                         type="file"
                                         name="foto"
-                                        className="mt-1 block w-full"
+                                        className="mt-1 block w-full rounded-md "
                                         onChange={(e) => setFoto(e.target.files[0])}
                                     />
 
                                     <InputError message={errors.foto} className="mt-2" />
+                                </div>
+                                
+                                <div>
+                                    <InputLabel htmlFor="Keterangan" value="Keterangan" />
+                                    <input 
+                                        id="keterangan"
+                                        type="text"
+                                        name="keterangan"
+                                        value={keterangan} 
+                                        className='rounded-md w-full'
+                                        onChange={(e) => setKeterangan(e.target.value)} 
+                                    />
+
+                                    <InputError message={errors.keterangan} className="mt-2" />
                                 </div>
 
                             </div>

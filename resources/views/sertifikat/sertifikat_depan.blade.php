@@ -81,7 +81,7 @@
     
     #title5 {
         position: absolute;
-        top: 85%;
+        top: 90%;
         left: 40%;
         color: #1D2F5F;
         font-size : 16px;
@@ -90,10 +90,18 @@
     
     #ttd {
         position: absolute;
-        top: 70%;
-        left: 40%;
+        top: 73%;
+        left: 38%;
         color: #1D2F5F;
         width: 25%;
+    }
+    
+    #fotoPeserta {
+        position: absolute;
+        top: 72%;
+        left: 27%;
+        color: #1D2F5F;
+        width: 100px;
     }
 </style>
 
@@ -119,7 +127,7 @@
         <span id="title3">
             Atas Kelulusan Dalam Pelatihan
             <br>
-            <b style="color:red; font-size:20px">DESIGN GRAFIS</b>
+            <b style="color:red; font-size:20px"><?= $sertifikat->keterangan ?></b>
             <br>
             dan dinyatakan <b style="color:red">Kompeten</b> Standar LPK. Mediatama Web Indonesia
         </span>
@@ -135,10 +143,8 @@
         <span id="title5">
             Ferri Achmad Effindri, M.kom
         </span>
-    </div>
 
-    <div id="belakang">
-
+        <img id="fotoPeserta" src="peserta/xamplefoto.png" alt="">
     </div>
     
 </body>
