@@ -53,7 +53,11 @@ export default function Loker({ auth , loker}) {
         getData()
     }
 
-    
+    const tanggalIndo = (tanggal) => {
+        const date = new Date(tanggal);
+        const formatDate = date.toLocaleDateString('id');
+        return formatDate
+    }
 
     return (
         
@@ -155,7 +159,7 @@ export default function Loker({ auth , loker}) {
                                                         <td className='border border-grey-100'>{i+1}</td>
                                                         <td className='border border-grey-100'>{data.judul}</td>
                                                         <td className='border border-grey-100'>{data.deskripsi}</td>
-                                                        <td className='text-right border border-grey-100'>{data.tgl_tayang}</td>
+                                                        <td className='text-right border border-grey-100'>{tanggalIndo(data.tgl_tayang)}</td>
                                                         <td className='border border-grey-100 text-center'>
                                                             <img src={data.foto} className='w-24' alt="" />
                                                         </td>

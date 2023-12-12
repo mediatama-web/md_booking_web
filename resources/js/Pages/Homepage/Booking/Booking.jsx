@@ -87,6 +87,12 @@ export default function Booking({ auth, booking, mentor }){
           });
     }
 
+    const tanggalIndo = (tanggal) => {
+        const date = new Date(tanggal);
+        const formatDate = date.toLocaleDateString('id');
+        return formatDate
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -187,7 +193,7 @@ export default function Booking({ auth, booking, mentor }){
                                             <tr key={data.id} className='[&>td]:p-2 text-sm'>
                                                 <td className='border border-grey-100'>{booking.from + i}</td>
                                                 <td className='border border-grey-100'>{data.nama_pengguna}</td>
-                                                <td className='border border-grey-100'>{data.tanggal}</td>
+                                                <td className='border border-grey-100'>{tanggalIndo(data.tanggal)}</td>
                                                 <td className='border border-grey-100'>{data.jam}</td>
                                                 <td className='border border-grey-100'>
                                                 <select

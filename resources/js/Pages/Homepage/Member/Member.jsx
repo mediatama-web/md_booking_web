@@ -52,6 +52,12 @@ export default function Member({auth, member}) {
         router.get(route('member-hapus',id))
     }
 
+    const tanggalIndo = (tanggal) => {
+        const date = new Date(tanggal);
+        const formatDate = date.toLocaleDateString('id');
+        return formatDate
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -157,7 +163,7 @@ export default function Member({auth, member}) {
                                                 <td className='border border-grey-100'>{data.no_telpon}</td>
                                                 <td className='border border-grey-100'>{data.email}</td>
                                                 <td className='border border-grey-100'>{data.alamat}</td>
-                                                <td className='border border-grey-100'>{data.tgl_daftar}</td>
+                                                <td className='border border-grey-100'>{tanggalIndo(data.tgl_daftar)}</td>
                                                 <td className='border border-grey-100'>{data.info}</td>
                                                 <td className='border border-grey-100 w-24 text-center'>
                                                         <Switch
