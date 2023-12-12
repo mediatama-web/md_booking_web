@@ -37,6 +37,7 @@ class KelasController extends Controller
 
         if($r->validated()){
             $data['materi'] = $r->materi;
+            $data['kode_kelas'] = $r->kdkelas;
             $data['jenis'] = $r->jenis;
             $data['harga'] = $r->harga;
             $data['pertemuan'] = $r->pertemuan;

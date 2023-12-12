@@ -15,7 +15,6 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     const [kelass, setKelass] = useState(100)
     const [kelasx, setKelas] = useState(0)
     const [harga, setHarga] = useState(0)
-    const [sertifikat, setSertifikat] = useState()
 
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
@@ -117,15 +116,6 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
         
     }
 
-    const handlerUploadFIle = () => {
-        router.post(route('upload-sertifikat'),
-        {
-            id_kelas : parseInt(idkelas),
-            sertifikat : sertifikat,
-        })
-        // setShow2(!show2)
-    }
-
     return(
         <AuthenticatedLayout
             user={auth.user}
@@ -208,10 +198,10 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                                     </i>
                                                                     :
                                                                     <div className="flex">
-                                                                        <a target="_blank" href={route('sertifikat-depan')} className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
+                                                                        <a target="_blank" href={route('sertifikat-depan',[member.id,data.id_kelas])} className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
                                                                             Depan <FontAwesomeIcon className='ml-2' icon={faFile} />
                                                                         </a>
-                                                                        <a target="_blank" href={route('sertifikat-belakang')} className='ml-2 cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
+                                                                        <a target="_blank" href={route('sertifikat-belakang',[member.id,data.id_kelas])} className='ml-2 cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
                                                                             Belakang <FontAwesomeIcon className='ml-2' icon={faFile} />
                                                                         </a>
                                                                     </div>

@@ -103,7 +103,7 @@
         <b id="sertifikat">SERTIFIKAT</b>
 
         <span id="nomor">
-            Nomor : 016/DESIGN-FIGMA/S/LPK.MWI/XII/2023
+            Nomor : <?= str_pad($sertifikat->no_sertifikat,5,'0',STR_PAD_LEFT); ?>/<?= $sertifikat->kode_kelas ?>/S/LPK.MWI/XII/<?= date('Y') ?>
             <br>
             Nomor Izin Lembaga : 07092200866450001
         </span>
@@ -113,7 +113,7 @@
         </span>
         
         <span id="title2">
-            YOGIE GANTENG SELALU
+            <?= $sertifikat->nama_pengguna ?>
         </span>
         
         <span id="title3">

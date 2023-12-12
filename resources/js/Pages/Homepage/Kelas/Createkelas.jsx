@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 export default function Createkalas({auth, errors, kelas}){
     const [materi , setMateri] = useState()
+    const [kdkelas , setKdkelas] = useState()
     const [jenis , setJenis] = useState()
     const [harga , setHarga] = useState()
     const [pertemuan , setPertemuan] = useState()
@@ -17,6 +18,7 @@ export default function Createkalas({auth, errors, kelas}){
         if(kelas != 0){
             router.post(route('kelas-add-save',kelas.id),{
                 materi : materi,
+                kdkelas : kdkelas,
                 jenis : jenis,
                 harga : harga,
                 pertemuan : pertemuan,
@@ -25,6 +27,7 @@ export default function Createkalas({auth, errors, kelas}){
         }else{
             router.post('kelas-add-save',{
                 materi : materi,
+                kdkelas : kdkelas,
                 jenis : jenis,
                 harga : harga,
                 pertemuan : pertemuan,
@@ -35,6 +38,7 @@ export default function Createkalas({auth, errors, kelas}){
 
     useEffect(() => {
         setMateri(kelas.materi)
+        setKdkelas(kelas.kode_kelas)
         setJenis(kelas.jenis)
         setHarga(kelas.harga)
         setPertemuan(kelas.pertemuan)
@@ -72,6 +76,22 @@ export default function Createkalas({auth, errors, kelas}){
                                     />
 
                                     <InputError message={errors.materi} className="mt-2" />
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="Kode Kelas" value="Kode Kelas" />
+
+                                    <input
+                                        id="kdkeklas"
+                                        type="text"
+                                        name="kdkelas"
+                                        value={kdkelas}
+                                        className="mt-1 block w-full"
+                                        placeholder="Kode Kelas"
+                                        onChange={(e) => setKdkelas(e.target.value)}
+
+                                    />
+
+                                    <InputError message={errors.kdkelas} className="mt-2" />
                                 </div>
                                 <div>
                                     <InputLabel htmlFor="Jenis" value="Jenis" />

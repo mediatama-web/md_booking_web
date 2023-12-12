@@ -22,7 +22,7 @@ Route::get('/',[Logincontroller::class, 'index'])->name('login');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard/{status?}/{dari?}/{sampai?}', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard/{tgl?}', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -71,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/save-token', [NotifikasiController::class, 'saveToken'])->name('save-token');
     Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');
 
-    Route::get('/sertifikat-depan', [SertifikatController::class, 'index'])->name('sertifikat-depan');
-    Route::get('/sertifikat-belakang', [SertifikatController::class, 'belakang'])->name('sertifikat-belakang');
+    Route::get('/sertifikat-depan/{id}/{kelas}', [SertifikatController::class, 'index'])->name('sertifikat-depan');
+    Route::get('/sertifikat-belakang/{id}/{kelas}', [SertifikatController::class, 'belakang'])->name('sertifikat-belakang');
 
 require __DIR__.'/auth.php';

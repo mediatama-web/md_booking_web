@@ -3,20 +3,15 @@ import { Head, router } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import Modal from '@/Components/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 export default function Dashboard({ auth, booking, mentor }) {
-    const [modal, setModal] = useState(false)
-    const [status, setStatus] = useState("NULL")
-    const [dari, setDari] = useState(0)
-    const [sampai, setSampai] = useState(0)
-
+    const [tgl, setTgl] = useState("")
     useEffect(() => {
         import("@lottiefiles/lottie-player");
     })
     
     const handlerStatus = (status, id) => {
-        console.log(id);
         router.post('booking-statuschange',{
             id : id,
             status : status
@@ -24,7 +19,6 @@ export default function Dashboard({ auth, booking, mentor }) {
     }
 
     const handlerMentor = (mentor, id) => {
-        console.log(id);
         router.post('booking-mentorchange',{
             id : id,
             mentor : mentor
@@ -37,16 +31,9 @@ export default function Dashboard({ auth, booking, mentor }) {
         return formatDate
     }
 
-    const handlerModal = () => {
-        setModal(true)
-    }
-
-    const handlerModalClose = () => {
-        setModal(false)
-    }
-
     const filterData = () => {
-        router.get(route('dashboard',[status,dari,sampai]))
+        console.log(tgl);
+        router.get(route('dashboard',tgl))
     }
     
     return (
@@ -62,8 +49,11 @@ export default function Dashboard({ auth, booking, mentor }) {
                             <div>
                                 <h3 className='md:text-lg text-xs font-bold'>Jadwal Booking Hari ini</h3>
                             </div>
-                            <div>
-                                <FontAwesomeIcon onClick={(e) => handlerModal()} className='cursor-pointer' icon={faFilter}/>
+                            <div className='flex'>
+                                <input type="date" onChange={(e) => setTgl(e.target.value) } className="rounded-md w-full" />
+                                <button type='button' onClick={() => filterData()} className="bg-blue-600 hover:bg-blue-400 p-3 rounded-md ml-2">
+                                    <FontAwesomeIcon className='flex justify-center justify-items-center text-white' icon={faSearch}/>
+                                </button>
                             </div>
                         </div>
                      
@@ -145,42 +135,6 @@ export default function Dashboard({ auth, booking, mentor }) {
                     </div>
                 </div>
             </div>
-
-            <Modal maxWidth='sm' show={modal}>
-                <div className="bg-grey-200 p-3">
-                    <div className="flex justify-between mb-3">
-                        <div>
-                            <h3 className='text-lg font-bold'>Filter Data</h3>
-                        </div>
-                        <div>
-                            <button className='w-8 h-8 border border-slate-600 rounded-full bg-slate-600 hover:bg-slate-400 text-white' onClick={() => handlerModalClose()}>x</button>
-                        </div>
-                    </div>
-                    <div className="border-b-2 bg-slate-800"></div>
-                    <div className='mt-4'>
-                        <div className="grid w-full">
-                            <label htmlFor="">Status</label>
-                            <select type="text" onChange={(e) => setStatus(e.target.value)} className="w-full outline-1 rounded-md">
-                                <option value="">-PILIH-</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Diterima">Diterima</option>
-                                <option value="Ditolak">Ditolak</option>
-                            </select>
-                        </div>
-                        <div className="grid w-full">
-                            <label htmlFor="">Dari Tanggal</label>
-                            <input type="date" onChange={(e) => setDari(e.target.value)} className="w-full outline-1 rounded-md"/>
-                        </div>
-                        <div className="grid w-full">
-                            <label htmlFor="">Sampai Tanggal</label>
-                            <input type="date" onChange={(e) => setSampai(e.target.value)} className="w-full outline-1 rounded-md"/>
-                        </div>
-                        <div className="flex items-center justify-center mt-4">
-                            <button onClick={(e) => filterData()} type="button"  className='w-full bg-slate-600 hover:bg-slate-400 p-2 rounded-md text-white'>  Filter  </button>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
 
         </AuthenticatedLayout>
     );

@@ -16,7 +16,9 @@ return new class extends Migration
             $table->integer('id_user');
             $table->integer('id_kelas');
             $table->enum('status',['aktif','tidak aktif']);
-            $table->text('sertifikat')->nullable();
+            $table->enum('sertifikat',['0','1']);
+            $table->date('tanggal_terbit');
+            $table->string('no_sertifikat');
             $table->timestamps();
         });
     }

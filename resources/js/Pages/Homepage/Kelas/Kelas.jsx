@@ -106,6 +106,7 @@ export default function Kelas({ auth, kelas }) {
                                 <tr className='[&>th]:p-2 bg-slate-800 text-white'>
                                     <th className='text-left md:text-sm text-xs'>No</th>
                                     <th className='text-left md:text-sm text-xs'>Materi</th>
+                                    <th className='text-left md:text-sm text-xs'>Kode Kelas</th>
                                     <th className='text-left md:text-sm text-xs'>Jenis</th>
                                     <th className='text-left md:text-sm text-xs'>Pertemuan</th>
                                     <th className='text-left md:text-sm text-xs'>Harga</th>
@@ -152,6 +153,7 @@ export default function Kelas({ auth, kelas }) {
                                                     <tr key={data.id} className='[&>td]:p-2 text-sm'>
                                                         <td className='border border-grey-100'>{kelas.from + i}</td>
                                                         <td className='border border-grey-100'>{data.materi}</td>
+                                                        <td className='border border-grey-100'>{data.kode_kelas}</td>
                                                         <td className='border border-grey-100'>{data.jenis}</td>
                                                         <td className='border border-grey-100'>{data.pertemuan}</td>
                                                         <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
