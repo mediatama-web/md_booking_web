@@ -21,12 +21,6 @@
         
     }
 
-    #belakang {
-        background-image: url('sertifikat/sertifikat_belakang.png');
-        background-repeat: no-repeat;
-        background-size: 100%;
-    }
-
     #sertifikat {
         position: absolute;
         width: 100%;
@@ -145,6 +139,9 @@
         </span>
 
         <img id="fotoPeserta" src="peserta/xamplefoto.png" alt="">
+        <div style="position: absolute; margin-top:70%; margin-left:70%">
+            <?= $qr ?>
+        </div>
     </div>
     
 </body>

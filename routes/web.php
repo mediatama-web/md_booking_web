@@ -20,7 +20,6 @@ use App\Http\Controllers\{
 
 Route::get('/',[Logincontroller::class, 'index'])->name('login');
 
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/{tgl?}', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -53,7 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-kelasdaftar-detail/{id_user}/{id_kelas}', [MemberController::class, 'daftarkelasdetail'])->name('member-kelasdaftar-detail');
     Route::get('/member-absen/{id_user}/{id_kelas}', [MemberController::class, 'absen'])->name('member-absen');
     Route::get('/member-absen-detail/{id_user}/{id_kelas}', [MemberController::class, 'memberabsen'])->name('member-absen-detail');
-    Route::post('/upload-sertifikat', [MemberController::class, 'uploaadsertifikat'])->name('upload-sertifikat');
+    Route::post('/upload-cv', [MemberController::class, 'uploadCv'])->name('upload-cv');
 
     Route::get('/report/{month?}', [ReportController::class, 'index'])->name('report');
     

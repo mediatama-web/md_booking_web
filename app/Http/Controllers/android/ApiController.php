@@ -297,4 +297,41 @@ class ApiController extends Controller
         }
     }
 
+    public function uploadCv(Request $request){
+        $user = auth('sanctum')->user();
+        $foto = $request->file('cv');
+        if($foto){
+            $filename = Uploadfile::uploadSingle($foto, 'cv/');
+            $data['sertifikat'] = $filename;
+            $hasil = Penggunam::where('id',$user->id)->update($data);
+        }
+
+        return response()->json([
+            'success'=>true
+        ]);
+    }
+    
+    public function uploadProfile(Request $request){
+        $user = auth('sanctum')->user();
+        $foto = $request->file('profile');
+        if($foto){
+            $filename = Uploadfile::uploadSingle($foto, 'profile/');
+            $data['foto'] = $filename;
+            $hasil = Penggunam::where('id',$user->id)->update($data);
+        }
+
+        return response()->json([
+            'success'=>true
+        ]);
+    }
+    
+    public function uploadLinkedin(Request $request){
+        $data['linkedin'] = $request->linkedin;
+        $hasil = Penggunam::where('id',$user->id)->update($data);
+        
+        return response()->json([
+            'success'=>true
+        ]);
+    }
+
 }

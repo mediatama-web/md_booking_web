@@ -24,6 +24,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/loker',[ApiController::class, 'loker']);
 
     Route::post('/updateToken',[NotifikasiController::class, 'updateToken']);
+    
+    Route::post('/upload-profile',[ApiController::class, 'uploadProfile']);
+    Route::post('/upload-cv',[ApiController::class, 'uploadCv']);
+    Route::post('/upload-linkedin',[ApiController::class, 'uploadLinkedin']);
 });
 
 

@@ -7,6 +7,7 @@ use App\Http\Requests\MemberRequest;
 use App\Http\Requests\KelasRequest;
 use App\Http\Requests\Sertifikatrequest;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -29,6 +30,7 @@ class MemberController extends Controller
     }
 
     public function simpan(MemberRequest $r){
+
         if($r->validated()){
             Penggunam::create([
                 'nama_pengguna' => $r->nama_pengguna,
@@ -127,15 +129,14 @@ class MemberController extends Controller
        return $data;
     }
 
-    public function uploaadsertifikat(Sertifikatrequest $r){
+    public function uploadCv(Sertifikatrequest $r){
         if($r->validated()){
-            $foto = $r->file('sertifikat');
+            $foto = $r->file('cv');
             if($foto){
-                $filename = Uploadfile::uploadSingle($foto, 'upload/');
-                $data['sertifikat'] = 'upload/'.$filename;
-                $hasil = Daftarkelasm::where('id',$r->id_kelas)->update($data);
+                $filename = Uploadfile::uploadSingle($foto, 'cv/');
+                $data['sertifikat'] = 'cv/'.$filename;
+                $hasil = Penggunam::where('id',$r->id)->update($data);
             }
-
         }
         return Redirect::back();
     }

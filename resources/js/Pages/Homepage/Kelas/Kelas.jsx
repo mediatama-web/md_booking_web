@@ -5,7 +5,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import { pickBy } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faTrash, faFile } from '@fortawesome/free-solid-svg-icons'
 
 export default function Kelas({ auth, kelas }) {
     const perpage = useRef(kelas.per_page)
@@ -159,6 +159,9 @@ export default function Kelas({ auth, kelas }) {
                                                         <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
                                                         <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
                                                         <td className='border border-grey-100 text-center w-24'>
+                                                            <Link href={ route('kelas-add',data.id) } >
+                                                                <FontAwesomeIcon className='m-3 hover:text-blue-400 text-blue-500' icon={faPencil} />
+                                                            </Link>
                                                             <Link href={ route('kelas-add',data.id) } >
                                                                 <FontAwesomeIcon className='m-3 hover:text-blue-400 text-blue-500' icon={faPencil} />
                                                             </Link>
