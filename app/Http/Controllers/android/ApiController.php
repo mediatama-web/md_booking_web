@@ -22,6 +22,7 @@ use App\Models\User;
 
 use App\Http\Controllers\NotifikasiController as NotifyWeb;
 use App\Http\Controllers\Core\NotifikasiController as NotifyApk;
+use App\Http\Controllers\Core\UploadController as Uploadfile;
 
 class ApiController extends Controller
 {
@@ -38,14 +39,14 @@ class ApiController extends Controller
                 'pesan' => 'Login sukses',
                 'token' => $user->createToken('auth_token')->plainTextToken,
                 'status' => 200
-            ], 200);
+            ]);
         } else {
             return response()->json([
                 'success' => false,
                 'pesan' => 'Cek email dan password lagi',
                 'token' => null,
                 'status' => 400
-            ], 400);
+            ]);
         }
     }
 
@@ -250,6 +251,8 @@ class ApiController extends Controller
             'alamat' => $data->alamat,
             'tgl_daftar' => $data->tgl_daftar,
             'penanda' => $penanda,
+            'cv' => $data->cv,
+            'linkedin' => $data->linkedin,
             'status' => 200
         );
 
@@ -313,7 +316,7 @@ class ApiController extends Controller
     
     public function uploadProfile(Request $request){
         $user = auth('sanctum')->user();
-        $foto = $request->file('profile');
+        $foto = $request->file('foto');
         if($foto){
             $filename = Uploadfile::uploadSingle($foto, 'profile/');
             $data['foto'] = $filename;
@@ -326,6 +329,7 @@ class ApiController extends Controller
     }
     
     public function uploadLinkedin(Request $request){
+        $user = auth('sanctum')->user();
         $data['linkedin'] = $request->linkedin;
         $hasil = Penggunam::where('id',$user->id)->update($data);
         
