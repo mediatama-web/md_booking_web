@@ -20,6 +20,7 @@ class ReportController extends Controller
         $data['report'] = Bookingm::leftjoin('mentor','booking.id_mentor','mentor.id')
                         ->select(DB::raw("COUNT(*) as total"),'mentor.nama_mentor','booking.tanggal')
                         ->whereMonth('tanggal',$bulan)
+                        ->where('booking.status','diterima')
                         ->groupBy('booking.id_mentor')
                         ->orderBy('total','DESC')
                         ->get();

@@ -28,6 +28,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/upload-profile',[ApiController::class, 'uploadProfile']);
     Route::post('/upload-cv',[ApiController::class, 'uploadCv']);
     Route::post('/upload-linkedin',[ApiController::class, 'uploadLinkedin']);
+
+    // sertifikat
+    Route::get('/sertifikat',[ApiController::class, 'sertifikat']);
 });
 
 

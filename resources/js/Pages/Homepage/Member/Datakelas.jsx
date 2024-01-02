@@ -5,10 +5,11 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faFile, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faFile, faTrash, faPencil, faFileArchive, faCancel, faCheck } from '@fortawesome/free-solid-svg-icons'
 import Modal from '@/Components/Modal';
 import axios from 'axios';
 import Swal from 'sweetalert2'
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 export default function Datakelas({ auth, member, kelas, kelasdaftar }){
 
@@ -93,9 +94,29 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
         })
     }
     
+    const [linkeds, setLinkeds] = useState(false)
+    const [cvs, setCvs] = useState(false)
     const handlerModal2 = async (id) =>  {
         setIdkelas(id)
         setShow2(true)
+
+        axios.get(route('cekdatauser',id))
+        .then((res) => {
+            if(res.data.data.cv){
+                setCvs(true)
+            }else{
+                setCvs(false)
+            }
+            
+            if(res.data.data.linkedin){
+                setLinkeds(true)
+            }else{
+                setLinkeds(false)
+            }
+        })
+        .catch((err) => {
+
+        })
     }
 
     const handlerModalClose = () => {
@@ -105,6 +126,7 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     const handlerModalClose1 = () => {
         setShow1(!show1)
     }
+    
     const handlerModalClose2 = () => {
         setShow2(!show2)
     }
@@ -143,6 +165,10 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                 })
             }
           });
+    }
+
+    const handlerGenerate = () => {
+        router.get(route('member-generate',idkelas))
     }
 
     return(
@@ -404,11 +430,34 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                         <div className="flex justify-between mb-3">
                             <p className='text-lg'>Sertifikat</p>
                             <div>
-                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose2()}>x</button>
+                                <button className='w-8 h-8 border border-blue-600 rounded-full bg-blue-600 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose2()}>x</button>
                             </div>
                         </div>
                         <div>
-                            
+                            <div className="border-black border-2 border-dotted p-3">
+                                <p className='text-yellow-600'>Pastikan Member sudah melengkapi data sebagai berikut.!!</p>
+                                <hr />
+                                <p className='mt-3 text-gray-400'>Mengikuti / sudah follow linkedin mediatama web.!</p>
+                                <div className='flex mt-3'>
+                                    <FontAwesomeIcon className='text-blue-400 text-xl' icon={faLinkedin}/>
+                                    <p className={`${linkeds ? '' : 'hidden '} ml-3`}>Linkedin OK</p>
+                                    <p className={`${linkeds ? 'hidden' : ''} ml-3 `}>File Not Found</p>
+                                    <FontAwesomeIcon id='linkedofff' className={`${linkeds ? '' : 'hidden '} text-green-400 ml-3 text-xl`} icon={faCheck}/>
+                                    <FontAwesomeIcon id='linkedonn' className={`${linkeds ? 'hidden' : ''} text-red-400 ml-3 text-xl`} icon={faCancel}/>
+                                </div>
+                                <p className='mt-1 text-gray-400'>Sudah mengupload file cv pada aplikasi booking mediatama web.!</p>
+                                <div className='flex mt-3'>
+                                    <FontAwesomeIcon className='text-blue-400 text-xl' icon={faFileArchive}/>
+                                    <p className={`${cvs ? '' : 'hidden '} ml-3`}>Cv OK</p>
+                                    <p className={`${cvs ? 'hidden' : ''} ml-3`}>File Not Found</p>
+                                    <FontAwesomeIcon className={`${cvs ? '' : 'hidden'}  text-green-400 ml-3 text-xl`} icon={faCheck}/>
+                                    <FontAwesomeIcon className={`${cvs ? 'hidden' : ''} text-red-400 ml-3 text-xl`} icon={faCancel}/>
+                                </div>
+                                <p className='mt-1 text-gray-400'>Jika semua file pendukung sudah terpenuhi silahkan klik tombol dibawah untuk mengenerate sertifikat.</p>
+                                <div className="flex justify-center mt-3">
+                                    <button onClick={(_) => handlerGenerate()} className='bg-blue-600 hover:bg-blue-400 p-1 rounded-md text-white w-1/2' type="button">Generate</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
             </Modal>

@@ -11,14 +11,14 @@ export default function Dashboard({ auth, booking, mentor }) {
     })
     
     const handlerStatus = (status, id) => {
-        router.post('booking-statuschange',{
+        router.post(route('booking-statuschange'),{
             id : id,
             status : status
         })
     }
 
     const handlerMentor = (mentor, id) => {
-        router.post('booking-mentorchange',{
+        router.post(route('booking-mentorchange'),{
             id : id,
             mentor : mentor
         })

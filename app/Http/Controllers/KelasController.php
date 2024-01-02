@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Kelasm;
+use App\Models\UnitKompetensi;
 use App\Http\Requests\Paketrequest;
+use App\Http\Requests\KodeunitRequest;
 
 use App\Http\Controllers\Core\UploadController as Uploadfile;
 
@@ -26,6 +28,41 @@ class KelasController extends Controller
             $data['kelas'] = 0;
         }
         return Inertia::render('Homepage/Kelas/Createkelas',$data);
+    }
+    
+    public function tambahKodeUnit($id = null){
+        if($id != null){
+            $data['units'] = UnitKompetensi::where('id_kelas',$id)->get();
+        }else{
+            $data['units'] = [];
+        }
+        
+        $data['ids'] = $id;
+
+        return Inertia::render('Homepage/Kelas/Createkodemapel',$data);
+    }
+    
+    public function saveKodeUnit(KodeunitRequest $r, $id = null){
+        if($r->validated()){
+            $data['id_kelas'] = $r->id_kelas;
+            $data['unit_kompetensi'] = $r->unit_kompetensi;
+            $data['kode_unit'] = $r->kode_unit;
+        }
+
+        if($id != null){
+            UnitKompetensi::where('id',$id)->update($data);
+        }else{
+            UnitKompetensi::create($data);
+        }
+
+        return Redirect::back();
+    }
+    
+    public function deleteKodeUnit($id = null){
+        
+        UnitKompetensi::where('id',$id)->delete();
+
+        return response()->json(['pesan' => "berhasil"]);
     }
 
     public function save(Paketrequest $r,$id = null){

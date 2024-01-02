@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-daftarkelas/{id}', [MemberController::class, 'daftarkelas'])->name('member-daftarkelas');
     Route::post('/member-kelasdaftar/{id}', [MemberController::class, 'kelasdaftar'])->name('member-kelasdaftar');
     Route::get('/member-kelasHapus/{id}', [MemberController::class, 'hapuskelasdaftar'])->name('member-kelasHapus');
+    Route::get('/member-generate/{id}', [MemberController::class, 'generatesertifikat'])->name('member-generate');
     Route::get('/member-kelasdaftar-detail/{id_user}/{id_kelas}', [MemberController::class, 'daftarkelasdetail'])->name('member-kelasdaftar-detail');
     Route::get('/member-absen/{id_user}/{id_kelas}', [MemberController::class, 'absen'])->name('member-absen');
     Route::get('/member-absen-detail/{id_user}/{id_kelas}', [MemberController::class, 'memberabsen'])->name('member-absen-detail');
@@ -62,11 +63,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/kelass', [KelasController::class, 'index'])->name('kelass');
     Route::get('/kelas-add/{id?}', [KelasController::class, 'tambah'])->name('kelas-add');
+    Route::post('/kelas-kode-mapel-save/{id?}', [KelasController::class, 'saveKodeUnit'])->name('kelas-kode-mapel-save');
+    Route::get('/kelas-kode-mapel-add/{id?}', [KelasController::class, 'tambahKodeUnit'])->name('kelas-kode-mapel-add');
+    Route::get('/kelas-kode-mapel-delete/{id?}', [KelasController::class, 'deleteKodeUnit'])->name('kelas-kode-mapel-delete');
     Route::post('/kelas-add-save/{id?}', [KelasController::class, 'save'])->name('kelas-add-save');
     Route::get('/kelas-hapusKelas/{id?}', [KelasController::class, 'hapusKelas'])->name('kelas-hapusKelas');
 
     Route::get('update-token/{token}',[NotifikasiController::class, 'updateToken'])->name('update-token');
 });
+
+    // cek data user
+    Route::get('/cekdatauser/{id}', [MemberController::class, 'checkdatauser'])->name('cekdatauser');
 
     Route::post('/save-token', [NotifikasiController::class, 'saveToken'])->name('save-token');
     Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');

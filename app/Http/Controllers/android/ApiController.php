@@ -338,4 +338,30 @@ class ApiController extends Controller
         ]);
     }
 
+    public function sertifikat(){
+        $user = auth('sanctum')->user();
+        $sertifikat = Daftarkelasm::leftjoin('kelas','kelas.id','daftarkelas.id_kelas')
+                        ->select('daftarkelas.id','daftarkelas.sertifikat','daftarkelas.tanggal_terbit','kelas.materi','kelas.foto')
+                        ->where('daftarkelas.sertifikat','1')
+                        ->where('daftarkelas.id_user',$user->id)
+                        ->get();
+
+        $list = [];
+        foreach($sertifikat as $a){
+            $list[] = array(
+                'id' => $a->id,
+                'kelas' => $a->materi,
+                'tanggal_terbit' => $a->tanggal_terbit,
+                'foto' => $a->foto,
+                'url_depan' => 'sertifikat-depan/'.$user->id.'/'.$a->id_kelas,
+                'url_belakang' => 'sertifikat-belakang/'.$user->id.'/'.$a->id_kelas
+            );
+        }
+
+        return response()->json([
+            'status' => 200,
+            'sertifikat' => $list
+        ]);
+    }
+
 }

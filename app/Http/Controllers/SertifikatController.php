@@ -23,17 +23,7 @@ class SertifikatController extends Controller
                                 ->where('daftarkelas.id_kelas',$kelas)
                                 ->first();
 
-        $data['qr'] = QrCode::format('png')
-                        ->merge(public_path('image/logo.png'), 0.5, true)
-                        ->size(100)
-                        ->errorCorrection('H')
-                        ->generate('hasibuya');
-
-        // $output_file = $id."/".$kelas."/".time() . '.png';
-
-        // $data['qr'] = UploadController::uploadSingle($qrcode,"qrcode/");
-
-        // dd($data['qr']);
+        $data['qr'] = UploadController::generateQr('http://localhost:8000/sertifikat-depan/1/3');
 
         return view('sertifikat/sertifikat_depan',$data);
 

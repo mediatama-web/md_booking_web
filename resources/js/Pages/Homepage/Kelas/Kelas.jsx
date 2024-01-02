@@ -159,8 +159,8 @@ export default function Kelas({ auth, kelas }) {
                                                         <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
                                                         <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
                                                         <td className='border border-grey-100 text-center w-24'>
-                                                            <Link href={ route('kelas-add',data.id) } >
-                                                                <FontAwesomeIcon className='m-3 hover:text-blue-400 text-blue-500' icon={faPencil} />
+                                                            <Link href={ route('kelas-kode-mapel-add',data.id) } >
+                                                                <FontAwesomeIcon className='m-3 hover:text-blue-400 text-blue-500' icon={faFile} />
                                                             </Link>
                                                             <Link href={ route('kelas-add',data.id) } >
                                                                 <FontAwesomeIcon className='m-3 hover:text-blue-400 text-blue-500' icon={faPencil} />
