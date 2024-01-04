@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/booking-save/{id?}', [BookingController::class, 'save'])->name('booking-save');
     Route::get('/booking-delete/{id?}', [BookingController::class, 'hapusBooking'])->name('booking-delete');
     Route::post('/booking-statuschange', [BookingController::class, 'statuschange'])->name('booking-statuschange');
+    Route::post('/booking-jamchange', [BookingController::class, 'jamchange'])->name('booking-jamchange');
     Route::post('/booking-mentorchange', [BookingController::class, 'mentorchange'])->name('booking-mentorchange');
 
     Route::get('/mentors/{nama?}', [MentorController::class, 'index'])->name('mentors');
@@ -56,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/upload-cv', [MemberController::class, 'uploadCv'])->name('upload-cv');
 
     Route::get('/report/{month?}', [ReportController::class, 'index'])->name('report');
+    Route::get('/report-detail/{id_mentor}/{month?}', [ReportController::class, 'reportdetail'])->name('report-detail');
     
     Route::get('/lokers', [LokerController::class, 'index'])->name('lokers');
     Route::get('/loker-add/{id?}', [LokerController::class, 'add'])->name('loker-add');

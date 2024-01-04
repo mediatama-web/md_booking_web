@@ -60,6 +60,23 @@ class BookingController extends Controller
         return Redirect::back();
     }
 
+    public function jamchange(Request $r){
+        $cek = Bookingm::where('id',$r->id)->where('status','pending')->update(['jam' => $r->jam]);
+
+        if($cek){
+            NotifikasiController::sendNotification('NOTICE','Jadwal Sudah Tidak Dapat Dirubah lagi');
+            return Redirect::back();
+        }
+
+        $data = Bookingm::where('id',$r->id)->first();
+        // data user 
+        $pengguna = Penggunam::where('id',$data->id_user)->first();
+        if($pengguna->fcm_token != null){
+            Notiff::notifikasiSend($pengguna->fcm_token, 'INFO','Jam Booking Anda Telah Dirubah');
+        }
+        return Redirect::back();
+    }
+
     public function mentorchange(Request $r){
         Bookingm::where('id',$r->id)->update(['id_mentor' => $r->mentor]);
         return Redirect::back();

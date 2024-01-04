@@ -6,6 +6,31 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 export default function Dashboard({ auth, booking, mentor }) {
     const [tgl, setTgl] = useState("")
+
+    const jambooking = [
+        '09:00',
+        '09:30',
+        '10:00',
+        '14:00',
+        '14:30',
+        '15:00',
+        '15:30',
+        '16:00',
+        '16:30',
+        '17:00',
+        '17:30',
+        '18:00',
+        '18:30',
+        '19:00',
+    ]
+
+    const handlerJamChange = (jam, id) => {
+        router.post(route('booking-jamchange'),{
+            id : id,
+            jam : jam
+        })
+    }
+
     useEffect(() => {
         import("@lottiefiles/lottie-player");
     })
@@ -94,7 +119,21 @@ export default function Dashboard({ auth, booking, mentor }) {
                                                 <td className='border border-grey-100'>{i+1}</td>
                                                 <td className='border border-grey-100'>{data.nama_pengguna}</td>
                                                 <td className='border border-grey-100'>{tanggalIndo(data.tanggal)}</td>
-                                                <td className='border border-grey-100'>{data.jam}</td>
+                                                <td className='border border-grey-100'>
+                                                    <select
+                                                        id="mentor"
+                                                        className='rounded-lg text-sm'
+                                                        value={data.jam}
+                                                        onChange={(e) => handlerJamChange(e.target.value , data.id)}
+                                                    >
+                                                        {
+                                                            jambooking.map((jm, i) => (
+                                                                <option key={i} value={jm}>{jm}</option>
+                                                            ))
+                                                        }
+                                                        <option value="pending"></option>
+                                                    </select>
+                                                </td>
                                                 <td className='border border-grey-100'>
                                                 <select
                                                         id="mentor"

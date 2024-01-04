@@ -9,7 +9,7 @@ use App\Models\User;
 
 class NotifikasiController extends Controller
 {
-    public function saveToken(Request $request)
+    public static function saveToken(Request $request)
     {
         auth()->user()->update(['fcm_token'  =>  $request->token]);
         return response()->json(['token saved successfully.']);

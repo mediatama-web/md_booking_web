@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
@@ -16,14 +16,12 @@ export default function Login({ status, canResetPassword }) {
         remember: false,
     });
 
-
     useEffect(() => {
         return () => {
             reset('password');
         };
     }, []);
 
-    
     useEffect(() => {
         async function getToken(){
             const tokens = await requestForToken();

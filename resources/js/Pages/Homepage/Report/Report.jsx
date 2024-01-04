@@ -3,23 +3,63 @@ import { Head, router } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react';
+import Modal from '@/Components/Modal';
+import axios from 'axios'
 
-export default function Mentor({ auth, report}) {
+export default function Mentor({ auth, report, bulans}) {
     const [month, setMonth] = useState("")
-    const [isloadong, setIsLoading] = useState(false)
+    const [modalData, setModaldata] = useState([])
+    const [show, setShow] = useState(false)
 
     useEffect(() => {
         import("@lottiefiles/lottie-player");
     })
+    
+    useEffect(() => {
+        setMonth(bulans)
+    },[])
 
     const filterData = () => {
+        console.log(month);
         router.get(route('report',month))
     }
 
     const tanggalIndo = (tanggal) => {
+        var  bulan =  [ "Januari" , "Februari" , "Maret" , "April" , "Mei" , "Juni" , "Juli" ,
+            "Agustus" , "September" , "Oktober" , "November" , "Desember" ] ;
         const date = new Date(tanggal);
-        const formatDate = date.toLocaleDateString('id');
+        const formatDate = bulan[date.getMonth()];
+
         return formatDate
+    }
+
+    const tglIndo = (tanggal) => {
+        var  bulan =  [ "Januari" , "Februari" , "Maret" , "April" , "Mei" , "Juni" , "Juli" ,
+            "Agustus" , "September" , "Oktober" , "November" , "Desember" ] ;
+        const date = new Date(tanggal);
+        const bulanx = bulan[date.getMonth()];
+        const hari = date.getDay()
+        const tahun = date.getFullYear()
+        const formatDate = hari+" "+bulanx+" "+tahun
+        return formatDate
+    }
+
+    const handlerModal = async (id) =>  {
+        setModaldata([]);
+        axios.get(route('report-detail',[id,month]))
+        .then(function(res){
+            console.log(res.data);
+            if(res.data == null){
+                setModaldata([]);
+            }else{
+                setModaldata(res.data.detail);
+            }
+            setShow(true)
+        })
+    }
+
+    const handlerModalClose1 = () => {
+        setShow(false)
     }
 
     return (
@@ -74,7 +114,7 @@ export default function Mentor({ auth, report}) {
                                             <tr key={i} className='[&>td]:p-2 text-sm'>
                                                 <td className='border border-grey-100'>{i+1}</td>
                                                 <td className='border border-grey-100'>{data.nama_mentor}</td>
-                                                <td className='border text-center border-grey-100'>{data.total}</td>
+                                                <td className='border text-center border-grey-100 cursor-pointer hover:text-blue-600' onClick={(_) => handlerModal(data.id_mentor)}>{data.total}</td>
                                                 <td className='border text-center border-grey-100'>{tanggalIndo(data.tanggal)}</td>
                                                 
                                             </tr>
@@ -88,6 +128,43 @@ export default function Mentor({ auth, report}) {
                     </div>
                 </div>
             </div>
+
+            <Modal show={show}>
+                    <div className="w-full bg-grey-200 p-3">
+                        <div className="flex justify-between mb-3">
+                            <p className='text-lg'>History Mengajar </p>
+                            <div>
+                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose1()}>x</button>
+                            </div>
+                        </div>
+                        <div>
+                            <table className="w-full p-4">
+                                <thead>
+                                    <tr className='[&>th]:p-2 bg-slate-800 text-white'>
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam</th>
+                                        <th>Nama Member</th>
+                                        <th>Kelas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        modalData.map((d, i) => (
+                                            <tr key={i} className='text-sm'>
+                                                <td className='border border-grey-100 p-1 text-center'>{i+1}</td>
+                                                <td className='border border-grey-100 p-1 text-center'>{tglIndo(d.tanggal)}</td>
+                                                <td className='border border-grey-100 p-1 text-center'>{d.jam}</td>
+                                                <td className='border border-grey-100 p-1'>{d.nama_pengguna}</td>
+                                                <td className='border border-grey-100 p-1'>{d.materi}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </Modal>
         </AuthenticatedLayout>
     );
 }
