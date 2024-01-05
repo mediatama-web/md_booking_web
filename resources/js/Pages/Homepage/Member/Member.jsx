@@ -5,8 +5,9 @@ import { pickBy } from 'lodash';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Switch } from '@headlessui/react'
+import Swal from 'sweetalert2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faUpload, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faPencil } from '@fortawesome/free-solid-svg-icons'
 export default function Member({auth, member}) {
     const perpage = useRef(member.per_page)
     const [isloadong, setIsloading] = useState(false)
@@ -48,8 +49,21 @@ export default function Member({auth, member}) {
     }
 
     const handlerHapusMember = (id) => {
-        console.log(id);
-        router.get(route('member-hapus',id))
+        Swal.fire({
+            title: "Yakin Mehapus Data?",
+            text: "Apakah Anda Yakin Ingin Menghapus Data Ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Saya Yakin!",
+            cancelButtonText: "Batal"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                router.get(route('member-hapus',id))              
+            }
+          });
+        
     }
 
     const tanggalIndo = (tanggal) => {

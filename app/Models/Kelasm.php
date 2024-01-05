@@ -18,8 +18,7 @@ class Kelasm extends Model
     {
         return [
             'materi' => $this->materi,
-            'jenis' => $this->jenis,
-            
+            'jenis' => $this->jenis
         ];
     }
 }

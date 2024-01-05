@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import { pickBy } from 'lodash'
+import Swal from 'sweetalert2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrash, faFile } from '@fortawesome/free-solid-svg-icons'
 
@@ -49,7 +50,20 @@ export default function Kelas({ auth, kelas }) {
     }
 
     const handlerHapus = (id) => {
-        router.get(route('kelas-hapusKelas',id))
+        Swal.fire({
+            title: "Yakin Mehapus Data?",
+            text: "Apakah Anda Yakin Ingin Menghapus Data Ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Saya Yakin!",
+            cancelButtonText: "Batal"
+          }).then((result) => {
+            if (result.isConfirmed) {          
+                router.get(route('kelas-hapusKelas',id))
+            }
+          });
         getData()
     }
 
