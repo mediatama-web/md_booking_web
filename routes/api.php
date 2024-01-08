@@ -2,9 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Android\{
-    ApiController,
-};
+use App\Http\Controllers\Android\ApiController;
+use App\Http\Controllers\Api\RegisterController;
 
 use App\Http\Controllers\NotifikasiController;
 Route::post('/login',[ApiController::class, 'login']);
@@ -28,9 +27,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/upload-profile',[ApiController::class, 'uploadProfile']);
     Route::post('/upload-cv',[ApiController::class, 'uploadCv']);
     Route::post('/upload-linkedin',[ApiController::class, 'uploadLinkedin']);
-
+    
     // sertifikat
     Route::get('/sertifikat',[ApiController::class, 'sertifikat']);
+    
+    
 });
+// register
+Route::get('/get-kelas/{jenis}',[RegisterController::class, 'getkelas']);
+Route::post('/daftar',[RegisterController::class, 'daftar']);
 
 
