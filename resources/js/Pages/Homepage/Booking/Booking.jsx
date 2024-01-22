@@ -174,6 +174,7 @@ export default function Booking({ auth, booking, mentor }){
                                     <th className='text-left md:text-sm text-xs'>Jam</th>
                                     <th className='text-left md:text-sm text-xs'>Nama Mentor</th>
                                     <th className='text-left md:text-sm text-xs'>Kelas</th>
+                                    <th className='text-left md:text-sm text-xs'>Lokasi</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
                                     <th className='text-left md:text-sm text-xs'>Aksi</th>
                                 </tr>
@@ -249,6 +250,7 @@ export default function Booking({ auth, booking, mentor }){
                                                     </select>
                                                 </td>
                                                 <td className='border border-grey-100'>{data.materi}</td>
+                                                <td className='border border-grey-100'>{data.lokasi}</td>
                                                 <td className='border border-grey-100 w-24 text-center'>
                                                     <select
                                                         id="status"

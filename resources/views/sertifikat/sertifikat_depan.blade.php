@@ -139,8 +139,8 @@
         </span>
 
         <img id="fotoPeserta" src="peserta/xamplefoto.png" alt="">
-        <div style="position: absolute; margin-top:70%; margin-left:70%">
-            <?= $qr ?>
+        <div style="position:absolute; z-index:1; margin-top:55%; margin-left:80%">
+            <img width="80px" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate(url()->current())) !!} ">
         </div>
     </div>
     

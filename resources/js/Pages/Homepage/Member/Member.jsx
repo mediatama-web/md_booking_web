@@ -131,6 +131,7 @@ export default function Member({auth, member}) {
                                     <th className='text-left md:text-sm text-xs'>Alamat</th>
                                     <th className='text-left md:text-sm text-xs'>Tanggal Daftar</th>
                                     <th className='text-left md:text-sm text-xs'>Informasi</th>
+                                    <th className='text-left md:text-sm text-xs'>Lokasi</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
                                     <th className='text-left md:text-sm text-xs w-24'>#</th>
                                 </tr>
@@ -179,6 +180,7 @@ export default function Member({auth, member}) {
                                                 <td className='border border-grey-100'>{data.alamat}</td>
                                                 <td className='border border-grey-100'>{tanggalIndo(data.tgl_daftar)}</td>
                                                 <td className='border border-grey-100'>{data.info}</td>
+                                                <td className='border border-grey-100'>{data.lokasi }</td>
                                                 <td className='border border-grey-100 w-24 text-center'>
                                                         <Switch
                                                             checked={data.status_akun == 'aktif' ? true : false}
@@ -192,7 +194,7 @@ export default function Member({auth, member}) {
                                                             />
                                                         </Switch>
                                                 </td>
-                                                <td className='flex border border-grey-100'>
+                                                <td className='flex justify-items-center items-center'>
                                                     <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 hover:bg-blue-600 text-white p-2 m-1 rounded-lg md:text-sm text-xs'>Kelas</Link>
                                                     <div className='hover:cursor-pointer hover:bg-blue-400 bg-blue-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
                                                     <div onClick={() => handlerHapusMember(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>

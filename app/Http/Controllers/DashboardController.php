@@ -25,7 +25,7 @@ class DashboardController extends Controller
                     ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
                     ->where('booking.tanggal',$tanggal)
                     ->orderBy('booking.id','DESC')
-                    ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                    ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna','pengguna.lokasi')
                     ->get();
         
         $data['mentor'] = Mentorm::where('status','aktif')->get();

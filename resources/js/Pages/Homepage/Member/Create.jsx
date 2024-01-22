@@ -12,6 +12,7 @@ export default function Create({ auth, errors }) {
         alamat: "",
         email: "",
         info: "",
+        lokasi: "",
     })
 
     const handlerSave = (e) => {
@@ -24,6 +25,7 @@ export default function Create({ auth, errors }) {
         setData('alamat','')
         setData('email','')
         setData('info','')
+        setData('lokasi','')
     }
 
     return (
@@ -107,6 +109,26 @@ export default function Create({ auth, errors }) {
                                     />
 
                                     <InputError message={errors.email} className="mt-2" />
+                                </div>
+                                
+                                <div className='flex items-center mb-3'>
+                                    <InputLabel className='w-[140px]' htmlFor="Lokasi" value="Lokasi" />
+
+                                    <select
+                                        id="lokasi"
+                                        type="lokasi"
+                                        name="lokasi"
+                                        value={data.lokasi}
+                                        className="mt-1 block w-full rounded-[30px]"
+                                        placeholder="PILIH"
+                                        onChange={(e) => setData('lokasi',e.target.value)}
+                                    >
+                                        <option value="">- PILIH -</option>
+                                        <option value="Mediatama">Mediatama</option>
+                                        <option value="Nazea">Nazea</option>
+                                    </select>
+
+                                    <InputError message={errors.lokasi} className="mt-2" />
                                 </div>
 
                                 <div className="flex items-center mr-4 mb-3">

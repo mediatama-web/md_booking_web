@@ -22,7 +22,7 @@ class BookingController extends Controller
         $data['booking'] = Bookingm::join('mentor','booking.id_mentor','mentor.id')
                     ->leftjoin('pengguna','pengguna.id','booking.id_user')
                     ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
-                    ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna')
+                    ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna','pengguna.lokasi')
                     ->orderBy('id','DESC')
                     ->paginate($r->perpage ?? 10);
         

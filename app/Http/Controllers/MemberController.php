@@ -37,6 +37,7 @@ class MemberController extends Controller
                 'no_telpon' => $r->no_telpon,
                 'alamat' => $r->alamat,
                 'email' => $r->email,
+                'lokasi' => $r->lokasi,
                 'password' => Hash::make('mediatama123'),
                 'tgl_daftar' => date('Y-m-d'),
                 'foto' => 'image/user.png',
