@@ -23,6 +23,7 @@ class BookingController extends Controller
                     ->leftjoin('pengguna','pengguna.id','booking.id_user')
                     ->leftjoin('kelas','kelas.id','booking.id_daftarkelas')
                     ->select('booking.*','mentor.nama_mentor','kelas.materi','pengguna.nama_pengguna','pengguna.lokasi')
+                    ->where("pengguna.nama_pengguna",'LIKE','%'.$r->cari.'%')
                     ->orderBy('id','DESC')
                     ->paginate($r->perpage ?? 10);
         

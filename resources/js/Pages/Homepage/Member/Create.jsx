@@ -124,8 +124,8 @@ export default function Create({ auth, errors }) {
                                         onChange={(e) => setData('lokasi',e.target.value)}
                                     >
                                         <option value="">- PILIH -</option>
-                                        <option value="Mediatama">Mediatama</option>
-                                        <option value="Nazea">Nazea</option>
+                                        <option value="Mediatama Web">Mediatama Web</option>
+                                        <option value="Nazea Teknologi">Nazea Teknologi</option>
                                     </select>
 
                                     <InputError message={errors.lokasi} className="mt-2" />
