@@ -261,6 +261,7 @@ export default function Booking({ auth, booking, mentor }){
                                                         <option value="pending">Pending</option>
                                                         <option value="diterima">Diterima</option>
                                                         <option value="ditolak">Ditolak</option>
+                                                        <option value="dibatalkan">Dibatalkan</option>
                                                     </select>
                                                 </td>
                                                 <td className='border border-grey-100 w-24 text-center'>

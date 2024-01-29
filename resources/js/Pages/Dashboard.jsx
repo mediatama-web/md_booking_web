@@ -162,6 +162,7 @@ export default function Dashboard({ auth, booking, mentor }) {
                                                         <option value="pending">Pending</option>
                                                         <option value="diterima">Diterima</option>
                                                         <option value="ditolak">Ditolak</option>
+                                                        <option value="dibatalkan">Dibatalkan</option>
                                                     </select>
                                                 </td>
 
