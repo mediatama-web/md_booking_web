@@ -33,18 +33,19 @@ class NotifikasiController extends Controller
         return response()->json('berhasil');
     }
 
-    public static function sendMail($email, $notificationBody)
+    public static function sendMail($email, $recieverName, $from)
     {
         $mailInfo = new \stdClass();
-        $mailInfo->recieverName = "PERTAMINA";
+        $mailInfo->recieverName = $recieverName;
         $mailInfo->sender = "INFORMATION";
-        $mailInfo->senderCompany = "PT PERTAMINA PATRA NIAGA";
+        $mailInfo->senderCompany = $recieverName;
         $mailInfo->to = $email;
         $mailInfo->name = "INFORMATION";
-        $mailInfo->from = "information@pertaminachecklistrefueller.com";
+        $mailInfo->from = $from;
         $mailInfo->cc = "noreply@gmail.com";
         $mailInfo->bcc = "noreply@gmail.com";
-        $mailInfo->subject = $notificationBody;
+
+        $mailInfo->subject = "Terimakasih Sudah Melakukan Pembelian Kelas kami. silahkan login melalui aplikasi atau silahkan hubungi customer service kami pada <a href='https://wa.me/+6282170214495'>082170214495</a>. Kami Ucapkan Terimakasih";
         Mail::to($email)
            ->send(new KirimEmail($mailInfo));
 
