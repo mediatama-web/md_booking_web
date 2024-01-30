@@ -305,7 +305,7 @@ class ApiController extends Controller
         $foto = $request->file('cv');
         if($foto){
             $filename = Uploadfile::uploadSingle($foto, 'cv/');
-            $data['sertifikat'] = $filename;
+            $data['cv'] = $filename;
             $hasil = Penggunam::where('id',$user->id)->update($data);
         }
 

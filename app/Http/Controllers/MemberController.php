@@ -21,7 +21,7 @@ use App\Http\Controllers\Core\UploadController as Uploadfile;
 class MemberController extends Controller
 {
     public function index(Request $r){
-        $data['member'] = Penggunam::search($r->cari)->paginate($r->perpage ?? 10);
+        $data['member'] = Penggunam::where('nama_pengguna','LIKE','%'.$r->cari.'%')->paginate($r->perpage ?? 10);
         return Inertia::render('Homepage/Member/Member',$data);
     }
 
@@ -30,7 +30,6 @@ class MemberController extends Controller
     }
 
     public function simpan(MemberRequest $r){
-
         if($r->validated()){
             Penggunam::create([
                 'nama_pengguna' => $r->nama_pengguna,
