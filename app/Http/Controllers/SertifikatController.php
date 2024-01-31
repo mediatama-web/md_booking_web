@@ -25,7 +25,7 @@ class SertifikatController extends Controller
 
         $data['qr'] = UploadController::generateQr('http://localhost:8000/sertifikat-depan/1/3');
 
-        return view('sertifikat/sertifikat_depan',$data);
+        // return view('sertifikat/sertifikat_depan',$data);
 
         $pdf = Pdf::loadView('sertifikat/sertifikat_depan',$data)->setPaper('a4', 'landscape');
         return $pdf->stream('sertifikat_depan.pdf');
