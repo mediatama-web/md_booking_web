@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
+use Inertia\Response;
+
 use App\Models\Kelasm;
 use App\Models\Transaksi;
 use App\Models\Daftarkelasm;
@@ -56,5 +60,9 @@ class RegisterController extends Controller
     public function getkelas($jenis){
         $kelas = Kelasm::where('jenis',$jenis)->select('materi','harga','id')->get();
         return response()->json(['kelas' => $kelas]);
+    }
+
+    public function transaksi(Request $r){
+        return Inertia::render('Homepage/Transaksi/Transaksi');
     }
 }

@@ -150,25 +150,50 @@ class ApiController extends Controller
 
     public function simpanbooking(Request $r){
         $user = auth('sanctum')->user();
-        $data = Bookingm::create([
-            'id_user' => $user->id,
-            'jam' => $r->jam,
-            'tanggal' => date("Y-m-d", strtotime($r->tanggal)),
-            'id_daftarkelas' => $r->kelas
-        ]);
-
-        if($data){
-            NotifyApk::notifikasiSend($user->fcm_token, 'Info','Booking Jadwal Berhasil');
-            NotifyWeb::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
-            return response()->json([
-                'status' => 200,
-                'pesan' => "berhasil",
-            ]);
+        if(Date('H') < Date("20") && date('Y-m-d') != date("Y-m-d", strtotime($r->tanggal))){
+            $cekJadwal = Bookingm::where('id_user',$user->id)->where('tanggal',date("Y-m-d", strtotime($r->tanggal)))->where('id_daftarkelas', $r->kelas)->first();
+            if($cekJadwal){
+                $data = Bookingm::create([
+                    'id_user' => $user->id,
+                    'jam' => $r->jam,
+                    'tanggal' => date("Y-m-d", strtotime($r->tanggal)),
+                    'id_daftarkelas' => $r->kelas
+                ]);
+        
+                if($data){
+                    if($user->fcm_token != null){
+                        NotifyApk::notifikasiSend($user->fcm_token, 'Info','Booking Jadwal Berhasil');
+                    }
+                    NotifyWeb::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
+                    return response()->json([
+                        'status' => 200,
+                        'pesan' => "berhasil",
+                    ]);
+                }else{
+                    if($user->fcm_token != null){
+                        NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak');
+                    }
+                    return response()->json([
+                        'status' => 400,
+                        'pesan' => "gagal"
+                    ]);
+                }
+            }else{
+                if($user->fcm_token != null){
+                    NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak Maximal Booking 1x Dalam Satu Hari!');
+                }
+                return response()->json([
+                    'status' => 400,
+                    'pesan' => "Booking Jadwal Ditolak Maximal Booking 1x Dalam Satu Hari!"
+                ]);
+            }
         }else{
-            NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak');
+            if($user->fcm_token != null){
+                NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Silahkan Booking Sebelum Jam 20:00 Dan Pastikan H+1 Dari Jadawal Booking');
+            }
             return response()->json([
                 'status' => 400,
-                'pesan' => "gagal"
+                'pesan' => "Silahkan Booking Sebelum Jam 20:00 Dan Pastikan H+1 Dari Jadawal Booking"
             ]);
         }
     }
