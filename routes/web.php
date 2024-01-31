@@ -18,6 +18,10 @@ use App\Http\Controllers\{
     SertifikatController
 };
 
+use App\Http\Controllers\Api\{
+    RegisterController
+};
+
 Route::get('/',[Logincontroller::class, 'index'])->name('login');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -26,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/transaksi', [RegisterController::class, 'getkelas'])->name('transaksi');
 
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');
     Route::get('/booking-add/{id?}', [BookingController::class, 'add'])->name('booking-add');
