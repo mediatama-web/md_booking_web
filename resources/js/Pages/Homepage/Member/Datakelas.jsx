@@ -252,12 +252,9 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                                         <FontAwesomeIcon className='ml-2' icon={faPencil} />
                                                                     </i>
                                                                     :
-                                                                    <div className="flex">
+                                                                    <div className="flex justify-center">
                                                                         <a target="_blank" href={route('sertifikat-depan',[member.id,data.id_kelas])} className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
-                                                                            Depan <FontAwesomeIcon className='ml-2' icon={faFile} />
-                                                                        </a>
-                                                                        <a target="_blank" href={route('sertifikat-belakang',[member.id,data.id_kelas])} className='ml-2 cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
-                                                                            Belakang <FontAwesomeIcon className='ml-2' icon={faFile} />
+                                                                            Lihat <FontAwesomeIcon className='ml-2' icon={faFile} />
                                                                         </a>
                                                                     </div>
                                                                 }
