@@ -23,8 +23,8 @@ class ReportController extends Controller
         $data['bulans'] = $tahun."-".$bulan;
         $data['report'] = Bookingm::leftjoin('mentor','booking.id_mentor','mentor.id')
                         ->select(DB::raw("COUNT(*) as total"),'mentor.nama_mentor','booking.tanggal','booking.id_mentor')
-                        ->whereMonth('tanggal',$bulan)
-                        ->whereYear('tanggal',$tahun)
+                        ->whereMonth('booking.tanggal',$bulan)
+                        ->whereYear('booking.tanggal',$tahun)
                         ->where('booking.status','diterima')
                         ->groupBy('booking.id_mentor')
                         ->orderBy('total','DESC')
@@ -44,11 +44,12 @@ class ReportController extends Controller
         }
 
         $booking = Bookingm::leftJoin('kelas','kelas.id','booking.id_daftarkelas')->leftJoin('pengguna','pengguna.id','booking.id_user')
-                    ->where('booking.id_mentor',$id_mentor)
-                    ->where('booking.status','diterima')
                     ->whereMonth('booking.tanggal',$bulan)
                     ->whereYear('booking.tanggal',$tahun)
+                    ->where('booking.status','diterima')
+                    ->where('booking.id_mentor',$id_mentor)
                     ->select('booking.tanggal','booking.jam','pengguna.nama_pengguna','kelas.materi')
+                    ->orderBy('booking.tanggal','ASC')
                     ->get();
 
         return response()->json(['detail' => $booking]);

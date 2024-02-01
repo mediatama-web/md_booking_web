@@ -33,6 +33,7 @@ class RegisterController extends Controller
                         'tgl_daftar' => date('Y-m-d'),
                         'foto' => 'image/user.png',
                         'info' => $r->info,
+                        'status_akun' => "tidak aktif",
                     ]);
 
             $kelas = Daftarkelasm::create([
@@ -48,7 +49,7 @@ class RegisterController extends Controller
             }
 
             $foto = Uploadfile::uploadSingle($r->bukti_transfer,"transaksi/");
-            Transaksi::create(['id_user' => $user->id, 'foto' => $foto]);
+            Transaksi::create(['id_user' => $user->id, 'id_kelas' =>  $r->id_kelas, 'foto' => $foto, 'tanggal' => date('Y-m-d')]);
 
             Notifikasi::sendMail($r->email, $r->lokasi, $from);
             return response()->json(['status' => 200]);
@@ -63,6 +64,10 @@ class RegisterController extends Controller
     }
 
     public function transaksi(Request $r){
-        return Inertia::render('Homepage/Transaksi/Transaksi');
+        $data['transaksi'] = Transaksi::leftJoin('kelas','kelas.id','transaksi.id_kelas')
+                            ->leftJoin('pengguna','pengguna.id','transaksi.id_user')
+                            ->select('transaksi.*','kelas.harga','kelas.materi','pengguna.nama_pengguna','transaksi.tanggal')    
+                            ->paginate(10);
+        return Inertia::render('Homepage/Transaksi/Transaksi',$data);
     }
 }

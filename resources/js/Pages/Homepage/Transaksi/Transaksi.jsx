@@ -1,12 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react';
 import Modal from '@/Components/Modal';
 import axios from 'axios'
 
-export default function Transaksi({ auth}) {
+export default function Transaksi({ auth, transaksi }) {
     const [month, setMonth] = useState("")
     const [modalData, setModaldata] = useState([])
     const [show, setShow] = useState(false)
@@ -14,15 +14,6 @@ export default function Transaksi({ auth}) {
     useEffect(() => {
         import("@lottiefiles/lottie-player");
     })
-
-    const tanggalIndo = (tanggal) => {
-        var  bulan =  [ "Januari" , "Februari" , "Maret" , "April" , "Mei" , "Juni" , "Juli" ,
-            "Agustus" , "September" , "Oktober" , "November" , "Desember" ] ;
-        const date = new Date(tanggal);
-        const formatDate = bulan[date.getMonth()];
-
-        return formatDate
-    }
 
     const tglIndo = (tanggal) => {
         var  bulan =  [ "Januari" , "Februari" , "Maret" , "April" , "Mei" , "Juni" , "Juli" ,
@@ -75,24 +66,60 @@ export default function Transaksi({ auth}) {
                                 </tr>
                             </thead>
                             <tbody className='bg-white'>
-                                <tr>
-                                    <td colSpan={6} className='text-center md:text-sm text-xs p-2'>
-                                        <lottie-player
-                                            src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
-                                            background="#fff"
-                                            speed="1"
-                                            style={{ width: '200px', height: '200px', margin: 'auto' }}
-                                            loop
-                                            autoplay
-                                            direction="1"
-                                            mode="normal">
-                                        </lottie-player>
-                                    </td>
-                                </tr>
+                            {
+                                transaksi.data.length < 1 ? 
+                                
+                                    <tr>
+                                        <td colSpan={9} className='text-center p-2 md:text-sm text-xs'>
+                                            <lottie-player
+                                                src="https://lottie.host/d7294ce8-356d-48f3-a3b4-a551c2be7bed/p3BZckF4yh.json"
+                                                background="#fff"
+                                                speed="1"
+                                                style={{ width: '200px', height: '200px', margin: 'auto' }}
+                                                loop
+                                                autoplay
+                                                direction="1"
+                                                mode="normal">
+                                            </lottie-player>
+                                        </td>
+                                    </tr>
+                                 : (
+                                    transaksi.data.map((data, i) => (
+                                        <tr key={data.id} className='[&>td]:p-2 text-sm'>
+                                            <td className='border border-grey-100'>{transaksi.from + i}</td>
+                                            <td className='border border-grey-100'>{data.nama_pengguna}</td>
+                                            <td className='border border-grey-100'>{data.materi}</td>
+                                            <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
+                                            <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
+                                            <td className='text-right border border-grey-100'>{tglIndo(data.tanggal)}</td>
+                                        </tr>
+                                    )
+                                    )
+                                )
+                            }
                                 
                             </tbody>
 
                         </table>
+                        <div className="flex items-center justify-between p-2">
+                            <div className='md:text-sm text-xs'>
+                                Melihat {transaksi.from ?? 0} sampai {transaksi.to ?? 0} dari {transaksi.total ?? 0} data
+                            </div>
+                            <div className="flex items-center gap-2">
+                                {transaksi.links.map((link, i) => (
+                                    <Link
+                                        key={i}
+                                        href={link.url}
+                                        className='bg-slate-800 p-2 text-white md:text-sm text-xs rounded-md'
+                                    >
+                                        <div dangerouslySetInnerHTML={{
+                                            __html: link.label,
+                                        }} />
+
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

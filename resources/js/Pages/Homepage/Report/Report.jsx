@@ -153,7 +153,7 @@ export default function Mentor({ auth, report, bulans}) {
                                         modalData.map((d, i) => (
                                             <tr key={i} className='text-sm'>
                                                 <td className='border border-grey-100 p-1 text-center'>{i+1}</td>
-                                                <td className='border border-grey-100 p-1 text-center'>{tglIndo(d.tanggal)}</td>
+                                                <td className='border border-grey-100 p-1 text-center'>{d.tanggal}</td>
                                                 <td className='border border-grey-100 p-1 text-center'>{d.jam}</td>
                                                 <td className='border border-grey-100 p-1'>{d.nama_pengguna}</td>
                                                 <td className='border border-grey-100 p-1'>{d.materi}</td>

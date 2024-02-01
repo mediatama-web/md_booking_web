@@ -155,7 +155,7 @@ export default function Loker({ auth , loker}) {
                                             :
                                             (
                                                 loker.data.map((data, i) => (
-                                                    <tr key={data.id} className='[&>td]:p-2 text-sm'>
+                                                    <tr key={data.id} className='[&>td]:p-2 text-sm border border-grey-100'>
                                                         <td className='border border-grey-100'>{i+1}</td>
                                                         <td className='border border-grey-100'>{data.judul}</td>
                                                         <td className='border border-grey-100'>{data.deskripsi}</td>
@@ -163,11 +163,11 @@ export default function Loker({ auth , loker}) {
                                                         <td className='border border-grey-100 text-center'>
                                                             <img src={data.foto} className='w-24' alt="" />
                                                         </td>
-                                                        <td className=' justify-center items-center text-center w-24'>
-                                                            <Link href={route('loker-add',data.id)}>
-                                                                <FontAwesomeIcon className='text-blue-400 hover:text-blue-600 m-3' icon={faPencil} />
+                                                        <td className='w-24 grid grid-cols-2 gap-2 p-4'>
+                                                            <Link href={route('loker-add',data.id)} className='bg-blue-700 hover:bg-blue-600 text-white w-9 text-center p-2 rounded-lg md:text-sm text-xs m-1' >
+                                                                <FontAwesomeIcon icon={faPencil} />
                                                             </Link>
-                                                            <FontAwesomeIcon onClick={() => handlerHapus(data.id)} className='m-3 text-red-400 hover:text-red-600 cursor-pointer' icon={faTrash} />
+                                                            <div onClick={() => handlerHapus(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
                                                         </td>
                                                     </tr>
                                                 )

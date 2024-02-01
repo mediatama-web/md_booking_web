@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
             $table->integer('id_user');
+            $table->string('id_kelas');
+            $table->date('tanggal');
             $table->text('foto');
             $table->timestamps();
         });

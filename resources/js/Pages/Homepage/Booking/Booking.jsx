@@ -215,7 +215,7 @@ export default function Booking({ auth, booking, mentor }){
                                       :
                                     (
                                         booking.data.map((data , i) => (
-                                            <tr key={data.id} className='[&>td]:p-2 text-sm'>
+                                            <tr key={data.id} className='[&>td]:p-2 text-sm border border-grey-100'>
                                                 <td className='border border-grey-100'>{booking.from + i}</td>
                                                 <td className='border border-grey-100'>{data.nama_pengguna}</td>
                                                 <td className='border border-grey-100'>{tanggalIndo(data.tanggal)}</td>
@@ -264,8 +264,8 @@ export default function Booking({ auth, booking, mentor }){
                                                         <option value="dibatalkan">Dibatalkan</option>
                                                     </select>
                                                 </td>
-                                                <td className='border border-grey-100 w-24 text-center'>
-                                                    <FontAwesomeIcon onClick={(e) => hapusBooking(data.id)} className='text-red-400 hover:text-red-600 cursor-pointer' icon={faTrash}/>
+                                                <td className='w-24 flex gap-3 justify-center'>
+                                                    <div onClick={() => hapusBooking(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
                                                 </td>
 
                                             </tr>

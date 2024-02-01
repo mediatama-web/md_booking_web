@@ -176,7 +176,15 @@ class MemberController extends Controller
     public function checkdatauser($id){
         
         $datakelas = Daftarkelasm::where('id',$id)->first();
+        
         $user = Penggunam::where('id',$datakelas->id_user)->select('cv','linkedin')->first();
+
+        return response()->json(['data' => $user]);
+    }
+    
+    public function checklinkedinadncv($id){
+        
+        $user = Penggunam::where('id',$id)->select('cv','linkedin')->first();
 
         return response()->json(['data' => $user]);
     }

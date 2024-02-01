@@ -79,6 +79,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // cek data user
     Route::get('/cekdatauser/{id}', [MemberController::class, 'checkdatauser'])->name('cekdatauser');
+    Route::get('/checkdatacv/{id}', [MemberController::class, 'checklinkedinadncv'])->name('checkdatacv');
 
     Route::post('/save-token', [NotifikasiController::class, 'saveToken'])->name('save-token');
     Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');
