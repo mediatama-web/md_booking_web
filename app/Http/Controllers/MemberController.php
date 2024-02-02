@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MemberRequest;
 use App\Http\Requests\KelasRequest;
 use App\Http\Requests\Sertifikatrequest;
+use App\Http\Requests\Fotorequest;
+use App\Http\Requests\Cvrequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -129,15 +131,35 @@ class MemberController extends Controller
        return $data;
     }
 
-    public function uploadCv(Sertifikatrequest $r){
+    public function uploadCv(Cvrequest $r){
         if($r->validated()){
             $foto = $r->file('cv');
             if($foto){
                 $filename = Uploadfile::uploadSingle($foto, 'cv/');
-                $data['sertifikat'] = 'cv/'.$filename;
+                $data['cv'] = $filename;
                 $hasil = Penggunam::where('id',$r->id)->update($data);
             }
         }
+        return Redirect::back();
+    }
+    
+    public function uploadProfile(Fotorequest $r){
+        if($r->validated()){
+            $foto = $r->file('foto');
+            if($foto){
+                $filename = Uploadfile::uploadSingle($foto, 'profile/');
+                $data['foto'] = $filename;
+                $hasil = Penggunam::where('id',$r->id)->update($data);
+            }
+        }
+        return Redirect::back();
+    }
+    
+    public function uploadLinked(Request $r){
+        
+        $data['linkedin'] = $r->linkedin;
+        $hasil = Penggunam::where('id',$r->id)->update($data);
+
         return Redirect::back();
     }
 
@@ -187,5 +209,12 @@ class MemberController extends Controller
         $user = Penggunam::where('id',$id)->select('cv','linkedin')->first();
 
         return response()->json(['data' => $user]);
+    }
+
+    public function detailMember($id){
+        $data['member'] = Penggunam::where('id',$id)->first();
+        $data['ongoing'] = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')->where('daftarkelas.id_user',$id)->where('sertifikat','0')->get();
+        $data['finish'] = Daftarkelasm::join('kelas','kelas.id','daftarkelas.id_kelas')->where('daftarkelas.id_user',$id)->where('sertifikat','1')->get();
+        return Inertia::render('Homepage/Member/Detailmember',$data);
     }
 }

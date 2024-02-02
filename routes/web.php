@@ -58,6 +58,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-absen/{id_user}/{id_kelas}', [MemberController::class, 'absen'])->name('member-absen');
     Route::get('/member-absen-detail/{id_user}/{id_kelas}', [MemberController::class, 'memberabsen'])->name('member-absen-detail');
     Route::post('/upload-cv', [MemberController::class, 'uploadCv'])->name('upload-cv');
+    Route::post('/upload-profile', [MemberController::class, 'uploadProfile'])->name('upload-profile');
+    Route::post('/upload-linkedin', [MemberController::class, 'uploadLinked'])->name('upload-linkedin');
+    Route::get('/detail-member/{id}', [MemberController::class, 'detailMember'])->name('detail-member');
 
     Route::get('/report/{month?}', [ReportController::class, 'index'])->name('report');
     Route::get('/report-detail/{id_mentor}/{month?}', [ReportController::class, 'reportdetail'])->name('report-detail');
@@ -85,6 +88,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');
 
     Route::get('/sertifikat-depan/{id}/{kelas}', [SertifikatController::class, 'index'])->name('sertifikat-depan');
-    Route::get('/sertifikat-belakang/{id}/{kelas}', [SertifikatController::class, 'belakang'])->name('sertifikat-belakang');
+    Route::get('/sertifikat-verif/{id}/{kelas}', [SertifikatController::class, 'verifikasiSertifikat'])->name('sertifikat-verif');
 
 require __DIR__.'/auth.php';

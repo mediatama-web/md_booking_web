@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\Core\UploadController;
+use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\{
     Penggunam,
     Daftarkelasm,
@@ -34,5 +36,9 @@ class SertifikatController extends Controller
     public function belakang(){
         $pdf = Pdf::loadView('sertifikat/sertifikat_belakang')->setPaper('a4', 'landscape');
         return $pdf->stream('sertifikat_belakang.pdf');
+    }
+
+    public function verifikasiSertifikat($id,$kelas){
+        return Inertia::render("Homepage/Sertifikat/Sertifikat");
     }
 }

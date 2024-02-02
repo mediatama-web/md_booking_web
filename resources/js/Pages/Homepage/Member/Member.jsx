@@ -8,15 +8,10 @@ import { Switch } from '@headlessui/react'
 import Swal from 'sweetalert2'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPencil,faFolderOpen, faBookmark, faEye, faCancel } from '@fortawesome/free-solid-svg-icons'
-import Modal from '@/Components/Modal';
 export default function Member({auth, member}) {
     const perpage = useRef(member.per_page)
     const [isloadong, setIsloading] = useState(false)
-    const [modal, setModal] = useState(false)
     const [cari, setCari] = useState("")
-
-    const [cv, setCv] = useState("")
-    const [linkedin, setLinkedin] = useState("")
 
     const handleChangeValue = (e) => {
         perpage.current = e.target.value
@@ -74,23 +69,6 @@ export default function Member({auth, member}) {
         const date = new Date(tanggal);
         const formatDate = date.toLocaleDateString('id');
         return formatDate
-    }
-
-    const handlerModal = async (id) =>  {
-        axios.get(route("checkdatacv",id))
-        .then((res) => {
-            console.log(res);
-            setModal(true)
-            setLinkedin(res.data.linkedin)
-            setCv(res.data.cv)
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }
-
-    const handlerModalClose1 = () => {
-        setModal(false)
     }
 
     return (
@@ -154,7 +132,7 @@ export default function Member({auth, member}) {
                                     <th className='text-left md:text-sm text-xs'>Informasi</th>
                                     <th className='text-left md:text-sm text-xs'>Lokasi</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
-                                    <th className='text-left md:text-sm text-xs w-24'>#</th>
+                                    <th className='text-left md:text-sm text-xs w-28'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -193,7 +171,7 @@ export default function Member({auth, member}) {
                                       :
                                     (
                                             member.data.map((data, i) => (
-                                            <tr key={data.id} className='[&>td]:p-2 border border-grey-100'>
+                                            <tr key={data.id} className='[&>td]:p-2 border border-gray-100'>
                                                 <td className='border border-grey-100'>{member.from + i}</td>
                                                 <td className='border border-grey-100'>{data.nama_pengguna}</td>
                                                 <td className='border border-grey-100'>{data.no_telpon}</td>
@@ -215,10 +193,11 @@ export default function Member({auth, member}) {
                                                             />
                                                         </Switch>
                                                 </td>
-                                                <td className='grid grid-cols-2 gap-2'>
+                                                <td className='grid md:grid-cols-2 grid-cols-1 gap-2'>
                                                     <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 hover:bg-blue-600 text-white m-1 w-9 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faFolderOpen}/></Link>
                                                     <div className='hover:cursor-pointer hover:bg-blue-400 bg-blue-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
-                                                    <div onClick={() => handlerModal(data.id)} className='hover:cursor-pointer hover:bg-yellow-400 bg-yellow-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faBookmark}/></div>
+                                                    <Link href={route('detail-member',data.id)} className='bg-yellow-500 hover:bg-yellow-300 text-white m-1 w-9 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faBookmark}/></Link>
+                                                    {/* <div onClick={() => handlerModal(data.id)} className='hover:cursor-pointer hover:bg-yellow-400 bg-yellow-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faBookmark}/></div> */}
                                                     <div onClick={() => handlerHapusMember(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
                                                 </td>
                                             </tr>
@@ -251,41 +230,6 @@ export default function Member({auth, member}) {
                     </div>
                 </div>
             </div>
-
-            <Modal show={modal}>
-                    <div className="w-full bg-grey-200 p-3">
-                        <div className="flex justify-between mb-3">
-                            <p className='text-lg'>Data Linkedin & Cv </p>
-                            <div>
-                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose1()}>x</button>
-                            </div>
-                        </div>
-                        <div>
-                            <table className="w-full p-4">
-                                <thead>
-                                    <tr className='[&>th]:p-2 bg-slate-800 text-white'>
-                                        <th className='text-left'>Data</th>
-                                        <th className='w-14 text-center'>View</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className='border border-gray-100 p-2'>
-                                        <td className='pl-3'>{linkedin ?? "Not Found"}</td>
-                                        <td className='w-14'>
-                                            <div className={` ${linkedin ? 'hover:bg-blue-400 bg-blue-500' : 'hover:bg-red-400 bg-red-500'} hover:cursor-pointer  text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs`}><FontAwesomeIcon icon={linkedin ? faEye : faCancel}/></div>
-                                        </td>
-                                    </tr>
-                                    <tr className='border border-gray-100 p-2'>
-                                        <td className='pl-3'>{ cv ?? "Not Found"}</td>
-                                        <td className='w-14'>
-                                        <div className={` ${cv ? 'hover:bg-blue-400 bg-blue-500' : 'hover:bg-red-400 bg-red-500'} hover:cursor-pointer  text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs`}><FontAwesomeIcon icon={cv ? faEye : faCancel}/></div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-            </Modal>
 
         </AuthenticatedLayout>
     )
