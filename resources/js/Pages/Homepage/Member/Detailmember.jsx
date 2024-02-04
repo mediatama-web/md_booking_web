@@ -96,14 +96,14 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                             <p className="text-center font-mono text-sm cursor-pointer hover:text-blue-400"><FontAwesomeIcon className='w-6 h-6' icon={faLinkedin}/></p>
                         </a>
                         <Dropdown>
-                        <Dropdown.Trigger>
-                            <p className="text-center font-mono text-sm cursor-pointer hover:text-teal-400"><FontAwesomeIcon className='w-6 h-6' icon={faFileArchive}/></p>
-                        </Dropdown.Trigger>
-                        <Dropdown.Content>
-                            <li className='p-1 gap-1 hover:bg-gray-100 cursor-pointer' type="button"  onClick={() => handlerModalshowcv()}>View CV</li>
-                            <a target='_blank' className='p-1 gap-1 hover:bg-gray-100 cursor-pointer w-full' href={`http://localhost:8000/${member.cv}`}>Download CV</a>
-                        </Dropdown.Content>
-                    </Dropdown>
+                            <Dropdown.Trigger>
+                                <p className="text-center font-mono text-sm cursor-pointer hover:text-teal-400"><FontAwesomeIcon className='w-6 h-6' icon={faFileArchive}/></p>
+                            </Dropdown.Trigger>
+                            <Dropdown.Content>
+                                <li className='p-1 gap-1 hover:bg-gray-100 cursor-pointer' type="button"  onClick={() => handlerModalshowcv()}>View CV</li>
+                                <a target='_blank' className='p-1 gap-1 hover:bg-gray-100 cursor-pointer w-full' href={`http://localhost:8000/${member.cv}`}>Download CV</a>
+                            </Dropdown.Content>
+                        </Dropdown>
                     </div>
                 </div>
 

@@ -60,7 +60,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/upload-cv', [MemberController::class, 'uploadCv'])->name('upload-cv');
     Route::post('/upload-profile', [MemberController::class, 'uploadProfile'])->name('upload-profile');
     Route::post('/upload-linkedin', [MemberController::class, 'uploadLinked'])->name('upload-linkedin');
-    Route::get('/detail-member/{id}', [MemberController::class, 'detailMember'])->name('detail-member');
 
     Route::get('/report/{month?}', [ReportController::class, 'index'])->name('report');
     Route::get('/report-detail/{id_mentor}/{month?}', [ReportController::class, 'reportdetail'])->name('report-detail');

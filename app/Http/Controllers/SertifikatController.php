@@ -25,20 +25,14 @@ class SertifikatController extends Controller
                                 ->where('daftarkelas.id_kelas',$kelas)
                                 ->first();
 
-        $data['qr'] = UploadController::generateQr('http://localhost:8000/sertifikat-depan/1/3');
-
-        // return view('sertifikat/sertifikat_depan',$data);
+        $data['qr'] = UploadController::generateQr('http://localhost:8000/sertifikat-verif/'.$id.'/'.$kelas);
 
         $pdf = Pdf::loadView('sertifikat/sertifikat_depan',$data)->setPaper('a4', 'landscape');
         return $pdf->stream('sertifikat_depan.pdf');
     }
 
-    public function belakang(){
-        $pdf = Pdf::loadView('sertifikat/sertifikat_belakang')->setPaper('a4', 'landscape');
-        return $pdf->stream('sertifikat_belakang.pdf');
-    }
-
     public function verifikasiSertifikat($id,$kelas){
-        return Inertia::render("Homepage/Sertifikat/Sertifikat");
+        $data['member'] = Penggunam::where('id',$id)->first();
+        return Inertia::render("Homepage/Sertifikat/Sertifikat",$data);
     }
 }
