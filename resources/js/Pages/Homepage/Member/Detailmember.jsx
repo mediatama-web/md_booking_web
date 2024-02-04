@@ -11,6 +11,7 @@ export default function Detailmember({auth, member, ongoing, finish}) {
     const [modal, setModal] = useState(false)
     const [modallinkedin, setModallinkedin] = useState(false)
     const [modalfoto, setModalfoto] = useState(false)
+    const [modalshowcv, setModalshowcv] = useState(false)
     const [cv, setCv] = useState("")
     const [linkedin, setLinkedin] = useState("")
     const [foto, setFoto] = useState("")
@@ -27,10 +28,15 @@ export default function Detailmember({auth, member, ongoing, finish}) {
         setModalfoto(true)
     }
 
+    const handlerModalshowcv = async () =>  {
+        setModalshowcv(true)
+    }
+
     const handlerModalClose1 = () => {
         setModal(false)
         setModallinkedin(false)
         setModalfoto(false)
+        setModalshowcv(false)
     }
 
     const simpanCv = async () =>  {
@@ -83,9 +89,21 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                 <p className="mt-3 text-center font-mono text-xl">{member.nama_pengguna}</p>
                 <div className="flex justify-center mt-5">
                     <div className="mt-2 grid md:w-1/4 grid-cols-3 gap-3">
-                    <p className="text-center font-mono text-sm cursor-pointer hover:text-red-400"><FontAwesomeIcon className='w-6 h-6' icon={faMailBulk}/> </p>
-                    <p className="text-center font-mono text-sm cursor-pointer hover:text-blue-400"><FontAwesomeIcon className='w-6 h-6' icon={faLinkedin}/></p>
-                    <p className="text-center font-mono text-sm cursor-pointer hover:text-teal-400"><FontAwesomeIcon className='w-6 h-6' icon={faFileArchive}/></p>
+                        <a target='_blank' href={`https://mail.google.com/mail/?view=cm&to=${member.email}&su=SUBJECT&body=BODY&bcc=${member.email}`}>
+                            <p className="text-center font-mono text-sm cursor-pointer hover:text-red-400"><FontAwesomeIcon className='w-6 h-6' icon={faMailBulk}/> </p>
+                        </a>
+                        <a target='_blank' href={member.linkedin}>
+                            <p className="text-center font-mono text-sm cursor-pointer hover:text-blue-400"><FontAwesomeIcon className='w-6 h-6' icon={faLinkedin}/></p>
+                        </a>
+                        <Dropdown>
+                        <Dropdown.Trigger>
+                            <p className="text-center font-mono text-sm cursor-pointer hover:text-teal-400"><FontAwesomeIcon className='w-6 h-6' icon={faFileArchive}/></p>
+                        </Dropdown.Trigger>
+                        <Dropdown.Content>
+                            <li className='p-1 gap-1 hover:bg-gray-100 cursor-pointer' type="button"  onClick={() => handlerModalshowcv()}>View CV</li>
+                            <a target='_blank' className='p-1 gap-1 hover:bg-gray-100 cursor-pointer w-full' href={`http://localhost:8000/${member.cv}`}>Download CV</a>
+                        </Dropdown.Content>
+                    </Dropdown>
                     </div>
                 </div>
 
@@ -108,7 +126,7 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                                         <tr key={i}>
                                             <td>{i+1}</td>
                                             <td>{val.materi}</td>
-                                            <td></td>
+                                            <td className='text-blue-400'>Ongoing</td>
                                         </tr>
                                     ))
                                 }
@@ -131,7 +149,7 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                                         <tr key={i}>
                                             <td>{i+1}</td>
                                             <td>{val.materi}</td>
-                                            <td></td>
+                                            <td className='text-green-400'>Finish</td>
                                         </tr>
                                     ))
                                 }
@@ -150,6 +168,7 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                             </div>
                         </div>
                         <div className='w-full'>
+                            <p className='text-red-400'>Format yang diterima .pdf *</p>
                             <input type="file" onChange={(e) => setCv(e.target.files[0])} name="cv" id="cv" className="p-2 border rounded-md w-full" />
                             <div className="flex justify-end">
                                 <button onClick={(_) => simpanCv()} className='bg-blue-500 hover:bg-blue-300 text-white rounded-md mt-3 p-2'>Simpan</button>
@@ -167,6 +186,7 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                             </div>
                         </div>
                         <div className='w-full'>
+                            <p className='text-red-400'>Pastikan Copy Linkedin anda dan pastekan kedalam form inputan dibawah *</p>
                             <input type="url" onChange={(e) => setLinkedin(e.target.value)} name="cv" id="cv" className="p-2 border rounded-md w-full" />
                             <div className="flex justify-end">
                                 <button onClick={(_) => simpanLinkedin()} className='bg-blue-500 hover:bg-blue-300 text-white rounded-md mt-3 p-2'>Simpan</button>
@@ -185,10 +205,25 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                             </div>
                         </div>
                         <div className='w-full'>
+                        <p className='text-red-400'>Format yang diterima .png, .jpg, .jpeg *</p>
                             <input type="file" onChange={(e) => setFoto(e.target.files[0])} name="cv" id="cv" className="p-2 border rounded-md w-full" />
                             <div className="flex justify-end">
                                 <button onClick={(_) => simpanFoto()} className='bg-blue-500 hover:bg-blue-300 text-white rounded-md mt-3 p-2'>Simpan</button>
                             </div>
+                        </div>
+                    </div>
+            </Modal>
+            
+            <Modal show={modalshowcv} maxWidth="2xl">
+                    <div className="w-full bg-grey-200 p-3">
+                        <div className="flex justify-between mb-3">
+                            <p className='text-lg'>View Cv</p>
+                            <div>
+                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose1()}>x</button>
+                            </div>
+                        </div>
+                        <div className='w-full'>
+                            <embed src={`http://localhost:8000/${member.cv}`} type="application/pdf" className='w-full h-[500px]'/>
                         </div>
                     </div>
             </Modal>
