@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-add', [MemberController::class, 'add'])->name('member-add');
     Route::post('/member-add-save', [MemberController::class, 'simpan'])->name('member-add-save');
     Route::get('/member-hapus/{id}', [MemberController::class, 'hapusDataMember'])->name('member-hapus');
+    Route::get('/detail-member/{id}', [MemberController::class, 'detailMember'])->name('detail-member');
     Route::get('/member-aktifasi/{id}', [MemberController::class, 'aktifasiakun'])->name('member-aktifasi');
     Route::get('/member-daftarkelas/{id}', [MemberController::class, 'daftarkelas'])->name('member-daftarkelas');
     Route::post('/member-kelasdaftar/{id}', [MemberController::class, 'kelasdaftar'])->name('member-kelasdaftar');

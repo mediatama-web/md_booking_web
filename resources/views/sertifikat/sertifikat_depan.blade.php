@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
@@ -168,7 +168,7 @@
     
             <img id="fotoPeserta" src="peserta/xamplefoto.png" alt="">
             <div style="position:absolute; z-index:1; margin-top:55%; margin-left:80%">
-                <img width="80px" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate(url()->current())) !!} ">
+                <img width="80px" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate($qr)) !!} ">
             </div>
             
                 <p style="position:absolute; z-index:1; margin-top:64%; margin-left:77%">Verifikasi Sertifikat</p>

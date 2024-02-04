@@ -5,6 +5,7 @@ import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
 import Modal from '@/Components/Modal';
+import Swal from 'sweetalert2'
 
 export default function Detailmember({auth, member, ongoing, finish}) {
     console.log(member);
@@ -29,7 +30,39 @@ export default function Detailmember({auth, member, ongoing, finish}) {
     }
 
     const handlerModalshowcv = async () =>  {
-        setModalshowcv(true)
+        if(member.cv == null){
+            Swal.fire({
+                title: "Not Found!",
+                text: "Belum Ada CV terupload!",
+                icon: "error"
+            })
+        }else{
+            setModalshowcv(true)
+        }
+    }
+
+    const openLinkedin = () => {
+        if(member.linkedin != null){
+            window.open(member.linkedin, '_blank');
+        }else{
+            Swal.fire({
+                title: "Not Found!",
+                text: "Belum Ada Url!",
+                icon: "error"
+            })
+        }
+    }
+
+    const openCv = () => {
+        if(member.linkedin != null){
+            window.open(`https://booking.mediatamaweb.com/${member.cv}`, '_blank');
+        }else{
+            Swal.fire({
+                title: "Not Found!",
+                text: "Belum Ada CV terupload!",
+                icon: "error"
+            })
+        }
     }
 
     const handlerModalClose1 = () => {
@@ -84,7 +117,7 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                     </Dropdown>
                 </div>
                 <div className="mt-5 flex justify-center">
-                    <img className="md:h-80 md:w-80 w-40 h-40 rounded-full ring-2 ring-gray-300 p-1" src={`http://localhost:8000/`+ member.foto} alt="Rounded avatar" />
+                    <img className="object-cover md:h-80 md:w-80 w-40 h-40 rounded-full ring-2 ring-gray-300 p-1" src={`https://booking.mediatamaweb.com/`+ member.foto} alt="Rounded avatar" />
                 </div>
                 <p className="mt-3 text-center font-mono text-xl">{member.nama_pengguna}</p>
                 <div className="flex justify-center mt-5">
@@ -92,16 +125,14 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                         <a target='_blank' href={`https://mail.google.com/mail/?view=cm&to=${member.email}&su=SUBJECT&body=BODY&bcc=${member.email}`}>
                             <p className="text-center font-mono text-sm cursor-pointer hover:text-red-400"><FontAwesomeIcon className='w-6 h-6' icon={faMailBulk}/> </p>
                         </a>
-                        <a target='_blank' href={member.linkedin}>
-                            <p className="text-center font-mono text-sm cursor-pointer hover:text-blue-400"><FontAwesomeIcon className='w-6 h-6' icon={faLinkedin}/></p>
-                        </a>
+                        <p onClick={() => openLinkedin()} className="text-center font-mono text-sm cursor-pointer hover:text-blue-400"><FontAwesomeIcon className='w-6 h-6' icon={faLinkedin}/></p>
                         <Dropdown>
                             <Dropdown.Trigger>
                                 <p className="text-center font-mono text-sm cursor-pointer hover:text-teal-400"><FontAwesomeIcon className='w-6 h-6' icon={faFileArchive}/></p>
                             </Dropdown.Trigger>
                             <Dropdown.Content>
                                 <li className='p-1 gap-1 hover:bg-gray-100 cursor-pointer' type="button"  onClick={() => handlerModalshowcv()}>View CV</li>
-                                <a target='_blank' className='p-1 gap-1 hover:bg-gray-100 cursor-pointer w-full' href={`http://localhost:8000/${member.cv}`}>Download CV</a>
+                                <li className='p-1 gap-1 hover:bg-gray-100 cursor-pointer' type="button"  onClick={() => openCv()}>Download CV</li>
                             </Dropdown.Content>
                         </Dropdown>
                     </div>
@@ -223,7 +254,7 @@ export default function Detailmember({auth, member, ongoing, finish}) {
                             </div>
                         </div>
                         <div className='w-full'>
-                            <embed src={`http://localhost:8000/${member.cv}`} type="application/pdf" className='w-full h-[500px]'/>
+                            <embed src={`https://booking.mediatamaweb.com/${member.cv}`} type="application/pdf" className='w-full h-[500px]'/>
                         </div>
                     </div>
             </Modal>
