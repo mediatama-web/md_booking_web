@@ -120,6 +120,30 @@
         width: 100%;
         height:99%; 
     }
+    
+    #pelatihans {
+        position: absolute;
+        width: 100%;
+        text-align : center;
+        color: #1D2F5F;
+        top: 8%;
+        font-size : 22px;
+    }
+    
+    #units {
+        position: absolute;
+        width: 80%;
+        top: 21%;
+        left: 19%;
+    }
+    
+    #units2 {
+        position: absolute;
+        width: 80%;
+        top: 27%;
+        left: 19%;
+        color: black;
+    }
 </style>
 
 <body>
@@ -133,7 +157,7 @@
             <b id="sertifikat">SERTIFIKAT</b>
     
             <span id="nomor">
-                Nomor : <?= str_pad($sertifikat->no_sertifikat,5,'0',STR_PAD_LEFT); ?>/<?= $sertifikat->kode_kelas ?>/S/LPK.MWI/XII/<?= date('Y') ?>
+                Nomor : <?= str_pad($sertifikat->no_sertifikat,5,'0',STR_PAD_LEFT); ?>/<?= $sertifikat->kode_kelas ?>/S/LPK.MWI/<?= App\Http\Controllers\Core\NotifikasiController::romawi(date('m')) ?>/<?= date('Y') ?>
                 <br>
                 Nomor Izin Lembaga : 07092200866450001
             </span>
@@ -166,7 +190,7 @@
                 Ferri Achmad Effindri, M.kom
             </span>
     
-            <img id="fotoPeserta" src="peserta/xamplefoto.png" alt="">
+            <img id="fotoPeserta" src="<?= $sertifikat->foto ?? 'peserta/xamplefoto.png' ?>" alt="profile">
             <div style="position:absolute; z-index:1; margin-top:55%; margin-left:80%">
                 <img width="80px" src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(256)->generate($qr)) !!} ">
             </div>
@@ -179,6 +203,26 @@
     <div>
         <img id="belakang" src="sertifikat/sertifikat_belakang.png"/>
         
+        <p id="pelatihans">Pelatihan : <?= $sertifikat->keterangan ?></p>
+        
+        
+        <table id="units">
+            <tr style="color:white; font-size:14px">
+                <td style="width:50px">NO</td>
+                <td style="width:300px; padding-left:80px">UNIT KOMPETENSI</td>
+                <td style="">KODE UNIT</td>
+            </tr>
+        </table>
+        <table id="units2">
+            <?php foreach($unit as $i => $a){ ?>
+            
+            <tr style="color:black; font-size:14px">
+                <td style="width:50px"><?= $i+1 ?></td>
+                <td style="width:290px"><?= $a->unit_kompetensi ?></td>
+                <td style="padding-left:80px"><?= $a->kode_unit ?></td>
+            </tr>
+            <?php } ?>
+        </table>
     </div>
     
 </body>

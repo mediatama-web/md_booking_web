@@ -185,7 +185,7 @@ class MemberController extends Controller
     }
 
     public function generatesertifikat($id){
-        $total = Daftarkelasm::where('no_sertifikat','!=',null)->count();
+        $total = Daftarkelasm::where('no_sertifikat','!=', null)->count();
         Daftarkelasm::where('id',$id)->update([
             'sertifikat' => '1',
             'tanggal_terbit' => date('Y-m-d'),

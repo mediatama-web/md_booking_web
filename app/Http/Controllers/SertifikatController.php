@@ -13,7 +13,8 @@ use App\Models\{
     Penggunam,
     Daftarkelasm,
     Bookingm,
-    Kelasm
+    Kelasm,
+    UnitKompetensi
 };
 
 class SertifikatController extends Controller
@@ -25,6 +26,8 @@ class SertifikatController extends Controller
                                 ->where('daftarkelas.id_user',$id)
                                 ->where('daftarkelas.id_kelas',$kelas)
                                 ->first();
+
+        $data['unit'] = UnitKompetensi::where('id_kelas',$kelas)->get();
 
         $data['qr'] = 'http://localhost:8000/sertifikat-verif/'.$id.'/'.$kelas;
 
