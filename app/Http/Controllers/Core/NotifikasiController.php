@@ -74,4 +74,24 @@ class NotifikasiController extends Controller
         return $var[2] . ' ' . $bulan[(int)$var[1]] . ' ' . $var[0];
     }
 
+    public static function sendwhatsapp(){
+        $client = new Client();
+        $client->post("https://api.mediatamaweb.co.id/whatsapp/send", [
+            "headers" => [
+                "Content-Type" => "application/json",
+                "Authorization" => "Bearer " . env('WHATSAPP_TOKEN')
+            ],
+            "json" => [
+                "messages" => [
+                    [
+                        "uid" => uniqid(),
+                        "to" => "$whatsapp@s.whatsapp.net",
+                        "type" => "text",
+                        "value" => "📢 Sistem Absensi\n\nHalo $nama!\nSepertinya kamu belum mengambil absensi hari ini, silahkan periksa kehadiran-mu di aplikasi.\n\nTerima kasih 😁"
+                    ]
+                ]
+            ],
+        ]);
+    }
+
 }

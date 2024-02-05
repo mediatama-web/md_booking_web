@@ -152,7 +152,7 @@ class ApiController extends Controller
         $user = auth('sanctum')->user();
         if(Date('H') < Date("20") && date('Y-m-d') != date("Y-m-d", strtotime($r->tanggal))){
             $cekJadwal = Bookingm::where('id_user',$user->id)->where('tanggal',date("Y-m-d", strtotime($r->tanggal)))->where('id_daftarkelas', $r->kelas)->first();
-            if($cekJadwal){
+            if($cekJadwal == null){
                 $data = Bookingm::create([
                     'id_user' => $user->id,
                     'jam' => $r->jam,
