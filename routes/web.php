@@ -15,7 +15,8 @@ use App\Http\Controllers\{
     NotifikasiController,
     DashboardController,
     LokerController,
-    SertifikatController
+    SertifikatController,
+    AlumniController
 };
 
 use App\Http\Controllers\Api\RegisterController;
@@ -68,6 +69,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/lokers', [LokerController::class, 'index'])->name('lokers');
     Route::get('/loker-add/{id?}', [LokerController::class, 'add'])->name('loker-add');
     Route::post('/loker-save', [LokerController::class, 'lokersave'])->name('loker-save');
+
+    Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni');
 
     Route::get('/kelass', [KelasController::class, 'index'])->name('kelass');
     Route::get('/kelas-add/{id?}', [KelasController::class, 'tambah'])->name('kelas-add');
