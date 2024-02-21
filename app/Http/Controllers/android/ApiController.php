@@ -162,15 +162,17 @@ class ApiController extends Controller
         
                 if($data){
                     if($user->fcm_token != null){
+                        // NotifyApk::sendwhatsapp($user->no_telpon, $user->nama_pengguna);
                         NotifyApk::notifikasiSend($user->fcm_token, 'Info','Booking Jadwal Berhasil');
                     }
-                    NotifyWeb::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
+                    // NotifyWeb::sendNotification('NOTICE','Ada Booking Jadwal Hari Ini');
                     return response()->json([
                         'status' => 200,
-                        'pesan' => "berhasil",
+                        'pesan' => "Booking Jadwal Les berhasil Didaftarkan",
                     ]);
                 }else{
                     if($user->fcm_token != null){
+                        // NotifyApk::sendwhatsapp($user->no_telpon, $user->nama_pengguna);
                         NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak');
                     }
                     return response()->json([
@@ -180,6 +182,7 @@ class ApiController extends Controller
                 }
             }else{
                 if($user->fcm_token != null){
+                    // NotifyApk::sendwhatsapp($user->no_telpon, $user->nama_pengguna);
                     NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Booking Jadwal Ditolak Maximal Booking 1x Dalam Satu Hari!');
                 }
                 return response()->json([
@@ -189,6 +192,7 @@ class ApiController extends Controller
             }
         }else{
             if($user->fcm_token != null){
+                // NotifyApk::sendwhatsapp($user->no_telpon, $user->nama_pengguna);
                 NotifyApk::notifikasiSend($user->fcm_token, 'INFO','Silahkan Booking Sebelum Jam 20:00 Dan Pastikan H+1 Dari Jadawal Booking');
             }
             return response()->json([

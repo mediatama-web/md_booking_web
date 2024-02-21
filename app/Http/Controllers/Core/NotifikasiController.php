@@ -13,12 +13,11 @@ class NotifikasiController extends Controller
     public static function notifikasiSend($fcmToken, $notificationTitle, $notificationBody)
     {
         $SERVER_API_KEY = env('FCM_SERVER_KEY');
-        $serverKey = $SERVER_API_KEY; 
         
         $client = new Client();
         $response = $client->post('https://fcm.googleapis.com/fcm/send', [
             'headers' => [
-                'Authorization' => 'key='.$serverKey,
+                'Authorization' => 'key='.$SERVER_API_KEY,
                 'Content-Type' => 'application/json',
             ],
             'json' => [
@@ -74,7 +73,7 @@ class NotifikasiController extends Controller
         return $var[2] . ' ' . $bulan[(int)$var[1]] . ' ' . $var[0];
     }
 
-    public static function sendwhatsapp(){
+    public static function sendwhatsapp($whatsapp,$nama){
         $client = new Client();
         $client->post("https://api.mediatamaweb.co.id/whatsapp/send", [
             "headers" => [
