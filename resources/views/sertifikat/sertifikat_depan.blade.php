@@ -183,8 +183,9 @@
                 <br>
                 Pimpinan LPK. MEDIATAMA WEB INDONESIA
             </span>
-    
-            <img src="ttd/ttd.png" id="ttd" alt="">
+            <?php if($ttd) : ?>
+                <img src="ttd/ttd.png" id="ttd" alt="">
+            <?php endif ?>
             
             <span id="title5">
                 Ferri Achmad Effindri, M.kom

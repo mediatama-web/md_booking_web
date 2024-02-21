@@ -29,6 +29,8 @@ class SertifikatController extends Controller
 
         $data['unit'] = UnitKompetensi::where('id_kelas',$kelas)->get();
 
+        $data['ttd'] = false;
+
         $data['qr'] = 'http://localhost:8000/sertifikat-verif/'.$id.'/'.$kelas;
 
         $pdf = Pdf::loadView('sertifikat/sertifikat_depan',$data)->setPaper('a4', 'landscape');
