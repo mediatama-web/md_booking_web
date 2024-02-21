@@ -37,5 +37,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 // register
 Route::get('/get-kelas/{jenis}',[RegisterController::class, 'getkelas']);
 Route::post('/daftar',[RegisterController::class, 'daftar']);
+Route::post('/daftaroffline',[RegisterController::class, 'daftaroffline']);
 
 
