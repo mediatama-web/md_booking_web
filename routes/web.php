@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/transaksis', [RegisterController::class, 'transaksi'])->name('transaksis');
+    Route::get('/transaksis-hapus/{id}', [RegisterController::class, 'hapus'])->name('transaksis-hapus');
 
     Route::get('/booking', [BookingController::class, 'index'])->name('booking');
     Route::get('/booking-add/{id?}', [BookingController::class, 'add'])->name('booking-add');

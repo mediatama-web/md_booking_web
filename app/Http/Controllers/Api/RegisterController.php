@@ -24,38 +24,43 @@ class RegisterController extends Controller
 {
     public function daftar(PendaftaranRequest $r){
         if($r->validated()){
-            $user = Penggunam::create([
-                        'nama_pengguna' => $r->nama_pengguna,
-                        'no_telpon' => $r->no_telpon,
-                        'alamat' => $r->alamat,
-                        'email' => $r->email,
-                        'lokasi' => $r->lokasi,
-                        'password' => Hash::make('mediatama123'),
-                        'tgl_daftar' => date('Y-m-d'),
-                        'foto' => 'image/user.png',
-                        'info' => $r->info,
-                        'status_akun' => "tidak aktif",
-                    ]);
+            try {
+                $user = Penggunam::create([
+                            'nama_pengguna' => $r->nama_pengguna,
+                            'no_telpon' => $r->no_telpon,
+                            'alamat' => $r->alamat,
+                            'email' => $r->email,
+                            'lokasi' => $r->lokasi,
+                            'password' => Hash::make('mediatama123'),
+                            'tgl_daftar' => date('Y-m-d'),
+                            'foto' => 'image/user.png',
+                            'info' => $r->info,
+                            'status_akun' => "tidak aktif",
+                        ]);
+    
+                $kelas = Daftarkelasm::create([
+                    'id_user' => $user->id,
+                    'id_kelas' => $r->id_kelas,
+                    'status' => 'tidak aktif'
+                ]);
+    
+                if($r->lokasi == 'Mediatama Web'){
+                    $from = "information@mediatamaweb.com";
+                }else{
+                    $from = "information@nazeateknologi.com";
+                }
+    
+                $foto = Uploadfile::uploadSingle($r->bukti_transfer,"transaksi/");
+                Transaksi::create(['id_user' => $user->id, 'id_kelas' =>  $r->id_kelas, 'foto' => $foto, 'tanggal' => date('Y-m-d')]);
 
-            $kelas = Daftarkelasm::create([
-                'id_user' => $user->id,
-                'id_kelas' => $r->id_kelas,
-                'status' => 'tidak aktif'
-            ]);
-
-            if($r->lokasi == 'Mediatama Web'){
-                $from = "information@mediatamaweb.com";
-            }else{
-                $from = "information@nazeateknologi.com";
+            } catch (\Throwable $th) {
+                return response()->json(['code' => 400, 'pesan' => "Alamat Email Sudah Ada!"]);
             }
 
-            $foto = Uploadfile::uploadSingle($r->bukti_transfer,"transaksi/");
-            Transaksi::create(['id_user' => $user->id, 'id_kelas' =>  $r->id_kelas, 'foto' => $foto, 'tanggal' => date('Y-m-d')]);
-
             Notifikasi::sendMail($r->email, $r->lokasi, $from);
-            return response()->json(['status' => 200]);
+            return response()->json(['code' => 200]);
         }else{
-            return response()->json(['status' => 200, 'error' => $r->validated()]);
+            return response()->json(['code' => 400, 'error' => $r->validated()]);
         }
     }
 
@@ -100,9 +105,14 @@ class RegisterController extends Controller
             }
 
             Notifikasi::sendMail($r->email, $r->lokasi, $from);
-            return response()->json(['status' => 200]);
+            return response()->json(['code' => 200]);
         }else{
-            return response()->json(['status' => 200, 'error' => $r->validated()]);
+            return response()->json(['code' => 400, 'error' => $r->validated()]);
         }
+    }
+
+    public function hapus($id){
+        Transaksi::where('id',$id)->delete();
+        return;
     }
 }

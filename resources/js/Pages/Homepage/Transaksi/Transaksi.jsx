@@ -1,15 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react';
-import Modal from '@/Components/Modal';
-import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default function Transaksi({ auth, transaksi }) {
     const [month, setMonth] = useState("")
-    const [modalData, setModaldata] = useState([])
-    const [show, setShow] = useState(false)
     
     useEffect(() => {
         import("@lottiefiles/lottie-player");
@@ -26,14 +23,28 @@ export default function Transaksi({ auth, transaksi }) {
         return formatDate
     }
 
-    const handlerModal = async (id) =>  {
-        setShow(true)
+    const handlerHapusMember = (id) => {
+        Swal.fire({
+            title: "Yakin Mehapus Data?",
+            text: "Apakah Anda Yakin Ingin Menghapus Data Ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Saya Yakin!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            router.get(route('transaksis-hapus',id))              
+        }
+        });
+        
     }
-
-    const handlerModalClose1 = () => {
-        setShow(false)
-    }
-
+    
+    let IDR = new Intl.NumberFormat('id', {
+        style: 'currency',
+        currency: 'IDR',
+    });
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -63,6 +74,7 @@ export default function Transaksi({ auth, transaksi }) {
                                     <th className='text-left md:text-sm text-xs'>Harga</th>
                                     <th className='text-left md:text-sm text-xs'>Bukti Transfer</th>
                                     <th className='text-left md:text-sm text-xs'>Tanggal Order</th>
+                                    <th className='text-left md:text-sm text-xs'>Action</th>
                                 </tr>
                             </thead>
                             <tbody className='bg-white'>
@@ -92,6 +104,7 @@ export default function Transaksi({ auth, transaksi }) {
                                             <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
                                             <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
                                             <td className='text-right border border-grey-100'>{tglIndo(data.tanggal)}</td>
+                                            <div onClick={() => handlerHapusMember(data.id)} className='grid content-center justify-items-center hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
                                         </tr>
                                     )
                                     )
@@ -123,33 +136,6 @@ export default function Transaksi({ auth, transaksi }) {
                     </div>
                 </div>
             </div>
-
-            <Modal show={show}>
-                    <div className="w-full bg-grey-200 p-3">
-                        <div className="flex justify-between mb-3">
-                            <p className='text-lg'>History Mengajar </p>
-                            <div>
-                                <button className='w-8 h-8 border border-blue-300 rounded-full bg-blue-300 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose1()}>x</button>
-                            </div>
-                        </div>
-                        <div>
-                            <table className="w-full p-4">
-                                <thead>
-                                    <tr className='[&>th]:p-2 bg-slate-800 text-white'>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th>Jam</th>
-                                        <th>Nama Member</th>
-                                        <th>Kelas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-            </Modal>
         </AuthenticatedLayout>
     );
 }
