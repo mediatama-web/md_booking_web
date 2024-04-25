@@ -132,7 +132,7 @@ export default function Member({auth, member}) {
                                     <th className='text-left md:text-sm text-xs'>Informasi</th>
                                     <th className='text-left md:text-sm text-xs'>Lokasi</th>
                                     <th className='text-left md:text-sm text-xs'>Status</th>
-                                    <th className='text-left md:text-sm text-xs w-28'>Action</th>
+                                    <th className='text-left md:text-sm text-xs'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,7 +180,7 @@ export default function Member({auth, member}) {
                                                 <td className='border border-grey-100'>{tanggalIndo(data.tgl_daftar)}</td>
                                                 <td className='border border-grey-100'>{data.info}</td>
                                                 <td className='border border-grey-100'>{data.lokasi }</td>
-                                                <td className='border border-grey-100 w-24 text-center'>
+                                                <td className='border border-grey-100 text-center'>
                                                         <Switch
                                                             checked={data.status_akun == 'aktif' ? true : false}
                                                             onChange={() => handlerStatus(data.id)}
@@ -193,12 +193,13 @@ export default function Member({auth, member}) {
                                                             />
                                                         </Switch>
                                                 </td>
-                                                <td className='grid md:grid-cols-2 grid-cols-1 gap-2'>
-                                                    <Link href={route('member-daftarkelas',data.id)} className='bg-blue-700 hover:bg-blue-600 text-white m-1 w-9 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faFolderOpen}/></Link>
-                                                    <div className='hover:cursor-pointer hover:bg-blue-400 bg-blue-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
-                                                    <Link href={route('detail-member',data.id)} className='bg-yellow-500 hover:bg-yellow-300 text-white m-1 w-9 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faBookmark}/></Link>
-                                                    {/* <div onClick={() => handlerModal(data.id)} className='hover:cursor-pointer hover:bg-yellow-400 bg-yellow-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faBookmark}/></div> */}
-                                                    <div onClick={() => handlerHapusMember(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
+                                                <td className='border w-full p-2'>
+                                                    <div className='grid md:grid-cols-2 justify-items-center items-center grid-cols-1 gap-2'>
+                                                        <Link href={route('member-daftarkelas',data.id)} className='w-8 bg-blue-700 hover:bg-blue-600 text-white m-1 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faFolderOpen}/></Link>
+                                                        <div className='hover:cursor-pointer hover:bg-blue-400 w-8 bg-blue-500 text-white p-2 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
+                                                        <Link href={route('detail-member',data.id)} className='w-8 bg-yellow-500 hover:bg-yellow-300 text-white m-1 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faBookmark}/></Link>
+                                                        <div onClick={() => handlerHapusMember(data.id)} className='w-8 hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         )

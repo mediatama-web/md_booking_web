@@ -175,13 +175,13 @@
                 <br>
                 <b style="color:red; font-size:20px"><?= $sertifikat->keterangan ?></b>
                 <br>
-                dan dinyatakan <b style="color:red">Kompeten</b> Standar LPK. Mediatama Web Indonesia
+                dan dinyatakan <b style="color:red">Kompeten</b> Standar <?= $lpk ?>
             </span>
             
             <span id="title4">
                 Padang, <?= App\Http\Controllers\Core\NotifikasiController::tglIndo(date('Y-m-d')) ?>
                 <br>
-                Pimpinan LPK. MEDIATAMA WEB INDONESIA
+                Pimpinan <?= $lpk ?>
             </span>
             <?php if($ttd) : ?>
                 <img src="ttd/ttd.png" id="ttd" alt="">
@@ -198,11 +198,11 @@
             
                 <p style="position:absolute; z-index:1; margin-top:64%; margin-left:77%">Verifikasi Sertifikat</p>
         </div>
-        <img id="depan" src="sertifikat/sertifikat_depan.png"/>
+        <img id="depan" src="<?= $bg_depan ?>"/>
     </div>
     
     <div>
-        <img id="belakang" src="sertifikat/sertifikat_belakang.png"/>
+        <img id="belakang" src="<?= $bg_belakang ?>"/>
         
         <p id="pelatihans">Pelatihan : <?= $sertifikat->keterangan ?></p>
         
@@ -211,7 +211,7 @@
             <tr style="color:white; font-size:14px">
                 <td style="width:50px">NO</td>
                 <td style="width:300px; padding-left:80px">UNIT KOMPETENSI</td>
-                <td style="">KODE UNIT</td>
+                <td>KODE UNIT</td>
             </tr>
         </table>
         <table id="units2">

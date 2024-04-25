@@ -14,6 +14,7 @@ import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
 export default function Datakelas({ auth, member, kelas, kelasdaftar }){
 
     const materi = useRef(0)
+    const [lokasi, setLokasi] = useState("")
     const [kelass, setKelass] = useState(100)
     const [kelasx, setKelas] = useState(0)
     const [harga, setHarga] = useState(0)
@@ -168,7 +169,8 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     }
 
     const handlerGenerate = () => {
-        router.get(route('member-generate',idkelas))
+        
+        router.get(route('member-generate',[idkelas, lokasi]))
     }
 
     return(
@@ -449,6 +451,14 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                     <p className={`${cvs ? 'hidden' : ''} ml-3`}>File Not Found</p>
                                     <FontAwesomeIcon className={`${cvs ? '' : 'hidden'}  text-green-400 ml-3 text-xl`} icon={faCheck}/>
                                     <FontAwesomeIcon className={`${cvs ? 'hidden' : ''} text-red-400 ml-3 text-xl`} icon={faCancel}/>
+                                </div>
+                                <p className='mt-1 text-gray-400'>Silahkan Pilih Lokasi Penerbitan Sertifikat.!</p>
+                                <div className="flex mt-3">
+                                    <select onChange={(e) => setLokasi(e.target.value)} className="rounded-md p-2 w-full">
+                                        <option value="">-PILIH PENERBITAN SERTIFIKAT-</option>
+                                        <option value="Mediatama">Mediatama</option>
+                                        <option value="Nazea">Nazea</option>
+                                    </select>
                                 </div>
                                 <p className='mt-1 text-gray-400'>Jika semua file pendukung sudah terpenuhi silahkan klik tombol dibawah untuk mengenerate sertifikat.</p>
                                 <div className="flex justify-center mt-3">

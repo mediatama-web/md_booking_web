@@ -170,16 +170,19 @@ export default function Kelas({ auth, kelas }) {
                                                         <td className='border border-grey-100'>{data.kode_kelas}</td>
                                                         <td className='border border-grey-100'>{data.jenis}</td>
                                                         <td className='border border-grey-100'>{data.pertemuan}</td>
-                                                        <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
+                                                        <td className='border border-grey-100 text-right'>{IDR.format(data.harga)}</td>
                                                         <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
-                                                        <td className='grid grid-cols-2 gap-2'>
-                                                            <Link href={ route('kelas-kode-mapel-add',data.id) } className='bg-blue-700 hover:bg-blue-600 text-white w-9 text-center p-2 rounded-lg md:text-sm text-xs' >
-                                                                <FontAwesomeIcon icon={faFile} />
-                                                            </Link>
-                                                            <Link href={ route('kelas-add',data.id) } className='hover:bg-blue-400 bg-blue-500 text-white w-9 text-center p-2 rounded-lg md:text-sm text-xs'>
-                                                                <FontAwesomeIcon icon={faPencil} />
-                                                            </Link>
-                                                            <div onClick={() => handlerHapus(data.id)} className='hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
+                                                        <td className='border'>
+                                                            <div className='grid grid-cols-2 gap-2 justify-items-center items-center'>
+                                                                <Link href={ route('kelas-kode-mapel-add',data.id) } className='w-8 h-8 bg-blue-700 hover:bg-blue-600 text-white text-center p-2 rounded-lg md:text-sm text-xs' >
+                                                                    <FontAwesomeIcon icon={faFile} />
+                                                                </Link>
+                                                                <Link href={ route('kelas-add',data.id) } className='w-8 h-8 hover:bg-blue-400 bg-blue-500 text-white text-center p-2 rounded-lg md:text-sm text-xs'>
+                                                                    <FontAwesomeIcon icon={faPencil} />
+                                                                </Link>
+                                                                <div onClick={() => handlerHapus(data.id)} className='w-8 h-8 hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
+
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 )

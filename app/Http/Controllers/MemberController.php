@@ -184,12 +184,13 @@ class MemberController extends Controller
         return Redirect::back();
     }
 
-    public function generatesertifikat($id){
+    public function generatesertifikat($id,$lokasi){
         $total = Daftarkelasm::where('no_sertifikat','!=', null)->count();
         Daftarkelasm::where('id',$id)->update([
             'sertifikat' => '1',
             'tanggal_terbit' => date('Y-m-d'),
-            'no_sertifikat' => $total+1
+            'no_sertifikat' => $total+1,
+            'lokasi' => $lokasi
         ]);
 
         return Redirect::back();

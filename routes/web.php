@@ -56,7 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/member-daftarkelas/{id}', [MemberController::class, 'daftarkelas'])->name('member-daftarkelas');
     Route::post('/member-kelasdaftar/{id}', [MemberController::class, 'kelasdaftar'])->name('member-kelasdaftar');
     Route::get('/member-kelasHapus/{id}', [MemberController::class, 'hapuskelasdaftar'])->name('member-kelasHapus');
-    Route::get('/member-generate/{id}', [MemberController::class, 'generatesertifikat'])->name('member-generate');
+    Route::get('/member-generate/{id}/{lokasi}', [MemberController::class, 'generatesertifikat'])->name('member-generate');
     Route::get('/member-kelasdaftar-detail/{id_user}/{id_kelas}', [MemberController::class, 'daftarkelasdetail'])->name('member-kelasdaftar-detail');
     Route::get('/member-absen/{id_user}/{id_kelas}', [MemberController::class, 'absen'])->name('member-absen');
     Route::get('/member-absen-detail/{id_user}/{id_kelas}', [MemberController::class, 'memberabsen'])->name('member-absen-detail');

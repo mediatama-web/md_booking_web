@@ -22,10 +22,20 @@ class SertifikatController extends Controller
     public function index($id,$kelas){
         $data['sertifikat'] = Daftarkelasm::leftJoin('pengguna as a','a.id','daftarkelas.id_user')
                                 ->leftJoin('kelas as b','b.id','daftarkelas.id_kelas')
-                                ->select('a.nama_pengguna','a.foto','daftarkelas.tanggal_terbit','daftarkelas.no_sertifikat','b.kode_kelas','b.keterangan')
+                                ->select('a.nama_pengguna','a.foto','daftarkelas.lokasi','daftarkelas.tanggal_terbit','daftarkelas.no_sertifikat','b.kode_kelas','b.keterangan')
                                 ->where('daftarkelas.id_user',$id)
                                 ->where('daftarkelas.id_kelas',$kelas)
                                 ->first();
+
+        if($data['sertifikat']->lokasi == 'Nazea'){
+            $data['lpk'] = 'LPK. NAZEA TEKNOLOGI';
+            $data['bg_depan'] = "sertifikat/sertifikat_depan.png";
+            $data['bg_belakang'] = "sertifikat/sertifikat_belakang.png";
+        }else{
+            $data['lpk'] = 'LPK. MEDIATAMA WEB INDONESIA';
+            $data['bg_depan'] = "sertifikat/sertifikat_depan.png";
+            $data['bg_belakang'] = "sertifikat/sertifikat_belakang.png";
+        }
 
         $data['unit'] = UnitKompetensi::where('id_kelas',$kelas)->get();
 
