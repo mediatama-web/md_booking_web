@@ -8,14 +8,13 @@
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap');
-    @page {
-        margin: 0px;   
-    }
 
     body {
-        
         font-family: 'Poppins', sans-serif;
     }
+    
+    @page { margin: 0px; }
+    body { margin: 0px; }
     
     #depan {
         position: absolute;
@@ -29,21 +28,21 @@
         width: 100%;
         text-align : center;
         color: #1D2F5F;
-        top: 12%;
+        top: 16%;
         font-size : 85px;
     }
     
     #nomor {
         position: absolute;
         width: 100%;
-        top: 25%;
+        top: 28%;
         font-size : 16px;
         text-align : center;
     }
     
     #title1 {
         position: absolute;
-        top: 34%;
+        top: 38%;
         width: 100%;
         font-size : 22px;
         text-align : center;
@@ -69,7 +68,7 @@
     
     #title4 {
         position: absolute;
-        top: 71%;
+        top: 75%;
         left: 40%;
         color: #1D2F5F;
         font-size : 16px;
@@ -95,7 +94,7 @@
     
     #fotoPeserta {
         position: absolute;
-        top: 72%;
+        top: 76%;
         left: 27%;
         color: #1D2F5F;
         width: 100px;
@@ -149,7 +148,7 @@
 <body>
 
     <div class="logodepan">
-        <img src="./sertifikat/logodepan.png" width="100%"/>
+        <img src="<?= $logodepan ?>" width="100%"/>
     </div>
     <div class="page-break">
         
@@ -188,7 +187,7 @@
             <?php endif ?>
             
             <span id="title5">
-                Ferri Achmad Effindri, M.kom
+                <?= $pimpinan ?>
             </span>
     
             <img id="fotoPeserta" src="<?= $sertifikat->foto ?? 'peserta/xamplefoto.png' ?>" alt="profile">

@@ -1,0 +1,183 @@
+import { Head, router, useForm, usePage } from '@inertiajs/react';
+import TextInput from '@/Components/TextInput';
+import PrimaryButton from '@/Components/PrimaryButton';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import InputLabel from '@/Components/InputLabel';
+import InputError from '@/Components/InputError';
+import { useState } from 'react';
+export default function Edit({ auth, errors, member, ids }) {
+
+    const [data,setData] = useState({
+        nama_pengguna: member.nama_pengguna,
+        no_telpon: member.no_telpon,
+        alamat: member.alamat,
+        email: member.email,
+        info: member.info,
+        lokasi: member.lokasi,
+    })
+
+    const handlerSave = () => {
+        
+        router.post(route('member-add-update',ids),data)
+    }
+
+    return (
+        <AuthenticatedLayout
+            user={auth.user}
+        >
+            <Head title="Tambah Member" />
+
+            <div className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="bg-white md:overflow-hidden overflow-auto shadow-sm sm:rounded-lg p-4">
+                        <div className="flex items-center p-2 justify-center">
+                            <div>
+                                <h3 className='md:text-xl text-sm font-bold'>Formulir Pendaftaran</h3>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div className='flex items-center mb-3'>
+                                <InputLabel className='w-[140px] text-lg' htmlFor="Nama Lengkap" value="Nama Lengkap" />
+
+                                <input
+                                    id="nama_pengguna"
+                                    type="text"
+                                    name="nama_pengguna"
+                                    value={data.nama_pengguna}
+                                    className="mt-1 block w-full rounded-[30px]"
+                                    placeholder="Nama Lengkap"
+                                    onChange={(e) => setData({...data, nama_pengguna :e.target.value})}
+                                />
+
+                                <InputError message={errors.nama_pengguna} className="mt-2" />
+                            </div>
+                            
+                            <div className='flex items-center mb-3'>
+                                <InputLabel className='w-[140px]' htmlFor="Alamat" value="Alamat Lengkap" />
+
+                                <input
+                                    id="alamat"
+                                    type="text"
+                                    name="alamat"
+                                    value={data.alamat}
+                                    className="mt-1 block w-full rounded-[30px]"
+                                    placeholder="Alamat"
+                                    onChange={(e) => setData({...data, alamat :e.target.value})}
+
+                                />
+
+                                <InputError message={errors.alamat} className="mt-2" />
+                            </div>
+
+                            <div className='flex items-center mb-3'>
+                                <InputLabel className='w-[140px]' htmlFor="No Telpon" value="Hp/Wa" />
+
+                                <input
+                                    id="no_telpon"
+                                    type="tel"
+                                    name="no_telpon"
+                                    value={data.no_telpon}
+                                    className="mt-1 block w-full rounded-[30px]"
+                                    placeholder="+62 xxx xxxx xxxx"
+                                    onChange={(e) => setData({...data, no_telpon :e.target.value})}
+
+                                />
+
+                                <InputError message={errors.no_telpon} className="mt-2" />
+                            </div>
+
+                            <div className='flex items-center mb-3'>
+                                <InputLabel className='w-[140px]' htmlFor="Email" value="Email" />
+
+                                <input
+                                    id="email"
+                                    type="email"
+                                    name="email"
+                                    value={data.email}
+                                    className="mt-1 block w-full rounded-[30px]"
+                                    placeholder="Email"
+                                    onChange={(e) => setData({...data, email :e.target.value})}
+                                />
+
+                                <InputError message={errors.email} className="mt-2" />
+                            </div>
+                            
+                            <div className='flex items-center mb-3'>
+                                <InputLabel className='w-[140px]' htmlFor="Lokasi" value="Lokasi" />
+
+                                <select
+                                    id="lokasi"
+                                    type="lokasi"
+                                    name="lokasi"
+                                    value={data.lokasi}
+                                    className="mt-1 block w-full rounded-[30px]"
+                                    placeholder="PILIH"
+                                    onChange={(e) => setData({...data, lokasi :e.target.value})}
+                                >
+                                    <option value="">- PILIH -</option>
+                                    <option value="Mediatama Web">Mediatama Web</option>
+                                    <option value="Nazea Teknologi">Nazea Teknologi</option>
+                                </select>
+
+                                <InputError message={errors.lokasi} className="mt-2" />
+                            </div>
+
+                            <div className="flex items-center mr-4 mb-3">
+                                <input type="checkbox" id="confirm" name="confirm" value="yes"  className='w-8 h-8 rounded-full '/>
+                                <label htmlFor="confirm" className="ml-5 select-none">Jika Terjadi <i className='font-bold'>Pembatalan</i> Uang Tidak Bisa Dikembalikan.</label>
+                            </div>
+
+                            <div>
+                                <p className='text-lg mb-3'>Mendapatkan Informasi Kursus Mediatama Web Dari?</p>
+
+                                <div className="grid grid-rows-3 grid-flow-col gap-3">
+                                    <div>
+                                        <div className="flex items-center">
+                                            <input type="radio" id="info" name="info" defaultChecked={ member.info == 'Google' ? true : false} onChange={(e) => setData({...data, info :e.target.value})} value="Google"  className='w-5 h-5 rounded-full '/>
+                                            <label htmlFor="info" className="ml-5 select-none">Google</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center">
+                                            <input type="radio" id="info" name="info" defaultChecked={ member.info == 'Instagram' ? true : false} onChange={(e) => setData({...data, info :e.target.value})} value="Instagram"  className='w-5 h-5 rounded-full '/>
+                                            <label htmlFor="info" className="ml-5 select-none">Instagram</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center">
+                                            <input type="radio" id="info" name="info" defaultChecked={ member.info == 'Facebook' ? true : false} onChange={(e) => setData({...data, info :e.target.value})} value="Facebook"  className='w-5 h-5 rounded-full '/>
+                                            <label htmlFor="info" className="ml-5 select-none">Facebook</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center">
+                                            <input type="radio" id="info" name="info" defaultChecked={ member.info == 'Website' ? true : false} onChange={(e) => setData({...data, info :e.target.value})} value="Website"  className='w-5 h-5 rounded-full '/>
+                                            <label htmlFor="info" className="ml-5 select-none">Website</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center">
+                                            <input type="radio" id="info" name="info" defaultChecked={ member.info == 'Lainnya' ? true : false} onChange={(e) => setData({...data, info :e.target.value})} value="Lainnya"  className='w-5 h-5 rounded-full '/>
+                                            <label htmlFor="info" className="ml-5 select-none">Lainnya</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div className="flex items-center justify-between mt-4">
+                            <div>
+                                <p className='font-bold text-xs'>NB : AYO AJAK TEMAN-TEMAN KAMU DAN DAPATKAN CASHBACK Rp.50.000</p>
+                            </div>
+                            <button type="button" onClick={handlerSave} className='ml-4 w-1/2 p-2 bg-blue-500 text-white rounded-md'>Update</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </AuthenticatedLayout>
+    )
+
+}

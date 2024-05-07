@@ -23,7 +23,7 @@ class MemberRequest extends FormRequest
     {
         return [
             'nama_pengguna' => ['required','string', 'max:255'],
-            'no_telpon' => ['required','numeric','digits:12'],
+            'no_telpon' => ['required','numeric','digits:11'],
             'alamat' => ['required','string','max:225'],
             'email' => ['required','string','max:225'],
             'lokasi' => ['required','string','max:225'],

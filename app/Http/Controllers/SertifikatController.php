@@ -28,12 +28,16 @@ class SertifikatController extends Controller
                                 ->first();
 
         if($data['sertifikat']->lokasi == 'Nazea'){
+            $data['pimpinan'] = 'Aulia Rahmi, M.kom';
             $data['lpk'] = 'LPK. NAZEA TEKNOLOGI';
-            $data['bg_depan'] = "sertifikat/sertifikat_depan.png";
-            $data['bg_belakang'] = "sertifikat/sertifikat_belakang.png";
+            $data['bg_depan'] = "sertifikat/nazea_depan.png";
+            $data['logodepan'] = "sertifikat/logodepan_nazea.png";
+            $data['bg_belakang'] = "sertifikat/nazea_belakang.png";
         }else{
+            $data['pimpinan'] = 'Ferri Achmad Effindri, M.kom';
             $data['lpk'] = 'LPK. MEDIATAMA WEB INDONESIA';
             $data['bg_depan'] = "sertifikat/sertifikat_depan.png";
+            $data['logodepan'] = "sertifikat/logodepan_mediatama.png";
             $data['bg_belakang'] = "sertifikat/sertifikat_belakang.png";
         }
 

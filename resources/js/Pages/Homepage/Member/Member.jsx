@@ -196,7 +196,7 @@ export default function Member({auth, member}) {
                                                 <td className='border w-full p-2'>
                                                     <div className='grid md:grid-cols-2 justify-items-center items-center grid-cols-1 gap-2'>
                                                         <Link href={route('member-daftarkelas',data.id)} className='w-8 bg-blue-700 hover:bg-blue-600 text-white m-1 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faFolderOpen}/></Link>
-                                                        <div className='hover:cursor-pointer hover:bg-blue-400 w-8 bg-blue-500 text-white p-2 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></div>
+                                                        <Link href={route('member-edit',data.id)} className='hover:cursor-pointer hover:bg-blue-400 w-8 bg-blue-500 text-white p-2 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faPencil}/></Link>
                                                         <Link href={route('detail-member',data.id)} className='w-8 bg-yellow-500 hover:bg-yellow-300 text-white m-1 text-center p-2 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faBookmark}/></Link>
                                                         <div onClick={() => handlerHapusMember(data.id)} className='w-8 hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
                                                     </div>

@@ -196,6 +196,29 @@ class MemberController extends Controller
         return Redirect::back();
     }
 
+    public function edit($id){
+        $data['member'] = Penggunam::where('id',$id)->first();
+        $data['ids'] = $id;
+        return Inertia::render('Homepage/Member/Edit',$data);
+    }
+
+    public function updatemember(MemberRequest $r, $id){
+        if($r->validated()){
+            Penggunam::where('id',$id)->update([
+                'nama_pengguna' => $r->nama_pengguna,
+                'no_telpon' => $r->no_telpon,
+                'alamat' => $r->alamat,
+                'email' => $r->email,
+                'lokasi' => $r->lokasi,
+                'info' => $r->info
+            ]);
+        
+            return Redirect::route('member');
+            
+        }
+
+    }
+
     public function checkdatauser($id){
         
         $datakelas = Daftarkelasm::where('id',$id)->first();
