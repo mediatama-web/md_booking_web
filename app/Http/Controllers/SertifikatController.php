@@ -3,16 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use App\Http\Controllers\Core\UploadController;
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Models\{
     Penggunam,
     Daftarkelasm,
-    Bookingm,
     Kelasm,
     UnitKompetensi
 };
