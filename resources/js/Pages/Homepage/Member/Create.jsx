@@ -47,88 +47,95 @@ export default function Create({ auth, errors }) {
                             <div>
                                 <div className='flex items-center mb-3'>
                                     <InputLabel className='w-[140px] text-lg' htmlFor="Nama Lengkap" value="Nama Lengkap" />
+                                    <div className="flex flex-col w-full">
+                                        <input
+                                            id="nama_pengguna"
+                                            type="text"
+                                            name="nama_pengguna"
+                                            value={data.nama_pengguna}
+                                            className="mt-1 block w-full rounded-[30px]"
+                                            placeholder="Nama Lengkap"
+                                            onChange={(e) => setData('nama_pengguna',e.target.value)}
+                                        />
 
-                                    <input
-                                        id="nama_pengguna"
-                                        type="text"
-                                        name="nama_pengguna"
-                                        value={data.nama_pengguna}
-                                        className="mt-1 block w-full rounded-[30px]"
-                                        placeholder="Nama Lengkap"
-                                        onChange={(e) => setData('nama_pengguna',e.target.value)}
-                                    />
-
-                                    <InputError message={errors.nama_pengguna} className="mt-2" />
+                                        <InputError message={errors.nama_pengguna} className="mt-2" />
+                                    </div>
                                 </div>
                                 
                                 <div className='flex items-center mb-3'>
                                     <InputLabel className='w-[140px]' htmlFor="Alamat" value="Alamat Lengkap" />
+                                    <div className="flex flex-col w-full">
+                                        <input
+                                            id="alamat"
+                                            type="text"
+                                            name="alamat"
+                                            value={data.alamat}
+                                            className="mt-1 block w-full rounded-[30px]"
+                                            placeholder="Alamat"
+                                            onChange={(e) => setData('alamat',e.target.value)}
 
-                                    <input
-                                        id="alamat"
-                                        type="text"
-                                        name="alamat"
-                                        value={data.alamat}
-                                        className="mt-1 block w-full rounded-[30px]"
-                                        placeholder="Alamat"
-                                        onChange={(e) => setData('alamat',e.target.value)}
+                                        />
 
-                                    />
-
-                                    <InputError message={errors.alamat} className="mt-2" />
+                                        <InputError message={errors.alamat} className="mt-2" />
+                                    </div>
                                 </div>
 
                                 <div className='flex items-center mb-3'>
                                     <InputLabel className='w-[140px]' htmlFor="No Telpon" value="Hp/Wa" />
+                                    <div className="flex flex-col w-full">
+                                        <input
+                                            id="no_telpon"
+                                            type="tel"
+                                            name="no_telpon"
+                                            value={data.no_telpon}
+                                            className="mt-1 block w-full rounded-[30px]"
+                                            placeholder="+62 xxx xxxx xxxx"
+                                            onChange={(e) => setData('no_telpon',e.target.value)}
 
-                                    <input
-                                        id="no_telpon"
-                                        type="tel"
-                                        name="no_telpon"
-                                        value={data.no_telpon}
-                                        className="mt-1 block w-full rounded-[30px]"
-                                        placeholder="+62 xxx xxxx xxxx"
-                                        onChange={(e) => setData('no_telpon',e.target.value)}
+                                        />
 
-                                    />
-
-                                    <InputError message={errors.no_telpon} className="mt-2" />
+                                        <InputError message={errors.no_telpon} className="mt-2" />
+                                    </div>
                                 </div>
 
                                 <div className='flex items-center mb-3'>
                                     <InputLabel className='w-[140px]' htmlFor="Email" value="Email" />
+                                    <div className="flex flex-col w-full">
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            name="email"
+                                            value={data.email}
+                                            className="mt-1 block w-full rounded-[30px]"
+                                            placeholder="Email"
+                                            onChange={(e) => setData('email',e.target.value)}
+                                        />
 
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        name="email"
-                                        value={data.email}
-                                        className="mt-1 block w-full rounded-[30px]"
-                                        placeholder="Email"
-                                        onChange={(e) => setData('email',e.target.value)}
-                                    />
-
-                                    <InputError message={errors.email} className="mt-2" />
+                                        <InputError message={errors.email} className="mt-2" />
+                                        
+                                    </div>
                                 </div>
                                 
                                 <div className='flex items-center mb-3'>
                                     <InputLabel className='w-[140px]' htmlFor="Lokasi" value="Lokasi" />
+                                    <div className="flex flex-col w-full">
+                                        <select
+                                            id="lokasi"
+                                            type="lokasi"
+                                            name="lokasi"
+                                            value={data.lokasi}
+                                            className="mt-1 block w-full rounded-[30px]"
+                                            placeholder="PILIH"
+                                            onChange={(e) => setData('lokasi',e.target.value)}
+                                        >
+                                            <option value="">- PILIH -</option>
+                                            <option value="Mediatama Web">Mediatama Web</option>
+                                            <option value="Nazea Teknologi">Nazea Teknologi</option>
+                                        </select>
 
-                                    <select
-                                        id="lokasi"
-                                        type="lokasi"
-                                        name="lokasi"
-                                        value={data.lokasi}
-                                        className="mt-1 block w-full rounded-[30px]"
-                                        placeholder="PILIH"
-                                        onChange={(e) => setData('lokasi',e.target.value)}
-                                    >
-                                        <option value="">- PILIH -</option>
-                                        <option value="Mediatama Web">Mediatama Web</option>
-                                        <option value="Nazea Teknologi">Nazea Teknologi</option>
-                                    </select>
-
-                                    <InputError message={errors.lokasi} className="mt-2" />
+                                        <InputError message={errors.lokasi} className="mt-2" />
+                                        
+                                    </div>
                                 </div>
 
                                 <div className="flex items-center mr-4 mb-3">
