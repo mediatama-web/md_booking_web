@@ -95,7 +95,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/save-token', [NotifikasiController::class, 'saveToken'])->name('save-token');
     Route::get('/send-notification', [NotifikasiController::class, 'sendNotification'])->name('send-notification');
 
-    Route::get('/sertifikat-depan/{id}/{kelas}', [SertifikatController::class, 'index'])->name('sertifikat-depan');
+    Route::get('/sertifikat-depan/{id}/{kelas}/{type}', [SertifikatController::class, 'index'])->name('sertifikat-depan');
     Route::get('/sertifikat-verif/{id}/{kelas}', [SertifikatController::class, 'verifikasiSertifikat'])->name('sertifikat-verif');
 
 require __DIR__.'/auth.php';

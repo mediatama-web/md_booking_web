@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import Modal from '@/Components/Modal';
 import { useState } from "react";
 
-export default function Sertifikat({auth, member, kelas}) {
+export default function Sertifikat({auth, member, kelas, logo}) {
     const [modalshowcv, setModalshowcv] = useState(false)
     const handlerModalshowcv = async () =>  {
         if(member.cv == null){
@@ -51,7 +51,7 @@ export default function Sertifikat({auth, member, kelas}) {
         <>
             <div className="container mx-auto mb-10">
                 <div className="flex justify-center">
-                    <img src="https://booking.mediatamaweb.com/sertifikat/logodepan.png" className="w-1/3 m-2" alt="logodepan" />
+                    <img src={`https://booking.mediatamaweb.com/sertifikat/${logo}`} className="w-1/3 m-2" alt="logodepan" />
                 </div>
                 <div className="grid md:grid-cols-2 grid-cols-1">
                     <div>

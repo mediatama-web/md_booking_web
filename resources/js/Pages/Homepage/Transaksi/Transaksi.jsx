@@ -104,7 +104,11 @@ export default function Transaksi({ auth, transaksi }) {
                                             <td className='text-right border border-grey-100'>{IDR.format(data.harga)}</td>
                                             <td className='border border-grey-100'><img src={data.foto ?? ""} alt="image" className='w-24' /></td>
                                             <td className='text-right border border-grey-100'>{tglIndo(data.tanggal)}</td>
-                                            <div onClick={() => handlerHapusMember(data.id)} className='grid content-center justify-items-center hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></div>
+                                            <td className='border border-grey-100'>
+                                                <div className="flex justify-center items-center">
+                                                    <button type='button' onClick={() => handlerHapusMember(data.id)} className='grid content-center justify-items-center hover:cursor-pointer hover:bg-red-400 bg-red-500 text-white p-2 w-9 text-center m-1 rounded-lg md:text-sm text-xs'><FontAwesomeIcon icon={faTrash}/></button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     )
                                     )

@@ -164,7 +164,11 @@ export default function Alumni({ auth, alumni, kelas, url }) {
                                                         <td className='border border-grey-100'>{data.nama_pengguna}</td>
                                                         <td className='border border-grey-100'>{data.materi}</td>
                                                         <td className='border border-grey-100'>{data.pertemuan}</td>
-                                                        <td className='border border-grey-100'><img src={`${url}${data.foto}`} alt="image" className='w-24' /></td>
+                                                        <td className='border border-grey-100'>
+                                                            <div className="flex justify-center">
+                                                                <img src={`https://booking.mediatamaweb.com/${data.foto}`} alt="image" className='w-24' />
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 )
                                                 )

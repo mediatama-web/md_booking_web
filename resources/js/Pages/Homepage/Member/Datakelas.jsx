@@ -22,6 +22,12 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     const [show, setShow] = useState(false)
     const [show1, setShow1] = useState(false)
     const [show2, setShow2] = useState(false)
+    const [show3, setShow3] = useState(false)
+
+    const [type, setType] = useState('tidak')
+
+    const [idX, setIdx] = useState("")
+    const [idK, setIdK] = useState("")
 
     const [modalbooking, setmodalbooking] = useState([])
     const [modalabsen, setmodalabsen] = useState([])
@@ -132,6 +138,10 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
         setShow2(!show2)
     }
 
+    const handlerModalClose3 = () => {
+        setShow3(!show3)
+    }
+
     const handlerAbsen = () => {
         axios.get(route('member-absen-detail',[member.id,idkelas]))
         .then(function(res){
@@ -171,6 +181,17 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
     const handlerGenerate = () => {
         
         router.get(route('member-generate',[idkelas, lokasi]))
+    }
+
+    const handlerModalTTd = (id, id_kelas) => {
+        setIdx(id)
+        setIdK(id_kelas)
+        setShow3(true)
+    }
+
+    const handlerCetakttd = () => {
+        setShow3(false)
+        window.open(route('sertifikat-depan',[idX,idK,type]), '_blank');
     }
 
     return(
@@ -255,9 +276,9 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                                                     </i>
                                                                     :
                                                                     <div className="flex justify-center">
-                                                                        <a target="_blank" href={route('sertifikat-depan',[member.id,data.id_kelas])} className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
+                                                                        <button type='button' onClick={() => handlerModalTTd(member.id,data.id_kelas)}  className='cursor-pointer hover:bg-green-200 bg-green-400 text-xs p-1 text-white rounded-md w-24'>
                                                                             Lihat <FontAwesomeIcon className='ml-2' icon={faFile} />
-                                                                        </a>
+                                                                        </button>
                                                                     </div>
                                                                 }
                                                         </td>
@@ -463,6 +484,31 @@ export default function Datakelas({ auth, member, kelas, kelasdaftar }){
                                 <p className='mt-1 text-gray-400'>Jika semua file pendukung sudah terpenuhi silahkan klik tombol dibawah untuk mengenerate sertifikat.</p>
                                 <div className="flex justify-center mt-3">
                                     <button onClick={(_) => handlerGenerate()} className='bg-blue-600 hover:bg-blue-400 p-1 rounded-md text-white w-1/2' type="button">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </Modal>
+
+            <Modal show={show3}>
+                    <div className="w-full bg-grey-200 p-3">
+                        <div className="flex justify-between mb-3">
+                            <p className='text-lg'>Option TTD</p>
+                            <div>
+                                <button className='w-8 h-8 border border-blue-600 rounded-full bg-blue-600 hover:bg-blue-100 text-white' onClick={(e) => handlerModalClose3()}>x</button>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="border-black border-2 border-dotted p-3">
+                                <div className="flex flex-col p-3">
+                                    <label htmlFor="">Option</label>
+                                    <select onChange={(e) => setType(e.target.value)} className='p-2 border rounded-md'>
+                                        <option value="tidak">Tanpa TTD</option>
+                                        <option value="iya">Pakai TTD</option>
+                                    </select>
+                                </div>
+                                <div className="flex justify-center mt-3">
+                                    <button onClick={(_) => handlerCetakttd()} className='bg-blue-600 hover:bg-blue-400 p-1 rounded-md text-white w-1/2' type="button">Cetak</button>
                                 </div>
                             </div>
                         </div>

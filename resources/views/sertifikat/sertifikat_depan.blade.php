@@ -86,7 +86,7 @@
     
     #ttd {
         position: absolute;
-        top: 73%;
+        top: 77%;
         left: 38%;
         color: #1D2F5F;
         width: 25%;
@@ -156,7 +156,7 @@
             <b id="sertifikat">SERTIFIKAT</b>
     
             <span id="nomor">
-                Nomor : <?= str_pad($sertifikat->no_sertifikat,5,'0',STR_PAD_LEFT); ?>/<?= $sertifikat->kode_kelas ?>/S/LPK.MWI/<?= App\Http\Controllers\Core\NotifikasiController::romawi(date('m')) ?>/<?= date('Y') ?>
+                Nomor : <?= str_pad($sertifikat->no_sertifikat,5,'0',STR_PAD_LEFT); ?>/<?= $sertifikat->kode_kelas ?>/S/LPK.<?= $kode ?>/<?= App\Http\Controllers\Core\NotifikasiController::romawi(date('m')) ?>/<?= date('Y') ?>
                 <br>
                 Nomor Izin Lembaga : 07092200866450001
             </span>
@@ -182,8 +182,8 @@
                 <br>
                 Pimpinan <?= $lpk ?>
             </span>
-            <?php if($ttd) : ?>
-                <img src="ttd/ttd.png" id="ttd" alt="">
+            <?php if($ttd != null) : ?>
+                <img src="<?= $ttd ?>" id="ttd" alt="">
             <?php endif ?>
             
             <span id="title5">
